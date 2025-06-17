@@ -1,0 +1,353 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Seguridad\\Seguridad.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Aplicacion\\Aplicacion.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Aplicacion\\Aplicacion.csproj",
+        "projectName": "Aplicacion",
+        "projectPath": "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Aplicacion\\Aplicacion.csproj",
+        "packagesPath": "C:\\Users\\fredy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Aplicacion\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\fredy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Dominio\\Dominio.csproj": {
+                "projectPath": "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Dominio\\Dominio.csproj"
+              },
+              "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Persistencia\\Persistencia.csproj": {
+                "projectPath": "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Persistencia\\Persistencia.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
+            "MediatR.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[11.1.0, )"
+            },
+            "iTextSharp.LGPLv2.Core": {
+              "target": "Package",
+              "version": "[3.7.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Dominio\\Dominio.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Dominio\\Dominio.csproj",
+        "projectName": "Dominio",
+        "projectPath": "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Dominio\\Dominio.csproj",
+        "packagesPath": "C:\\Users\\fredy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Dominio\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\fredy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.16, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Persistencia\\Persistencia.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Persistencia\\Persistencia.csproj",
+        "projectName": "Persistencia",
+        "projectPath": "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Persistencia\\Persistencia.csproj",
+        "packagesPath": "C:\\Users\\fredy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Persistencia\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\fredy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Dominio\\Dominio.csproj": {
+                "projectPath": "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Dominio\\Dominio.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.1.66, )"
+            },
+            "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.16, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.16, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.16, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Seguridad\\Seguridad.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Seguridad\\Seguridad.csproj",
+        "projectName": "Seguridad",
+        "projectPath": "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Seguridad\\Seguridad.csproj",
+        "packagesPath": "C:\\Users\\fredy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Seguridad\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\fredy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Aplicacion\\Aplicacion.csproj": {
+                "projectPath": "C:\\Users\\fredy\\OneDrive\\Desktop\\Sistema de Monitoreo CDE MIPYME ROC\\Aplicacion\\Aplicacion.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.12.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
