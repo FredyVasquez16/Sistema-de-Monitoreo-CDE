@@ -15,3 +15,4 @@ C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Persistencia
 C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Persistencia\obj\Debug\net8.0\Persistencia.pdb
 C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Persistencia\obj\Debug\net8.0\Persistencia.genruntimeconfig.cache
 C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Persistencia\obj\Debug\net8.0\ref\Persistencia.dll
+C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Persistencia\obj\Debug\net8.0\Persistencia.sourcelink.json

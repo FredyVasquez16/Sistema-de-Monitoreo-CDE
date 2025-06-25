@@ -98,6 +98,7 @@ public class SistemaMonitoreaCdeContext : IdentityDbContext<Usuario>
             .HasForeignKey(aa => aa.AsesorId);*/
     }
     
+    
     public DbSet<AreasAsesoria> AreasAsesorias { get; set; }
     public DbSet<AsesoresClientesEmpresas> AsesoresClientesEmpresas { get; set; }
     public DbSet<Asesorias> Asesorias { get; set; }

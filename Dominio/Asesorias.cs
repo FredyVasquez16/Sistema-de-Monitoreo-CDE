@@ -7,6 +7,8 @@ public class Asesorias
 {
     [Column("id")]
     public int Id { get; set; }
+    [Column("codigo_unico")]
+    public string CodigoUnico { get; set; }
     [Column("cliente_id")]
     public int ClienteId { get; set; }
     [Column("fecha_sesion")]

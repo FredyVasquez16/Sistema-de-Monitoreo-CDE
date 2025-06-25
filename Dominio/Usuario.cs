@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Dominio;
 
 public class Usuario : IdentityUser
 {
+    [Column("codigounico")]
+    public string CodigoUnico { get; set; }
     public string NombreCompleto { get; set; }
 }

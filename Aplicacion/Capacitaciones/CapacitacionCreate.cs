@@ -1,4 +1,5 @@
 using System.Net;
+using Aplicacion.Contratos;
 using Aplicacion.ManejadorError;
 using FluentValidation;
 using MediatR;
@@ -66,9 +67,11 @@ public class CapacitacionCreate
     public class Manejador : IRequestHandler<CapacitacionCreateEjecuta>
     {
         private readonly SistemaMonitoreaCdeContext _context;
-        public Manejador(SistemaMonitoreaCdeContext context)
+        private readonly ICodigoUnicoGenerator _codigoUnicoGenerator;
+        public Manejador(SistemaMonitoreaCdeContext context, ICodigoUnicoGenerator codigoUnicoGenerator)
         {
             _context = context;
+            _codigoUnicoGenerator = codigoUnicoGenerator;
         }
         
         public async Task<Unit> Handle(CapacitacionCreateEjecuta request, CancellationToken cancellationToken)
@@ -137,12 +140,17 @@ public class CapacitacionCreate
             };
 
             _context.Capacitaciones.Add(capacitacion);
+            
             var valor = await _context.SaveChangesAsync();
-            if (valor > 0)
+            if (valor <= 0)
             {
-                return Unit.Value; // Retorna un valor vacío si la operación fue exitosa
+                throw new ManejadorExcepcion(HttpStatusCode.InternalServerError, new { mensaje = "No se pudo crear la capacitación o evento" });
             }
-            throw new ManejadorExcepcion(HttpStatusCode.InternalServerError, new { mensaje = "No se pudo crear la capacitación o evento" });
+            
+            capacitacion.CodigoUnico = _codigoUnicoGenerator.GenerarCodigo("CA", capacitacion.Id);
+            await _context.SaveChangesAsync();
+            
+            return Unit.Value; // Retorna un valor vacío si la operación fue exitosa
             
             /*try
             {

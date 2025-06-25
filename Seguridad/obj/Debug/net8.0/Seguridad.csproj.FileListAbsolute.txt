@@ -17,3 +17,4 @@ C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Seguridad\ob
 C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Seguridad\obj\Debug\net8.0\refint\Seguridad.dll
 C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Seguridad\obj\Debug\net8.0\Seguridad.pdb
 C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Seguridad\obj\Debug\net8.0\ref\Seguridad.dll
+C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Seguridad\obj\Debug\net8.0\Seguridad.sourcelink.json

@@ -34,6 +34,7 @@ public class UsuarioActual
             //var roles = await _userManager.GetRolesAsync(usuario);
             return new UsuarioData
             {
+                CodigoUnico = usuario.CodigoUnico,
                 NombreCompleto = usuario.NombreCompleto,
                 UserName = usuario.UserName,
                 Email = usuario.Email,

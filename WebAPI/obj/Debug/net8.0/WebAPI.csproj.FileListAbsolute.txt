@@ -276,3 +276,4 @@ C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\WebAPI\obj\D
 C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\WebAPI\obj\Debug\net8.0\ref\WebAPI.dll
 C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\WebAPI\bin\Debug\net8.0\Seguridad.dll
 C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\WebAPI\bin\Debug\net8.0\Seguridad.pdb
+C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\WebAPI\obj\Debug\net8.0\WebAPI.sourcelink.json

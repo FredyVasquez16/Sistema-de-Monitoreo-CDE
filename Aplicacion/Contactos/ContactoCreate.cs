@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using Aplicacion.Contratos;
 using Aplicacion.ManejadorError;
 using Dominio;
 using FluentValidation;
@@ -93,10 +94,12 @@ public class ContactoCreate
     public class Manejador : IRequestHandler<ContactoCreateEjecuta>
     {
         private readonly SistemaMonitoreaCdeContext _context;
+        private readonly ICodigoUnicoGenerator _codigoUnicoGenerator;
         
-        public Manejador(SistemaMonitoreaCdeContext context)
+        public Manejador(SistemaMonitoreaCdeContext context, ICodigoUnicoGenerator codigoUnicoGenerator)
         {
             _context = context;
+            _codigoUnicoGenerator = codigoUnicoGenerator;
         }
         
         public async Task<Unit> Handle(ContactoCreateEjecuta request, CancellationToken cancellationToken)
@@ -154,6 +157,9 @@ public class ContactoCreate
             
             if (valor > 0)
             {
+                contacto.CodigoUnico = _codigoUnicoGenerator.GenerarCodigo("CO", contacto.Id);
+                await _context.SaveChangesAsync();
+                
                 return Unit.Value; // Retorna un valor vacío si la operación fue exitosa
             }
             

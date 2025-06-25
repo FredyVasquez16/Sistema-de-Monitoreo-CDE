@@ -2,6 +2,7 @@ namespace Aplicacion.Seguridad;
 
 public class UsuarioData
 {
+    public string CodigoUnico { get; set; }
     public string NombreCompleto { get; set; }
     public string Token { get; set; }
     public string Email { get; set; }

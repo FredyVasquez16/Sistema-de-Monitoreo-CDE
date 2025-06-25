@@ -15,3 +15,4 @@ C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Aplicacion\o
 C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Aplicacion\obj\Debug\net8.0\refint\Aplicacion.dll
 C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Aplicacion\obj\Debug\net8.0\Aplicacion.pdb
 C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Aplicacion\obj\Debug\net8.0\ref\Aplicacion.dll
+C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Aplicacion\obj\Debug\net8.0\Aplicacion.sourcelink.json

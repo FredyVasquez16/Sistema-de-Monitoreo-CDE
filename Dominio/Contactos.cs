@@ -8,6 +8,9 @@ public class Contactos
     [Column("id")]
     public int Id { get; set; }
 
+    [Column("codigo_unico")]
+    public string CodigoUnico { get; set; }
+    
     [Column("nombre")]
     public string Nombre { get; set; }
 

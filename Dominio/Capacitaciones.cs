@@ -7,6 +7,8 @@ public class Capacitaciones
 {
     [Column("id")]
     public int Id { get; set; }
+    [Column("codigo_unico")]
+    public string CodigoUnico { get; set; }
     [Column("tipo_id")]
     public int TipoId { get; set; }
     [Column("titulo")]

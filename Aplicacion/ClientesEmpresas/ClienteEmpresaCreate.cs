@@ -1,4 +1,5 @@
 using System.Net;
+using Aplicacion.Contratos;
 using Aplicacion.ManejadorError;
 using FluentValidation;
 using MediatR;
@@ -121,10 +122,12 @@ public class ClienteEmpresaCreate
     public class Manejador : IRequestHandler<ClienteEmpresaCreateEjecuta>
     {
         private readonly SistemaMonitoreaCdeContext _context;
+        private readonly ICodigoUnicoGenerator _codigoUnicoGenerator;
 
-        public Manejador(SistemaMonitoreaCdeContext context)
+        public Manejador(SistemaMonitoreaCdeContext context, ICodigoUnicoGenerator codigoUnicoGenerator)
         {
             _context = context;
+            _codigoUnicoGenerator = codigoUnicoGenerator;
         }
 
         public async Task<Unit> Handle(ClienteEmpresaCreateEjecuta request, CancellationToken cancellationToken)
@@ -306,6 +309,9 @@ public class ClienteEmpresaCreate
 
             if (valor > 0)
             {
+                clienteEmpresa.CodigoUnico = _codigoUnicoGenerator.GenerarCodigo("CE", clienteEmpresa.Id);
+                await _context.SaveChangesAsync();
+                
                 return Unit.Value;
             }
 

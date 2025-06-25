@@ -1,0 +1,68 @@
+# ========================
+# Rider + .NET + ASP.NET Core
+# ========================
+
+# Rider project files (IDE)
+.idea/
+
+# Compilación
+bin/
+obj/
+
+# Archivos temporales de solución/proyecto
+*.user
+*.suo
+*.rsuser
+*.sln.docstates
+*.sln.iml
+
+# Archivos generados por el compilador
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+
+# Publicaciones y herramientas locales
+publish/
+*.publish.xml
+/.tools/
+
+# VSCode (si lo usas también)
+.vscode/
+
+# Archivos de configuración local
+appsettings.Development.json
+secrets.json
+*.env
+.env.*
+
+# SQLite / archivos de bases de datos locales (opcional)
+*.db
+*.sqlite
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Resultados de pruebas
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# ReSharper (usado dentro de Rider)
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# Archivos de respaldo de bases de datos locales
+*.bak
+*.mdf
+*.ldf
+
+# Carpeta de node_modules si usas frontend
+node_modules/
+dist/
+
+# Excepciones – incluir las migraciones
+!**/Migrations/**

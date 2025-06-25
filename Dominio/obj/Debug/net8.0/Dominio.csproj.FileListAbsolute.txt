@@ -10,3 +10,4 @@ C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Dominio\obj\
 C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Dominio\obj\Debug\net8.0\refint\Dominio.dll
 C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Dominio\obj\Debug\net8.0\Dominio.pdb
 C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Dominio\obj\Debug\net8.0\ref\Dominio.dll
+C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Dominio\obj\Debug\net8.0\Dominio.sourcelink.json

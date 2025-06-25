@@ -51,6 +51,7 @@ public class Login
             {
                 return new UsuarioData
                 {
+                    CodigoUnico = usuario.CodigoUnico,
                     NombreCompleto = usuario.NombreCompleto,
                     Token = _jwtGenerador.CrearToken(usuario),
                     Email = usuario.Email,

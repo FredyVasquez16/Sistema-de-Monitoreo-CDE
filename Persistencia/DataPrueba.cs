@@ -11,6 +11,7 @@ public class DataPrueba
         {
             var usuario = new Usuario
             {
+                CodigoUnico = "CDE-US-0001",
                 NombreCompleto = "Fredy Vasquez",
                 UserName = "fredy16v",
                 Email = "fredy16v@gmail.com"
