@@ -20,7 +20,7 @@ public class AsesoriaGet
 
         public async Task<List<Dominio.Asesorias>> Handle(ListaAsesorias request, CancellationToken cancellationToken)
         {
-            var asesorias = await _context.Asesorias.ToListAsync();
+            var asesorias = await _context.Asesorias.Include(x => x.Asesores).ThenInclude(x => x.Asesor).ToListAsync();
             return asesorias;
         }
     }
