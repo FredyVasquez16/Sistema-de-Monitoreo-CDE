@@ -29,6 +29,7 @@ public class AsesoriaCreate
         public string? DescripcionAsesoriaEspecializada { get; set; }
 
         public List<string> ListaAsesores { get; set; }
+        public List<int> ListaContactos { get; set; }
     }
 
     //validador para la solicitud de creación de una asesoría
@@ -196,7 +197,7 @@ public class AsesoriaCreate
                         });
 
                 // Crear asesoría
-                var asesoria = new Dominio.Asesorias
+                var asesoria = new Dominio.Asesoria
                 {
                     ClienteId = request.ClienteId,
                     FechaSesion = request.FechaSesion,
@@ -228,10 +229,29 @@ public class AsesoriaCreate
                             throw new ManejadorExcepcion(HttpStatusCode.NotFound,
                                 new { mensaje = $"El asesor con el Id {id} no fue encontrado." });
 
-                        _context.AsesoriasAsesores.Add(new AsesoriasAsesores
+                        _context.AsesoriasAsesores.Add(new AsesoriaAsesor
                         {
                             AsesoriaId = asesoria.Id,
                             AsesorId = id
+                        });
+                    }
+                }
+                
+                // Asignar contactos
+                if (request.ListaContactos != null)
+                {
+                    foreach (var contactoId in request.ListaContactos)
+                    {
+                        var contacto = await _context.Contactos.FindAsync(contactoId);
+                        if (contacto == null)
+                            throw new ManejadorExcepcion(HttpStatusCode.NotFound,
+                                new { mensaje = $"El contacto con el Id {contactoId} no fue encontrado." });
+
+                        _context.AsesoriasContactos.Add(new AsesoriaContacto
+                        {
+                            ContactoId = contacto.Id,
+                            AsesoriaId = asesoria.Id,
+                            ClienteEmpresaId = request.ClienteId // Asignar cliente empresa
                         });
                     }
                 }
@@ -245,6 +265,7 @@ public class AsesoriaCreate
             }
             catch (Exception)
             {
+                //Console.WriteLine($"Error: {ex.Message}");
                 await transaction.RollbackAsync(cancellationToken); // Revertirtodo en caso de error
                 throw;
             }

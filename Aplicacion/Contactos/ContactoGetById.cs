@@ -7,12 +7,12 @@ namespace Aplicacion.Contactos;
 
 public class ContactoGetById
 {
-    public class ContactoUnico : IRequest<Dominio.Contactos>
+    public class ContactoUnico : IRequest<Dominio.Contacto>
     {
         public int Id { get; set; }
     }
     
-    public class Manejador : IRequestHandler<ContactoUnico, Dominio.Contactos>
+    public class Manejador : IRequestHandler<ContactoUnico, Dominio.Contacto>
     {
         private readonly SistemaMonitoreaCdeContext _context;
         
@@ -21,7 +21,7 @@ public class ContactoGetById
             _context = context;
         }
         
-        public async Task<Dominio.Contactos> Handle(ContactoUnico request, CancellationToken cancellationToken)
+        public async Task<Dominio.Contacto> Handle(ContactoUnico request, CancellationToken cancellationToken)
         {
             var contacto = await _context.Contactos.FindAsync(request.Id);
             if (contacto == null)

@@ -6,11 +6,11 @@ namespace Aplicacion.Contactos;
 
 public class Consulta
 {
-    public class ListaContactos : IRequest<List<Dominio.Contactos>>
+    public class ListaContactos : IRequest<List<Dominio.Contacto>>
     {
     }
     
-    public class Manejador : IRequestHandler<ListaContactos, List<Dominio.Contactos>>
+    public class Manejador : IRequestHandler<ListaContactos, List<Dominio.Contacto>>
     {
         private readonly SistemaMonitoreaCdeContext _context;
         
@@ -19,7 +19,7 @@ public class Consulta
             _context = context;
         }
         
-        public async Task<List<Dominio.Contactos>> Handle(ListaContactos request, CancellationToken cancellationToken)
+        public async Task<List<Dominio.Contacto>> Handle(ListaContactos request, CancellationToken cancellationToken)
         {
             var contactos = await _context.Contactos.ToListAsync();
             return contactos;

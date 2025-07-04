@@ -137,11 +137,11 @@ public class ClientesEmpresas
     public virtual ServiciosSolicitados ServicioSolicitado { get; set; }
     public virtual TiposClientesEstado TipoClienteEstado { get; set; }
     public virtual TiposComerciosInternacional ComercioInternacional { get; set; }
-    public virtual Contactos ContactoPrimario { get; set; }
-    public virtual Contactos NombrePropietario { get; set; }
+    public virtual Contacto ContactoPrimario { get; set; }
+    public virtual Contacto NombrePropietario { get; set; }
     
-    public virtual ICollection<Asesorias> Asesorias { get; set; }
-    public virtual ICollection<AsesoriasContactos> AsesoriasContactos { get; set; }
-    public virtual ICollection<Contactos> Contactos { get; set; }
+    public virtual ICollection<Asesoria> Asesorias { get; set; }
+    public virtual ICollection<AsesoriaContacto> AsesoriasContactos { get; set; }
+    public virtual ICollection<Contacto> Contactos { get; set; }
     public virtual ICollection<SesionesParticipantes> SesionesParticipantes { get; set; }
 }

@@ -29,6 +29,24 @@ public class AsesoriaDelete
                 throw new ManejadorExcepcion(HttpStatusCode.NotFound, new { mensaje = "La asesoría no existe o no se ha encontrado." });
             }
             
+            var asesoresDB = _context.AsesoriasAsesores.Where(x => x.Id == request.Id);
+            foreach (var asesor in asesoresDB)
+            {
+                _context.Remove(asesor);
+            }
+            
+            var contactosDB = _context.AsesoriasContactos.Where(x => x.Id == request.Id);
+            foreach (var contacto in contactosDB)
+            {
+                _context.Remove(contacto);
+            }
+            
+            var archivosDB = _context.AsesoriasArchivos.Where(x => x.Id == request.Id);
+            foreach (var archivo in archivosDB)
+            {
+                _context.Remove(archivo);
+            }
+            
             _context.Remove(asesoria);
             var result = await _context.SaveChangesAsync();
             if (result > 0)

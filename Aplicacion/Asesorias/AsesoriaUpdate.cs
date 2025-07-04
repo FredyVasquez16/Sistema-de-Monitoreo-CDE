@@ -3,6 +3,7 @@ using Aplicacion.ManejadorError;
 using FluentValidation;
 using MediatR;
 using Persistencia;
+using Dominio;
 
 namespace Aplicacion.Asesorias;
 
@@ -26,6 +27,9 @@ public class AsesoriaUpdate
         public string? DescripcionReferido { get; set; }
         public string? DescripcionDerivado { get; set; }
         public string? DescripcionAsesoriaEspecializada { get; set; }
+        
+        public List<string> ListaAsesores { get; set; }
+        public List<int> ListaContactos { get; set; }
     }
     
     //validador para la solicitud de creación de una asesoría
@@ -106,6 +110,64 @@ public class AsesoriaUpdate
             asesoria.DescripcionReferido = request.DescripcionReferido ?? asesoria.DescripcionReferido;
             asesoria.DescripcionDerivado = request.DescripcionDerivado ?? asesoria.DescripcionDerivado;
             asesoria.DescripcionAsesoriaEspecializada = request.DescripcionAsesoriaEspecializada ?? asesoria.DescripcionAsesoriaEspecializada;
+
+            if (request.ListaAsesores != null)
+            {
+                if(request.ListaAsesores.Count > 0)
+                {
+                    // Eliminar asesores existentes
+                    var asesoresBD = _context.AsesoriasAsesores.Where(a => a.AsesoriaId == request.Id).ToList();
+
+                    foreach (var intructorEliminar in asesoresBD)
+                    {
+                        _context.AsesoriasAsesores.Remove(intructorEliminar);
+                    }
+                    
+                    // Agregar nuevos asesores
+                    foreach (var id in request.ListaAsesores)
+                    {
+                        var nuevoAsesor = new AsesoriaAsesor
+                        {
+                            AsesoriaId = request.Id,
+                            AsesorId = id // Asumiendo que el asesor es un ID en formato string
+                        };
+                        _context.AsesoriasAsesores.Add(nuevoAsesor);
+                    }
+                }
+            }
+            
+            if (request.ListaContactos != null)
+            {
+                if(request.ListaContactos.Count > 0)
+                {
+                    // Eliminar contactos existentes
+                    var contactosBD = _context.AsesoriasContactos.Where(a => a.AsesoriaId == request.Id).ToList();
+
+                    foreach (var contactoEliminar in contactosBD)
+                    {
+                        _context.AsesoriasContactos.Remove(contactoEliminar);
+                    }
+                    
+                    // Agregar nuevos contactos
+                    foreach (var id in request.ListaContactos)
+                    {
+                        var contacto = await _context.Contactos.FindAsync(id);
+                        if (contacto == null)
+                        {
+                            throw new ManejadorExcepcion(HttpStatusCode.NotFound,
+                                new { mensaje = $"El contacto con el Id {id} no fue encontrado." });
+                        }
+
+                        var nuevoContacto = new AsesoriaContacto
+                        {
+                            AsesoriaId = request.Id,
+                            ContactoId = id,
+                            ClienteEmpresaId = request.ClienteId // ✅ Asignar correctamente
+                        };
+                        _context.AsesoriasContactos.Add(nuevoContacto);
+                    }
+                }
+            }
             
             // Guardar los cambios en la base de datos
             var resultado = await _context.SaveChangesAsync();

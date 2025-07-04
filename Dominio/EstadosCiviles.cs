@@ -10,5 +10,5 @@ public class EstadosCiviles
     [Column("descripcion")]
     public string Descripcion { get; set; }
     
-    public virtual ICollection<Contactos> Contactos { get; set; }
+    public virtual ICollection<Contacto> Contactos { get; set; }
 }

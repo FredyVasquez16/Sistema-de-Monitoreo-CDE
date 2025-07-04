@@ -56,7 +56,7 @@ public class SistemaMonitoreaCdeContext : IdentityDbContext<Usuario>
             .OnDelete(DeleteBehavior.Restrict);
 
         // Relación Contactos.ClienteEmpresa
-        modelBuilder.Entity<Contactos>()
+        modelBuilder.Entity<Contacto>()
             .HasOne(c => c.ClienteEmpresa)
             .WithMany(c => c.Contactos)
             .HasForeignKey(c => c.EmpresaClienteId)
@@ -80,7 +80,7 @@ public class SistemaMonitoreaCdeContext : IdentityDbContext<Usuario>
             .HasForeignKey(c => c.NivelFormalizacionId)
             .OnDelete(DeleteBehavior.Restrict);
         
-        modelBuilder.Entity<Asesorias>()
+        modelBuilder.Entity<Asesoria>()
             .HasOne(a => a.TiposContacto)
             .WithMany(t => t.Asesoria)
             .HasForeignKey(a => a.TipoContactoId)
@@ -101,16 +101,16 @@ public class SistemaMonitoreaCdeContext : IdentityDbContext<Usuario>
     
     public DbSet<AreasAsesoria> AreasAsesorias { get; set; }
     public DbSet<AsesoresClientesEmpresas> AsesoresClientesEmpresas { get; set; }
-    public DbSet<Asesorias> Asesorias { get; set; }
+    public DbSet<Asesoria> Asesorias { get; set; }
     public DbSet<AsesoriasArchivos> AsesoriasArchivos { get; set; }
-    public DbSet<AsesoriasAsesores> AsesoriasAsesores { get; set; }
-    public DbSet<AsesoriasContactos> AsesoriasContactos { get; set; }
+    public DbSet<AsesoriaAsesor> AsesoriasAsesores { get; set; }
+    public DbSet<AsesoriaContacto> AsesoriasContactos { get; set; }
     public DbSet<Capacitaciones> Capacitaciones { get; set; }
     public DbSet<CapacitacionesArchivos> CapacitacionesArchivos { get; set; }
     public DbSet<CapacitacionesTemas> CapacitacionesTemas { get; set; }
     public DbSet<CategoriasLaborales> CategoriasLaborales { get; set; }
     public DbSet<ClientesEmpresas> ClientesEmpresas { get; set; }
-    public DbSet<Contactos> Contactos { get; set; }
+    public DbSet<Contacto> Contactos { get; set; }
     public DbSet<Cuotas> Cuotas { get; set; }
     public DbSet<EstadosCiviles> EstadosCiviles { get; set; }
     public DbSet<FormatosPrograma> FormatosProgramas { get; set; }

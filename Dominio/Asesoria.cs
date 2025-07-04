@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dominio;
 
 [Table("asesorias")]
-public class Asesorias
+public class Asesoria
 {
     [Column("id")]
     public int Id { get; set; }
@@ -47,7 +47,7 @@ public class Asesorias
     public virtual FuenteFinanciamiento FuenteFinanciamiento { get; set; }
     public virtual ClientesEmpresas Cliente { get; set; }
     
-    public virtual ICollection<AsesoriasContactos> AsesoriasContactos { get; set; }
+    public virtual ICollection<AsesoriaContacto> AsesoriasContactos { get; set; }
     public virtual ICollection<AsesoriasArchivos> Archivos { get; set; }
-    public virtual ICollection<AsesoriasAsesores> Asesores { get; set; }
+    public virtual ICollection<AsesoriaAsesor> Asesores { get; set; }
 }

@@ -10,5 +10,5 @@ public class AreasAsesoria
     [Column("descripcion")]
     public string Descripcion { get; set; }
     
-    public virtual ICollection<Asesorias> Asesorias { get; set; }
+    public virtual ICollection<Asesoria> Asesorias { get; set; }
 }

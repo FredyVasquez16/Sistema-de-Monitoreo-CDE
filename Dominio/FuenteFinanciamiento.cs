@@ -12,6 +12,6 @@ public class FuenteFinanciamiento
     
     public virtual ICollection<ClientesEmpresas> ClientesEmpresasFuente { get; set; }
     public virtual ICollection<ClientesEmpresas> ClientesEmpresasSubfuente { get; set; }
-    public virtual ICollection<Asesorias> Asesorias { get; set; }
+    public virtual ICollection<Asesoria> Asesorias { get; set; }
     public virtual ICollection<Capacitaciones> Capacitaciones { get; set; }
 }

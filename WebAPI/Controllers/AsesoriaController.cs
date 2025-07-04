@@ -20,10 +20,10 @@ namespace WebAPI.Controllers
         }
         
         [HttpGet]
-        public async Task<ActionResult<ResponseDto<IReadOnlyList<Asesorias>>>> Get()
+        public async Task<ActionResult<ResponseDto<IReadOnlyList<AsesoriaDto>>>> Get()
         {
             var asesorias = await Mediator.Send(new AsesoriaGet.ListaAsesorias());
-            return Ok(new ResponseDto<IReadOnlyList<Asesorias>>
+            return Ok(new ResponseDto<IReadOnlyList<AsesoriaDto>>
             {
                 Status = true,
                 Data = asesorias
@@ -31,18 +31,18 @@ namespace WebAPI.Controllers
         }
         
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<ResponseDto<Asesorias>>> GetById(int id)
+        public async Task<ActionResult<ResponseDto<AsesoriaDto>>> GetById(int id)
         {
             var asesoria = await Mediator.Send(new AsesoriaGetById.AsesoriaUnica { Id = id });
             if (asesoria == null)
             {
-                return NotFound(new ResponseDto<Asesorias>
+                return NotFound(new ResponseDto<AsesoriaDto>
                 {
                     Status = false,
                     Message = $"La asesoría con el Id {id} no fue encontrada."
                 });
             }
-            return Ok(new ResponseDto<Asesorias>
+            return Ok(new ResponseDto<AsesoriaDto>
             {
                 Status = true,
                 Data = asesoria

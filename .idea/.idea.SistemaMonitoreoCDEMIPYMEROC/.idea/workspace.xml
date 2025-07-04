@@ -9,108 +9,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00c47ba8-7c7a-4b89-a438-810061b441d3" name="Changes" comment="Add unique code generation for various entities and update database schema">
+    <list default="true" id="00c47ba8-7c7a-4b89-a438-810061b441d3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SistemaMonitoreoCDEMIPYMEROC/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SistemaMonitoreoCDEMIPYMEROC/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SistemaMonitoreoCDEMIPYMEROC/.idea/dataSources/ab0c35fd-7d1d-4505-a4ac-726e7e394e81.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SistemaMonitoreoCDEMIPYMEROC/.idea/dataSources/ab0c35fd-7d1d-4505-a4ac-726e7e394e81.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SistemaMonitoreoCDEMIPYMEROC/.idea/projectSettingsUpdater.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SistemaMonitoreoCDEMIPYMEROC/.idea/projectSettingsUpdater.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SistemaMonitoreoCDEMIPYMEROC/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SistemaMonitoreoCDEMIPYMEROC/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaCreate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaCreate.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/Capacitaciones/CapacitacionCreate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Capacitaciones/CapacitacionCreate.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/ClientesEmpresas/ClienteEmpresaCreate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/ClientesEmpresas/ClienteEmpresaCreate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaDelete.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaDelete.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaGet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaGet.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaGetById.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaGetById.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaUpdate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaUpdate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aplicacion/Contactos/Consulta.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Contactos/Consulta.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Aplicacion/Contactos/ContactoCreate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Contactos/ContactoCreate.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/Seguridad/Login.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Seguridad/Login.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/Seguridad/SignIn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Seguridad/SignIn.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/Seguridad/UsuarioActual.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Seguridad/UsuarioActual.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/Seguridad/UsuarioData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Seguridad/UsuarioData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/bin/Debug/net8.0/Aplicacion.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/bin/Debug/net8.0/Aplicacion.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/bin/Debug/net8.0/Aplicacion.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/bin/Debug/net8.0/Aplicacion.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/bin/Debug/net8.0/Dominio.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/bin/Debug/net8.0/Dominio.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/bin/Debug/net8.0/Dominio.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/bin/Debug/net8.0/Dominio.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/bin/Debug/net8.0/Persistencia.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/bin/Debug/net8.0/Persistencia.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/bin/Debug/net8.0/Persistencia.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/bin/Debug/net8.0/Persistencia.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/Aplicacion.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/Aplicacion.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/Aplicacion.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/Aplicacion.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/Aplicacion.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/Aplicacion.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/Aplicacion.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/Aplicacion.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/Aplicacion.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/Aplicacion.csproj.FileListAbsolute.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/Aplicacion.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/Aplicacion.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/Aplicacion.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/Aplicacion.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/ref/Aplicacion.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/ref/Aplicacion.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/refint/Aplicacion.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/obj/Debug/net8.0/refint/Aplicacion.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/Asesorias.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/Asesorias.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/Capacitaciones.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/Capacitaciones.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aplicacion/Contactos/ContactoGetById.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Contactos/ContactoGetById.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dominio/AreasAsesoria.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/AreasAsesoria.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dominio/Asesoria.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/Asesoria.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dominio/AsesoriaAsesor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/AsesoriaAsesor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dominio/AsesoriasArchivos.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/AsesoriasArchivos.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dominio/AsesoriasContactos.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/AsesoriaContacto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dominio/CategoriasLaborales.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/CategoriasLaborales.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dominio/ClientesEmpresas.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/ClientesEmpresas.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/Contactos.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/Contactos.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/Usuario.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/Usuario.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/bin/Debug/net8.0/Dominio.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/bin/Debug/net8.0/Dominio.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/bin/Debug/net8.0/Dominio.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/bin/Debug/net8.0/Dominio.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/obj/Debug/net8.0/Dominio.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/obj/Debug/net8.0/Dominio.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/obj/Debug/net8.0/Dominio.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/obj/Debug/net8.0/Dominio.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/obj/Debug/net8.0/Dominio.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/obj/Debug/net8.0/Dominio.csproj.FileListAbsolute.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/obj/Debug/net8.0/Dominio.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/obj/Debug/net8.0/Dominio.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/obj/Debug/net8.0/Dominio.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/obj/Debug/net8.0/Dominio.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/obj/Debug/net8.0/ref/Dominio.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/obj/Debug/net8.0/ref/Dominio.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/obj/Debug/net8.0/refint/Dominio.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/obj/Debug/net8.0/refint/Dominio.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Persistencia/DataPrueba.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/DataPrueba.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dominio/Contactos.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/Contacto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dominio/EstadosCiviles.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/EstadosCiviles.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dominio/FuenteFinanciamiento.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/FuenteFinanciamiento.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dominio/NivelesEstudio.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/NivelesEstudio.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dominio/SesionesParticipantes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/SesionesParticipantes.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dominio/TiposContacto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/TiposContacto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Persistencia/Migrations/SistemaMonitoreaCdeContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/Migrations/SistemaMonitoreaCdeContextModelSnapshot.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Persistencia/SistemaMonitoreaCdeContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/SistemaMonitoreaCdeContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Persistencia/bin/Debug/net8.0/Dominio.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/bin/Debug/net8.0/Dominio.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Persistencia/bin/Debug/net8.0/Dominio.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/bin/Debug/net8.0/Dominio.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Persistencia/bin/Debug/net8.0/Persistencia.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/bin/Debug/net8.0/Persistencia.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Persistencia/bin/Debug/net8.0/Persistencia.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/bin/Debug/net8.0/Persistencia.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/Persistencia.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/Persistencia.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/Persistencia.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/Persistencia.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/Persistencia.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/Persistencia.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/Persistencia.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/Persistencia.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/Persistencia.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/Persistencia.csproj.FileListAbsolute.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/Persistencia.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/Persistencia.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/Persistencia.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/Persistencia.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/ref/Persistencia.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/ref/Persistencia.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/refint/Persistencia.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/obj/Debug/net8.0/refint/Persistencia.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Persistencia/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seguridad/bin/Debug/net8.0/Aplicacion.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/bin/Debug/net8.0/Aplicacion.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seguridad/bin/Debug/net8.0/Aplicacion.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/bin/Debug/net8.0/Aplicacion.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seguridad/bin/Debug/net8.0/Dominio.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/bin/Debug/net8.0/Dominio.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seguridad/bin/Debug/net8.0/Dominio.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/bin/Debug/net8.0/Dominio.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seguridad/bin/Debug/net8.0/Persistencia.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/bin/Debug/net8.0/Persistencia.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seguridad/bin/Debug/net8.0/Persistencia.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/bin/Debug/net8.0/Persistencia.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seguridad/bin/Debug/net8.0/Seguridad.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/bin/Debug/net8.0/Seguridad.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seguridad/bin/Debug/net8.0/Seguridad.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/bin/Debug/net8.0/Seguridad.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seguridad/obj/Debug/net8.0/Seguridad.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/obj/Debug/net8.0/Seguridad.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seguridad/obj/Debug/net8.0/Seguridad.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/obj/Debug/net8.0/Seguridad.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seguridad/obj/Debug/net8.0/Seguridad.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/obj/Debug/net8.0/Seguridad.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seguridad/obj/Debug/net8.0/Seguridad.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/obj/Debug/net8.0/Seguridad.csproj.FileListAbsolute.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seguridad/obj/Debug/net8.0/Seguridad.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/obj/Debug/net8.0/Seguridad.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seguridad/obj/Debug/net8.0/Seguridad.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/obj/Debug/net8.0/Seguridad.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seguridad/obj/Debug/net8.0/ref/Seguridad.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/obj/Debug/net8.0/ref/Seguridad.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seguridad/obj/Debug/net8.0/refint/Seguridad.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/obj/Debug/net8.0/refint/Seguridad.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Seguridad/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/Controllers/WeatherForecastMyController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebAPI/Controllers/AsesoriaController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/Controllers/AsesoriaController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebAPI/Controllers/ContactoController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/Controllers/ContactoController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebAPI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/WeatherForecast.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/Aplicacion.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/Aplicacion.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/Aplicacion.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/Aplicacion.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/Dominio.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/Dominio.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/Dominio.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/Dominio.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/Persistencia.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/Persistencia.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/Persistencia.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/Persistencia.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/Seguridad.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/Seguridad.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/Seguridad.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/Seguridad.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/WebAPI.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/WebAPI.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/WebAPI.exe" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/WebAPI.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/WebAPI.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/bin/Debug/net8.0/WebAPI.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/WebAPI.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/WebAPI.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/WebAPI.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/WebAPI.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/WebAPI.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/WebAPI.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/WebAPI.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/WebAPI.csproj.FileListAbsolute.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/WebAPI.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/WebAPI.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/WebAPI.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/WebAPI.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/apphost.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/ref/WebAPI.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/ref/WebAPI.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/refint/WebAPI.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/obj/Debug/net8.0/refint/WebAPI.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/obj/project.packagespec.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,6 +51,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;FredyVasquez16&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/FredyVasquez16/Sistema-de-Monitoreo-CDE.git&quot;,
+    &quot;accountId&quot;: &quot;b8af97d7-7bb8-4636-9239-43cab64335a8&quot;
+  }
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="mock://C:/Users/fredy/OneDrive/Desktop/Sistema de Monitoreo CDE MIPYME ROC/Aplicacion/obj/Debug/net8.0/Aplicacion.AssemblyInfo.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -146,6 +85,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;.NET Launch Settings Profile.WebAPI: IIS Express.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
@@ -257,7 +197,33 @@
       <workItem from="1750778999465" duration="19851000" />
       <workItem from="1750863959519" duration="7326000" />
       <workItem from="1750873586857" duration="284000" />
+      <workItem from="1750873889528" duration="8598000" />
+      <workItem from="1750950428400" duration="1270000" />
+      <workItem from="1750951741236" duration="9006000" />
+      <workItem from="1751036489835" duration="5181000" />
+      <workItem from="1751295929227" duration="12900000" />
+      <workItem from="1751382456836" duration="10080000" />
+      <workItem from="1751558439141" duration="619000" />
+      <workItem from="1751559630332" duration="7919000" />
+      <workItem from="1751641399948" duration="5954000" />
     </task>
+    <task id="LOCAL-00001" summary="Add unique code generation for various entities and update database schema">
+      <option name="closed" value="true" />
+      <created>1750874052362</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1750874052362</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Update .gitignore to include comprehensive rules for Visual Studio, Rider, and .NET projects">
+      <option name="closed" value="true" />
+      <created>1750875170625</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1750875170625</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -278,6 +244,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Add unique code generation for various entities and update database schema" />
+    <MESSAGE value="Update .gitignore to include comprehensive rules for Visual Studio, Rider, and .NET projects" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update .gitignore to include comprehensive rules for Visual Studio, Rider, and .NET projects" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

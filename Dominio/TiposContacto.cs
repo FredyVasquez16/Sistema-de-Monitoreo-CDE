@@ -10,5 +10,5 @@ public class TiposContacto
     [Column("descripcion")]
     public string Descripcion { get; set; }
     
-    public virtual ICollection<Asesorias> Asesoria { get; set; }
+    public virtual ICollection<Asesoria> Asesoria { get; set; }
 }

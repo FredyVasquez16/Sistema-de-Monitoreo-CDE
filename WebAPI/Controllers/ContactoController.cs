@@ -20,10 +20,10 @@ namespace WebAPI.Controllers
         
         [HttpGet]
         //[Authorize] //solo agregar si se requiere autenticación ya esta todo configurado en el proyecto
-        public async Task<ActionResult<ResponseDto<IReadOnlyList<Contactos>>>> Get()
+        public async Task<ActionResult<ResponseDto<IReadOnlyList<Contacto>>>> Get()
         {
             var contactos = await Mediator.Send(new Consulta.ListaContactos());
-            return Ok(new ResponseDto<IReadOnlyList<Contactos>>
+            return Ok(new ResponseDto<IReadOnlyList<Contacto>>
             {
                 Status = true,
                 Data = contactos
@@ -31,18 +31,18 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<ResponseDto<Contactos>>> GetById(int id)
+        public async Task<ActionResult<ResponseDto<Contacto>>> GetById(int id)
         {
             var contacto = await Mediator.Send(new ContactoGetById.ContactoUnico { Id = id });
             if (contacto == null)
             {
-                return NotFound(new ResponseDto<Contactos>
+                return NotFound(new ResponseDto<Contacto>
                 {
                     Status = false,
                     Message = $"El contacto con el Id {id} no fue encontrado."
                 });
             }
-            return Ok(new ResponseDto<Contactos>
+            return Ok(new ResponseDto<Contacto>
             {
                 Status = true,
                 Data = contacto

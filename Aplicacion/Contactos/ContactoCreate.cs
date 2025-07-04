@@ -122,7 +122,7 @@ public class ContactoCreate
                 throw new ManejadorExcepcion(HttpStatusCode.NotFound, new {mensaje = "La Categoria Laboral no existe"} );
             }
             
-            var contacto = new Dominio.Contactos()
+            var contacto = new Dominio.Contacto()
             {
                 Nombre = request.Nombre,
                 Apellido = request.Apellido,

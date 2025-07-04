@@ -23,5 +23,5 @@ public class AsesoriasArchivos
     [Column("fecha_subida")]
     public DateTime FechaSubida { get; set; }
 
-    public virtual Asesorias Asesoria { get; set; }
+    public virtual Asesoria Asesoria { get; set; }
 }

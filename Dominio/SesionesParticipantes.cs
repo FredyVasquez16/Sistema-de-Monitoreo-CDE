@@ -15,6 +15,6 @@ public class SesionesParticipantes
     public int ClienteEmpresaId { get; set; }
     
     public virtual Sesiones Sesion { get; set; }
-    public virtual Contactos Contacto { get; set; }
+    public virtual Contacto Contacto { get; set; }
     public virtual ClientesEmpresas ClienteEmpresa { get; set; }
 }

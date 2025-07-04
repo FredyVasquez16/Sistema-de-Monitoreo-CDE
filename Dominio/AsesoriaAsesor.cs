@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dominio;
 
 [Table("asesorias_asesores")]
-public class AsesoriasAsesores
+public class AsesoriaAsesor
 {
     [Column("id")]
     public int Id { get; set; }
