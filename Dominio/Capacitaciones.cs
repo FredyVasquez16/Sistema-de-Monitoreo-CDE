@@ -67,6 +67,8 @@ public class Capacitaciones
     public string? IntruccionesAsistente { get; set; }
     [Column("notas")]
     public string? Notas { get; set; }
+    [Column("unidad")]
+    public string Unidad { get; set; }
     
     public virtual FuenteFinanciamiento FuenteFinanciamiento { get; set; }
     public virtual Tipos Tipo { get; set; }

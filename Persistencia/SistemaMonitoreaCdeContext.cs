@@ -96,6 +96,18 @@ public class SistemaMonitoreaCdeContext : IdentityDbContext<Usuario>
             .HasOne(aa => aa.Asesor)
             .WithMany() // Opcional: podrías poner `WithMany(u => u.AsesoriasAsesores)` si quieres la colección inversa en Usuario.
             .HasForeignKey(aa => aa.AsesorId);*/
+        
+        modelBuilder.Entity<UsuarioUnidad>()
+            .HasOne(uu => uu.Usuario)
+            .WithMany(u => u.UsuariosUnidades) // La relación inversa desde Usuario
+            .HasForeignKey(uu => uu.UsuarioId) // Especificar la clave foránea de UsuarioId
+            .OnDelete(DeleteBehavior.Cascade); // Puedes ajustar la regla de eliminación según necesites
+
+        modelBuilder.Entity<UsuarioUnidad>()
+            .HasOne(uu => uu.Unidad)
+            .WithMany(u => u.UsuariosUnidades) // La relación inversa desde Unidad
+            .HasForeignKey(uu => uu.UnidadId) // Especificar la clave foránea de UnidadId
+            .OnDelete(DeleteBehavior.Cascade); // Puedes ajustar la regla de eliminación según necesites
     }
     
     
@@ -131,6 +143,8 @@ public class SistemaMonitoreaCdeContext : IdentityDbContext<Usuario>
     public DbSet<TiposContacto> TiposContactos { get; set; }
     public DbSet<TiposEmpresa> TiposEmpresas { get; set; }
     public DbSet<TiposOrganizacion> TiposOrganizaciones { get; set; }
-   // public DbSet<Usuario> Usuarios { get; set; }
+    // public DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<Unidad> Unidades { get; set; }
+    public DbSet<UsuarioUnidad> UsuariosUnidades { get; set; }
     
 }

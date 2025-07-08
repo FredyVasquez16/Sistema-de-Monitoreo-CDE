@@ -8,4 +8,6 @@ public class Usuario : IdentityUser
     [Column("codigounico")]
     public string CodigoUnico { get; set; }
     public string NombreCompleto { get; set; }
+    
+    public ICollection<UsuarioUnidad> UsuariosUnidades { get; set; } 
 }

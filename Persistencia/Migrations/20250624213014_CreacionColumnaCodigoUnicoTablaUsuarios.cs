@@ -10,28 +10,28 @@ namespace Persistencia.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
+            /*migrationBuilder.AddColumn<string>(
                 name: "codigo_unico",
                 table: "contactos",
                 type: "text",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: "");*/
 
-            migrationBuilder.AddColumn<string>(
+            /*migrationBuilder.AddColumn<string>(
                 name: "codigo_unico",
                 table: "clientes_empresas",
                 type: "text",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: "");*/
 
-            migrationBuilder.AddColumn<string>(
+            /*migrationBuilder.AddColumn<string>(
                 name: "codigo_unico",
                 table: "capacitaciones",
                 type: "text",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: "");*/
 
-            migrationBuilder.AddColumn<string>(
+            /*migrationBuilder.AddColumn<string>(
                 name: "codigounico",
                 table: "aspnetusers",
                 type: "text",
@@ -43,7 +43,7 @@ namespace Persistencia.Migrations
                 table: "asesorias",
                 type: "text",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: "");*/
         }
 
         /// <inheritdoc />

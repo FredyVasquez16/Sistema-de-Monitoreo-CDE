@@ -39,6 +39,8 @@ public class Asesoria
     public string? DescripcionDerivado { get; set; }
     [Column("descripcion_asesoria_especializada")]
     public string? DescripcionAsesoriaEspecializada { get; set; }
+    [Column("unidad")]
+    public string Unidad { get; set; }
     
     //public byte[]? ArchivosAdjuntos { get; set; }
     

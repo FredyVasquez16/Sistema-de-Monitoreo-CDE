@@ -27,6 +27,7 @@ public class AsesoriaCreate
         public string? DescripcionReferido { get; set; }
         public string? DescripcionDerivado { get; set; }
         public string? DescripcionAsesoriaEspecializada { get; set; }
+        //public string Unidad { get; set; }
 
         public List<string> ListaAsesores { get; set; }
         public List<int> ListaContactos { get; set; }

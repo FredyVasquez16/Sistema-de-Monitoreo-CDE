@@ -10,34 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="00c47ba8-7c7a-4b89-a438-810061b441d3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SistemaMonitoreoCDEMIPYMEROC/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SistemaMonitoreoCDEMIPYMEROC/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SistemaMonitoreoCDEMIPYMEROC/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SistemaMonitoreoCDEMIPYMEROC/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaCreate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaCreate.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaDelete.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaDelete.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaGet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaGet.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaGetById.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaGetById.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaUpdate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaUpdate.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/Contactos/Consulta.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Contactos/Consulta.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/Contactos/ContactoCreate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Contactos/ContactoCreate.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/Contactos/ContactoGetById.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Contactos/ContactoGetById.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/AreasAsesoria.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/AreasAsesoria.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dominio/Asesoria.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/Asesoria.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/AsesoriaAsesor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/AsesoriaAsesor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/AsesoriasArchivos.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/AsesoriasArchivos.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/AsesoriasContactos.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/AsesoriaContacto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/CategoriasLaborales.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/CategoriasLaborales.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/ClientesEmpresas.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/ClientesEmpresas.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/Contactos.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/Contacto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/EstadosCiviles.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/EstadosCiviles.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/FuenteFinanciamiento.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/FuenteFinanciamiento.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/NivelesEstudio.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/NivelesEstudio.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/SesionesParticipantes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/SesionesParticipantes.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/TiposContacto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/TiposContacto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dominio/Capacitaciones.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/Capacitaciones.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dominio/Usuario.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/Usuario.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Persistencia/Migrations/20250624213014_CreacionColumnaCodigoUnicoTablaUsuarios.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/Migrations/20250624213014_CreacionColumnaCodigoUnicoTablaUsuarios.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Persistencia/Migrations/SistemaMonitoreaCdeContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/Migrations/SistemaMonitoreaCdeContextModelSnapshot.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Persistencia/SistemaMonitoreaCdeContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/SistemaMonitoreaCdeContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/Controllers/AsesoriaController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/Controllers/AsesoriaController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/Controllers/ContactoController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/Controllers/ContactoController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +44,8 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock://C:/Users/fredy/OneDrive/Desktop/Sistema de Monitoreo CDE MIPYME ROC/Aplicacion/obj/Debug/net8.0/Aplicacion.AssemblyInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/eeaf281031b3ffe3d44a91e71a5808c8d236a9caabbb947871e6dc415bd8b/Migration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/fredy/OneDrive/Desktop/Sistema de Monitoreo CDE MIPYME ROC/Dominio/AreasAsesoria.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -205,7 +186,9 @@
       <workItem from="1751382456836" duration="10080000" />
       <workItem from="1751558439141" duration="619000" />
       <workItem from="1751559630332" duration="7919000" />
-      <workItem from="1751641399948" duration="5954000" />
+      <workItem from="1751641399948" duration="13257000" />
+      <workItem from="1751902804928" duration="6609000" />
+      <workItem from="1751987009920" duration="4350000" />
     </task>
     <task id="LOCAL-00001" summary="Add unique code generation for various entities and update database schema">
       <option name="closed" value="true" />
@@ -223,7 +206,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750875170625</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Refactor: rename classes and update DTOs for consistency in Asesoria and Contacto entities">
+      <option name="closed" value="true" />
+      <created>1751647737115</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1751647737115</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -246,7 +237,8 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Add unique code generation for various entities and update database schema" />
     <MESSAGE value="Update .gitignore to include comprehensive rules for Visual Studio, Rider, and .NET projects" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update .gitignore to include comprehensive rules for Visual Studio, Rider, and .NET projects" />
+    <MESSAGE value="Refactor: rename classes and update DTOs for consistency in Asesoria and Contacto entities" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor: rename classes and update DTOs for consistency in Asesoria and Contacto entities" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
