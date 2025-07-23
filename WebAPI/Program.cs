@@ -64,6 +64,7 @@ builder.Services.AddScoped<IJwtGenerador, JwtGenerador>();
 builder.Services.AddScoped<IUsuarioSesion, UsuarioSesion>();
 builder.Services.AddScoped<ICodigoUnicoGenerator, CodigoUnicoGenerator>();
 builder.Services.AddAutoMapper(typeof(AsesoriaGet.Manejador));
+builder.Services.AddHttpContextAccessor();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

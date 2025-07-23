@@ -39,8 +39,6 @@ public class Asesoria
     public string? DescripcionDerivado { get; set; }
     [Column("descripcion_asesoria_especializada")]
     public string? DescripcionAsesoriaEspecializada { get; set; }
-    [Column("unidad")]
-    public string Unidad { get; set; }
     
     //public byte[]? ArchivosAdjuntos { get; set; }
     
@@ -52,4 +50,5 @@ public class Asesoria
     public virtual ICollection<AsesoriaContacto> AsesoriasContactos { get; set; }
     public virtual ICollection<AsesoriasArchivos> Archivos { get; set; }
     public virtual ICollection<AsesoriaAsesor> Asesores { get; set; }
+    public virtual ICollection<AsesoriaUnidad> AsesoriasUnidades { get; set; }
 }

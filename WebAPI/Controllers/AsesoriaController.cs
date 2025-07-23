@@ -2,6 +2,7 @@ using Aplicacion;
 using Aplicacion.Asesorias;
 using Dominio;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Persistencia;
 
@@ -18,18 +19,7 @@ namespace WebAPI.Controllers
             //_mediator = mediator;
             _context = context;
         }
-        
-        [HttpGet]
-        public async Task<ActionResult<ResponseDto<IReadOnlyList<AsesoriaDto>>>> Get()
-        {
-            var asesorias = await Mediator.Send(new AsesoriaGet.ListaAsesorias());
-            return Ok(new ResponseDto<IReadOnlyList<AsesoriaDto>>
-            {
-                Status = true,
-                Data = asesorias
-            });
-        }
-        
+
         [HttpGet("{id:int}")]
         public async Task<ActionResult<ResponseDto<AsesoriaDto>>> GetById(int id)
         {
@@ -48,7 +38,19 @@ namespace WebAPI.Controllers
                 Data = asesoria
             });
         }
-        
+
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<ResponseDto<IReadOnlyList<AsesoriaDto>>>> Get()
+        {
+            var asesorias = await Mediator.Send(new AsesoriaGet.ListaAsesorias());
+            return Ok(new ResponseDto<IReadOnlyList<AsesoriaDto>>
+            {
+                Status = true,
+                Data = asesorias
+            });
+        }
+
         [HttpGet("archivo/{archivoId}")]
         public async Task<IActionResult> VerArchivo(int archivoId)
         {

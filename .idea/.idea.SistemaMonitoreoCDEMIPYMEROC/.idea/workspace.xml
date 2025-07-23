@@ -11,13 +11,16 @@
   <component name="ChangeListManager">
     <list default="true" id="00c47ba8-7c7a-4b89-a438-810061b441d3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SistemaMonitoreoCDEMIPYMEROC/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SistemaMonitoreoCDEMIPYMEROC/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaCreate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaCreate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaGet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Asesorias/AsesoriaGet.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aplicacion/Interface/IUsuarioSesion.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Interface/IUsuarioSesion.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dominio/Asesoria.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/Asesoria.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/Capacitaciones.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/Capacitaciones.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dominio/Usuario.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/Usuario.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Persistencia/Migrations/20250624213014_CreacionColumnaCodigoUnicoTablaUsuarios.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/Migrations/20250624213014_CreacionColumnaCodigoUnicoTablaUsuarios.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dominio/Unidad.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio/Unidad.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Persistencia/Migrations/SistemaMonitoreaCdeContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/Migrations/SistemaMonitoreaCdeContextModelSnapshot.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Persistencia/SistemaMonitoreaCdeContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Persistencia/SistemaMonitoreaCdeContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Seguridad/Token/UsuarioSesion.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/Token/UsuarioSesion.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebAPI/Controllers/AsesoriaController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/Controllers/AsesoriaController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebAPI/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/Controllers/AuthController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebAPI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,8 +47,8 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/394cf11a64687141fd58fb926ff8b3d5a299eba3bbadaf2de9b93928d523d4/Type.CoreCLR.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/eeaf281031b3ffe3d44a91e71a5808c8d236a9caabbb947871e6dc415bd8b/Migration.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/fredy/OneDrive/Desktop/Sistema de Monitoreo CDE MIPYME ROC/Dominio/AreasAsesoria.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -63,28 +66,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Launch Settings Profile.WebAPI: IIS Express.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Launch Settings Profile.WebAPI: IIS Express.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;,
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql",
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Launch Settings Profile.WebAPI: IIS Express">
     <configuration name="WebAPI: IIS Express" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/WebAPI/WebAPI.csproj" />
@@ -188,7 +191,16 @@
       <workItem from="1751559630332" duration="7919000" />
       <workItem from="1751641399948" duration="13257000" />
       <workItem from="1751902804928" duration="6609000" />
-      <workItem from="1751987009920" duration="4350000" />
+      <workItem from="1751987009920" duration="13101000" />
+      <workItem from="1752073503852" duration="27093000" />
+      <workItem from="1752246256200" duration="4429000" />
+      <workItem from="1752355301486" duration="1380000" />
+      <workItem from="1752528146018" duration="4307000" />
+      <workItem from="1752591876442" duration="13533000" />
+      <workItem from="1752680474054" duration="4129000" />
+      <workItem from="1753131648875" duration="86000" />
+      <workItem from="1753131773156" duration="4737000" />
+      <workItem from="1753283328141" duration="9861000" />
     </task>
     <task id="LOCAL-00001" summary="Add unique code generation for various entities and update database schema">
       <option name="closed" value="true" />
@@ -214,7 +226,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751647737115</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feat: add Unidad and UsuarioUnidad entities with relationships to Usuario and Asesoria">
+      <option name="closed" value="true" />
+      <created>1751991901470</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1751991901470</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -238,7 +258,8 @@
     <MESSAGE value="Add unique code generation for various entities and update database schema" />
     <MESSAGE value="Update .gitignore to include comprehensive rules for Visual Studio, Rider, and .NET projects" />
     <MESSAGE value="Refactor: rename classes and update DTOs for consistency in Asesoria and Contacto entities" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor: rename classes and update DTOs for consistency in Asesoria and Contacto entities" />
+    <MESSAGE value="feat: add Unidad and UsuarioUnidad entities with relationships to Usuario and Asesoria" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add Unidad and UsuarioUnidad entities with relationships to Usuario and Asesoria" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

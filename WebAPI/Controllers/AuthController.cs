@@ -2,6 +2,7 @@ using Aplicacion;
 using Aplicacion.Seguridad;
 using Dominio;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,6 +37,7 @@ namespace WebAPI.Controllers
             });
         }
         
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<UsuarioData>> UsuarioActual()
         {

@@ -9,4 +9,5 @@ public class Unidad
     public string Descripcion { get; set; }
     
     public ICollection<UsuarioUnidad> UsuariosUnidades { get; set; }
+    public virtual ICollection<AsesoriaUnidad> AsesoriasUnidades { get; set; }
 }
