@@ -43,6 +43,8 @@ builder.Services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidat
 
 var contructor = builder.Services.AddIdentityCore<Usuario>();
 var identityBuilder = new IdentityBuilder(contructor.UserType, contructor.Services);
+identityBuilder.AddRoles<IdentityRole>();
+identityBuilder.AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<Usuario, IdentityRole>>();
 identityBuilder.AddEntityFrameworkStores<SistemaMonitoreaCdeContext>();
 identityBuilder.AddSignInManager<SignInManager<Usuario>>();
 builder.Services.TryAddSingleton<ISystemClock, SystemClock>();
