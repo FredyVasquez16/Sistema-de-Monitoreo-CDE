@@ -94,7 +94,7 @@ public class SignIn
                 {
                     CodigoUnico = usuario.CodigoUnico,
                     NombreCompleto = usuario.NombreCompleto,
-                    Token = _jwtGenerador.CrearToken(usuario),
+                    Token = _jwtGenerador.CrearToken(usuario, null),
                     UserName = usuario.UserName,
                     Email = usuario.Email
                 };

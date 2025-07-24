@@ -32,13 +32,16 @@ public class UsuarioActual
                 throw new ManejadorExcepcion(HttpStatusCode.Unauthorized, new { mensaje = "Usuario no encontrado" });
             }
             //var roles = await _userManager.GetRolesAsync(usuario);
+            var resultadoRoles = await _userManager.GetRolesAsync(usuario);
+            var listaRoles = new List<string>(resultadoRoles);
+            
             return new UsuarioData
             {
                 CodigoUnico = usuario.CodigoUnico,
                 NombreCompleto = usuario.NombreCompleto,
                 UserName = usuario.UserName,
                 Email = usuario.Email,
-                Token = _jwtGenerador.CrearToken(usuario)
+                Token = _jwtGenerador.CrearToken(usuario, listaRoles)
                 //Roles = roles.ToList()
             };
         }

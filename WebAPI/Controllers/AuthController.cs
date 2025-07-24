@@ -49,5 +49,17 @@ namespace WebAPI.Controllers
                 Data = data
             });
         }
+
+        [HttpPut]
+        public async Task<ActionResult<UsuarioData>> ActualizarUsuario(UsuarioUpdate.EjecutarUsuarioUpdate parametros)
+        {
+            var data = await Mediator.Send(parametros);
+            return StatusCode(StatusCodes.Status200OK, new ResponseDto<UsuarioData>
+            {
+                Status = true,
+                Message = "Usuario actualizado exitosamente",
+                Data = data
+            });
+        }
     }
 }

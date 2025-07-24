@@ -11,7 +11,14 @@
   <component name="ChangeListManager">
     <list default="true" id="00c47ba8-7c7a-4b89-a438-810061b441d3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SistemaMonitoreoCDEMIPYMEROC/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SistemaMonitoreoCDEMIPYMEROC/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebAPI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aplicacion/Interface/IJwtGenerador.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Interface/IJwtGenerador.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aplicacion/Seguridad/Login.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Seguridad/Login.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aplicacion/Seguridad/SignIn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Seguridad/SignIn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Aplicacion/Seguridad/UsuarioActual.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Aplicacion/Seguridad/UsuarioActual.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Seguridad/Token/JwtGenerador.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Seguridad/Token/JwtGenerador.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebAPI/Controllers/AsesoriaController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/Controllers/AsesoriaController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebAPI/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/Controllers/AuthController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebAPI/Controllers/RolController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebAPI/Controllers/RolController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,28 +64,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Launch Settings Profile.WebAPI: IIS Express.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Launch Settings Profile.WebAPI: IIS Express.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;,
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql",
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Launch Settings Profile.WebAPI: IIS Express">
     <configuration name="WebAPI: IIS Express" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/WebAPI/WebAPI.csproj" />
@@ -192,7 +199,9 @@
       <workItem from="1753131648875" duration="86000" />
       <workItem from="1753131773156" duration="4737000" />
       <workItem from="1753283328141" duration="14484000" />
-      <workItem from="1753310412364" duration="381000" />
+      <workItem from="1753310412364" duration="954000" />
+      <workItem from="1753371451763" duration="936000" />
+      <workItem from="1753373372858" duration="10600000" />
     </task>
     <task id="LOCAL-00001" summary="Add unique code generation for various entities and update database schema">
       <option name="closed" value="true" />
@@ -234,7 +243,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753304854475</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="feat: add Rol management functionality with creation and deletion endpoints">
+      <option name="closed" value="true" />
+      <created>1753311196013</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1753311196013</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -260,7 +277,8 @@
     <MESSAGE value="Refactor: rename classes and update DTOs for consistency in Asesoria and Contacto entities" />
     <MESSAGE value="feat: add Unidad and UsuarioUnidad entities with relationships to Usuario and Asesoria" />
     <MESSAGE value="feat: add AsesoriaUnidad entity and update relationships in Asesoria and Unidad" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add AsesoriaUnidad entity and update relationships in Asesoria and Unidad" />
+    <MESSAGE value="feat: add Rol management functionality with creation and deletion endpoints" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add Rol management functionality with creation and deletion endpoints" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -277,6 +295,19 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Aplicacion/Seguridad/ObtenerRolesPorUsuaio.cs</url>
+          <line>28</line>
+          <properties documentPath="C:\Users\fredy\OneDrive\Desktop\Sistema de Monitoreo CDE MIPYME ROC\Aplicacion\Seguridad\ObtenerRolesPorUsuaio.cs" containingFunctionPresentation="Method 'Handle'">
+            <startOffsets>
+              <option value="947" />
+            </startOffsets>
+            <endOffsets>
+              <option value="967" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
