@@ -4,7 +4,7 @@ import {
     Chip
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Add, Edit, Delete, Business, School, Phone, Email, LocationOn, Person, People, VerifiedUser } from '@material-ui/icons';
+import { Add, Edit, Delete, Business, School, Phone, Email, LocationOn, Person, People, VerifiedUser, CalendarToday, Category, Code, Assignment } from '@material-ui/icons';
 import { useParams, useHistory } from 'react-router-dom';
 import { obtenerContactoPorId, obtenerAsesoriasPorContacto } from '../../actions/ContactoAction';
 import { useStateValue } from '../../Context/store';
@@ -362,21 +362,69 @@ const VerContacto = () => {
                             {asesorias && asesorias.length > 0 ? (
                                 <>
                                     {asesorias.map((asesoria, index) => (
-                                        <Box key={asesoria.asesoriaId || index} className={classes.listaAsesoriaItem}>
-                                            <Typography variant="body2" style={{ fontWeight: 'bold' }}>
-                                                {asesoria.asunto || `Asesoría #${asesoria.asesoriaId}`}
-                                            </Typography>
-                                            <Typography variant="caption" color="textSecondary">
-                                                {asesoria.areaAsesoria}
-                                            </Typography>
-                                            <Typography variant="caption" display="block" color="textSecondary">
-                                                Fecha: {new Date(asesoria.fechaSesion).toLocaleDateString()}
-                                            </Typography>
-                                            <Typography variant="caption" color="textSecondary">
-                                                Participantes: {asesoria.numeroParticipantes}
-                                            </Typography>
+                                        <Box 
+                                            key={asesoria.asesoriaId || index} 
+                                            className={classes.listaAsesoriaItem}
+                                            style={{ 
+                                                backgroundColor: '#f8f9fa', 
+                                                padding: 12, 
+                                                borderRadius: 8, 
+                                                marginBottom: 8,
+                                                border: '1px solid #e0e0e0'
+                                            }}
+                                        >
+                                            {/* Código y Área */}
+                                            <Box display="flex" alignItems="center" mb={1}>
+                                                <Code fontSize="small" color="primary" style={{ marginRight: 8 }} />
+                                                <Typography variant="body2" style={{ fontWeight: 'bold', color: '#033565' }}>
+                                                    {asesoria.codigoUnico}
+                                                </Typography>
+                                            </Box>
+                                            
+                                            {/* Área de Asesoría */}
+                                            <Box display="flex" alignItems="center" mb={1}>
+                                                <Category fontSize="small" color="action" style={{ marginRight: 8 }} />
+                                                <Typography variant="body2">
+                                                    {asesoria.areaAsesoria || 'Sin área'}
+                                                </Typography>
+                                            </Box>
+                                            
+                                            {/* Fecha de Sesión */}
+                                            <Box display="flex" alignItems="center" mb={1}>
+                                                <CalendarToday fontSize="small" color="action" style={{ marginRight: 8 }} />
+                                                <Typography variant="body2">
+                                                    {new Date(asesoria.fechaSesion).toLocaleDateString('es-HN', {
+                                                        year: 'numeric',
+                                                        month: 'long',
+                                                        day: 'numeric'
+                                                    })}
+                                                </Typography>
+                                            </Box>
+                                            
+                                            {/* Número de Participantes */}
+                                            <Box display="flex" alignItems="center" mb={1}>
+                                                <People fontSize="small" color="action" style={{ marginRight: 8 }} />
+                                                <Typography variant="body2">
+                                                    {asesoria.numeroParticipantes || 0} participante(s)
+                                                </Typography>
+                                            </Box>
+                                            
+                                            {/* Notas */}
+                                            {asesoria.notas && (
+                                                <Box display="flex" alignItems="flex-start" mb={1}>
+                                                    <Assignment fontSize="small" color="action" style={{ marginRight: 8, marginTop: 2 }} />
+                                                    <Typography variant="caption" color="textSecondary">
+                                                        {asesoria.notas.length > 80 
+                                                            ? asesoria.notas.substring(0, 80) + '...' 
+                                                            : asesoria.notas}
+                                                    </Typography>
+                                                </Box>
+                                            )}
                                         </Box>
                                     ))}
+                                    <Typography variant="caption" color="textSecondary" style={{ display: 'block', marginTop: 4 }}>
+                                        Total: {asesorias.length} asesoría(s)
+                                    </Typography>
                                 </>
                             ) : (
                                 <Typography className={classes.noDataText}>

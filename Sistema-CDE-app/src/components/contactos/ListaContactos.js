@@ -380,7 +380,22 @@ const ListaContactos = () => {
                                                     {row.correo}
                                                 </Link>
                                             </TableCell>
-                                            <TableCell>{row.empresa || ''}</TableCell>
+                                            <TableCell>
+                                                {row.clienteEmpresa ? (
+                                                    <Link
+                                                        component="button"
+                                                        color="primary"
+                                                        onClick={() => history.push(`/cliente_empresa/ver/${row.clienteEmpresa.id}`)}
+                                                        style={{ cursor: 'pointer' }}
+                                                    >
+                                                        {row.clienteEmpresa.nombre}
+                                                    </Link>
+                                                ) : (
+                                                    <Typography variant="body2" color="textSecondary">
+                                                        Sin empresa
+                                                    </Typography>
+                                                )}
+                                            </TableCell>
                                             <TableCell>{row.rtn}</TableCell>
                                         </TableRow>
                                     ))

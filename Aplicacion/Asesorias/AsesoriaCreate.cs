@@ -44,6 +44,10 @@ public class AsesoriaCreate
             RuleFor(x => x.AreaAsesoriaId).GreaterThan(0).WithMessage("El Área de Asesoría es obligatoria.");
             RuleFor(x => x.FuenteFinanciamientoId).GreaterThan(0)
                 .WithMessage("La Fuente de Financiamiento es obligatoria.");
+            
+            // ListaAsesores y ListaContactos son opcionales
+            RuleFor(x => x.ListaAsesores).NotNull().WithMessage("La lista de asesores es obligatoria.").When(x => x.ListaAsesores != null && x.ListaAsesores.Any());
+            RuleFor(x => x.ListaContactos).NotNull().WithMessage("La lista de contactos es obligatoria.").When(x => x.ListaContactos != null && x.ListaContactos.Any());
         }
     }
 
@@ -200,6 +204,7 @@ public class AsesoriaCreate
                 // Crear asesoría
                 var asesoria = new Dominio.Asesoria
                 {
+                    CodigoUnico = "TEMP", // Valor temporal, se actualiza después
                     ClienteId = request.ClienteId,
                     FechaSesion = request.FechaSesion,
                     TiempoContacto = request.TiempoContacto,
