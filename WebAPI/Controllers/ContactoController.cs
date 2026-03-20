@@ -29,6 +29,42 @@ namespace WebAPI.Controllers
                 Data = contactos
             });
         }
+        
+        //endpoint para obtener los estados civiles
+        [HttpGet("EstadosCiviles")]
+        public async Task<ActionResult<ResponseDto<IReadOnlyList<EstadosCiviles>>>> GetEstadosCiviles()
+        {
+            var estadosCiviles = await Mediator.Send(new EstadoCivilGet.EstadoCivilGetEjecuta());
+            return Ok(new ResponseDto<IReadOnlyList<EstadosCiviles>>
+            {
+                Status = true,
+                Data = estadosCiviles
+            });
+        }
+        
+        //endpoint para obtener los niveles de estudio
+        [HttpGet("NivelesEstudio")]
+        public async Task<ActionResult<ResponseDto<IReadOnlyList<NivelesEstudio>>>> GetNivelesEstudio()
+        {
+            var nivelesEstudio = await Mediator.Send(new NivelEstudioGet.NivelEstudioGetEjecuta());
+            return Ok(new ResponseDto<IReadOnlyList<NivelesEstudio>>
+            {
+                Status = true,
+                Data = nivelesEstudio
+            });
+        }
+        
+        //endpoint para obtener las categorias laborales
+        [HttpGet("CategoriasLaborales")]
+        public async Task<ActionResult<ResponseDto<IReadOnlyList<CategoriasLaborales>>>> GetCategoriasLaborales()
+        {
+            var categoriasLaborales = await Mediator.Send(new CategoriaLaboralGet.CategoriaLaboralGetEjecuta());
+            return Ok(new ResponseDto<IReadOnlyList<CategoriasLaborales>>
+            {
+                Status = true,
+                Data = categoriasLaborales
+            });
+        }
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult<ResponseDto<Contacto>>> GetById(int id)
@@ -46,6 +82,18 @@ namespace WebAPI.Controllers
             {
                 Status = true,
                 Data = contacto
+            });
+        }
+        
+        // Endpoint para obtener las asesorías de un contacto
+        [HttpGet("{id:int}/Asesorias")]
+        public async Task<ActionResult<ResponseDto<List<Aplicacion.Contactos.ContactoGetAsesorias.ContactoAsesoriaDto>>>> GetAsesorias(int id)
+        {
+            var asesorias = await Mediator.Send(new ContactoGetAsesorias.Query { ContactoId = id });
+            return Ok(new ResponseDto<List<Aplicacion.Contactos.ContactoGetAsesorias.ContactoAsesoriaDto>>
+            {
+                Status = true,
+                Data = asesorias
             });
         }
 

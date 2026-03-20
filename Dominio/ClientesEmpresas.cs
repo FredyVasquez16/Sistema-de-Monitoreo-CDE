@@ -18,7 +18,7 @@ public class ClientesEmpresas
     [Column("tipo_cliente_estado_id")]
     public int TipoClienteEstadoId { get; set; }
     [Column("usuario_id")]
-    public int UsuarioId { get; set; }
+    public string UsuarioId { get; set; }
     [Column("servicio_solicitado_id")]
     public int ServicioSolicitadoId { get; set; }
     [Column("razon_social")]
@@ -33,8 +33,8 @@ public class ClientesEmpresas
     public DateTime FechaInicio { get; set; }
     [Column("direccion_fisica")]
     public string DireccionFisica { get; set; }
-    [Column("ciudad")]
-    public string Ciudad { get; set; }
+    [Column("municipio")]
+    public string Municipio { get; set; }
     [Column("departamento")]
     public string Departamento { get; set; }
     [Column("tipo_organizacion_id")]
@@ -98,7 +98,7 @@ public class ClientesEmpresas
     [Column("obstaculos")]
     public string? Obstaculos { get; set; }
     [Column("fondo_concursable")]
-    public string FondoConcursable { get; set; }
+    public bool FondoConcursable { get; set; }
     [Column("estatus_inicial")]
     public string EstatusInicial { get; set; }
     [Column("estatus_actual")]
@@ -144,4 +144,7 @@ public class ClientesEmpresas
     public virtual ICollection<AsesoriaContacto> AsesoriasContactos { get; set; }
     public virtual ICollection<Contacto> Contactos { get; set; }
     public virtual ICollection<SesionesParticipantes> SesionesParticipantes { get; set; }
+    
+    [ForeignKey(nameof(UsuarioId))]
+    public virtual Usuario Usuario { get; set; }
 }

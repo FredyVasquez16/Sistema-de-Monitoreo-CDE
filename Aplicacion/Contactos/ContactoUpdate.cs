@@ -32,7 +32,7 @@ public class ContactoUpdate
 
         public string Direccion { get; set; }
 
-        public string Ciudad { get; set; }
+        public string Municipio { get; set; }
 
         public string Departamento { get; set; }
 
@@ -80,7 +80,7 @@ public class ContactoUpdate
             RuleFor(x => x.Correo).EmailAddress().WithMessage("El campo Correo debe ser un correo electrónico válido.").NotEmpty().WithMessage("El campo Correo es obligatorio.").MaximumLength(100).WithMessage("El campo Correo no puede exceder los 100 caracteres.");
             RuleFor(x => x.Rtn).NotEmpty().WithMessage("El campo RTN es obligatorio.").MaximumLength(20).WithMessage("El campo RTN no puede exceder los 20 caracteres.");
             RuleFor(x => x.Direccion).NotEmpty().WithMessage("El campo Dirección es obligatorio.").MaximumLength(1000).WithMessage("El campo Dirección no puede exceder los 1000 caracteres.");
-            RuleFor(x => x.Ciudad).NotEmpty().WithMessage("El campo Ciudad es obligatorio.").MaximumLength(100).WithMessage("El campo Ciudad no puede exceder los 100 caracteres.");
+            RuleFor(x => x.Municipio).NotEmpty().WithMessage("El campo Municipio es obligatorio.").MaximumLength(100).WithMessage("El campo Municipio no puede exceder los 100 caracteres.");
             RuleFor(x => x.Departamento).NotEmpty().WithMessage("El campo Departamento es obligatorio.").MaximumLength(100).WithMessage("El campo Departamento no puede exceder los 100 caracteres.");
             RuleFor(x => x.Cargo).NotEmpty().WithMessage("El campo Cargo es obligatorio.").MaximumLength(100).WithMessage("El campo Cargo no puede exceder los 100 caracteres.");
             RuleFor(x => x.NivelEstudioId).GreaterThan(0).WithMessage("Debe seleccionar un Nivel de Estudio válido.");
@@ -139,7 +139,7 @@ public class ContactoUpdate
             
             contacto.Nombre = request.Nombre ?? contacto.Nombre;
             contacto.Apellido = request.Apellido ?? contacto.Apellido;
-            contacto.FechaNacimiento = request.FechaNacimiento != default ? request.FechaNacimiento : contacto.FechaNacimiento;
+            contacto.FechaNacimiento = request.FechaNacimiento != default ? DateTime.SpecifyKind(request.FechaNacimiento, DateTimeKind.Utc) : contacto.FechaNacimiento;
             contacto.Dni = request.Dni ?? contacto.Dni;
             contacto.Nacionalidad = request.Nacionalidad ?? contacto.Nacionalidad;
             contacto.Genero = request.Genero ?? contacto.Genero;
@@ -147,7 +147,7 @@ public class ContactoUpdate
             contacto.Correo = request.Correo ?? contacto.Correo;
             contacto.Rtn = request.Rtn ?? contacto.Rtn;
             contacto.Direccion = request.Direccion ?? contacto.Direccion;
-            contacto.Ciudad = request.Ciudad ?? contacto.Ciudad;
+            contacto.Municipio = request.Municipio ?? contacto.Municipio;
             contacto.Departamento = request.Departamento ?? contacto.Departamento;
             contacto.Cargo = request.Cargo ?? contacto.Cargo;
             contacto.EstadoCivilId = request.EstadoCivilId != 0 ? request.EstadoCivilId : contacto.EstadoCivilId;

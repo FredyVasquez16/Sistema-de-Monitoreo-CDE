@@ -18,17 +18,22 @@ using Microsoft.IdentityModel.Tokens;
 using Persistencia;
 using Seguridad.Token;
 using WebAPI.Middleware;
+using Aplicacion;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddCors(o => o.AddPolicy("corsApp", builder =>
+{
+    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+}));
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<SistemaMonitoreaCdeContext>(options =>
     options.UseNpgsql(connectionString));
 builder.Services.AddMediatR(typeof(Consulta.Manejador).Assembly);
-builder.Services.AddMediatR(typeof(ClienteEmpresaGet.Manejador).Assembly);
-builder.Services.AddMediatR(typeof(CapacitacionGet.Manejador).Assembly);
-builder.Services.AddMediatR(typeof(AsesoriaGet.Manejador).Assembly);
+//builder.Services.AddMediatR(typeof(ClienteEmpresaGet.Manejador).Assembly);
+//builder.Services.AddMediatR(typeof(CapacitacionGet.Manejador).Assembly);
+//builder.Services.AddMediatR(typeof(AsesoriaGet.Manejador).Assembly);
 
 builder.Services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<ContactoCreate>());
 /*builder.Services.AddControllers(opt =>
@@ -36,10 +41,15 @@ builder.Services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidat
     var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
     opt.Filters.Add(new AuthorizeFilter(policy));
 }).AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<ContactoCreate>());*/ // Va a agregar seguridad a todos los controladores, si se quiere agregar a un controlador en específico se debe agregar el atributo [Authorize] al controlador
-builder.Services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<ClienteEmpresaCreate>());
-builder.Services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<CapacitacionCreate>());
-builder.Services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<AsesoriaCreate>());
-builder.Services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Login>());
+//builder.Services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<ClienteEmpresaCreate>());
+//builder.Services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<CapacitacionCreate>());
+//builder.Services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<AsesoriaCreate>());
+//builder.Services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Login>());
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
 
 var contructor = builder.Services.AddIdentityCore<Usuario>();
 var identityBuilder = new IdentityBuilder(contructor.UserType, contructor.Services);
@@ -65,7 +75,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddScoped<IJwtGenerador, JwtGenerador>();
 builder.Services.AddScoped<IUsuarioSesion, UsuarioSesion>();
 builder.Services.AddScoped<ICodigoUnicoGenerator, CodigoUnicoGenerator>();
-builder.Services.AddAutoMapper(typeof(AsesoriaGet.Manejador));
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+//builder.Services.AddAutoMapper(typeof(AsesoriaGet.Manejador));
 builder.Services.AddHttpContextAccessor();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -80,20 +91,29 @@ using (var ambiente = app.Services.CreateScope())
     try
     {
         var userManager = services.GetRequiredService<UserManager<Usuario>>();
+        // ===== CAMBIO 1: Obtenemos el RoleManager del contenedor de servicios =====
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
         var context = services.GetRequiredService<SistemaMonitoreaCdeContext>();
-        context.Database.Migrate();
-        DataPrueba.InsertarData(context, userManager).Wait();
+        
+        // Es una buena práctica ejecutar las migraciones primero
+        await context.Database.MigrateAsync();
+        
+        // ===== CAMBIO 2: Pasamos el RoleManager a la función InsertarData =====
+        await DataPrueba.InsertarData(context, userManager, roleManager);
     }
     catch (Exception e)
     {
         var logging = services.GetRequiredService<ILogger<Program>>();
-        logging.LogError(e, "Error al migrar la base de datos");
+        // Añadimos más detalle al log para futuras depuraciones
+        logging.LogError(e, "Ocurrió un error durante la migración o la siembra de datos.");
     }
     
 }
 
 
 // Configure the HTTP request pipeline.
+app.UseCors("corsApp");
+
 app.UseMiddleware<ManejadorErrorMiddleware>();
 
 if (app.Environment.IsDevelopment())

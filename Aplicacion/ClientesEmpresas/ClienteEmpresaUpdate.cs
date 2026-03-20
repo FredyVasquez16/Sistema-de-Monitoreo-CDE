@@ -2,6 +2,7 @@ using System.Net;
 using Aplicacion.ManejadorError;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistencia;
 
 namespace Aplicacion.ClientesEmpresas;
@@ -15,7 +16,7 @@ public class ClienteEmpresaUpdate
         public int TipoClienteNivelId { get; set; }
         public int ContactoPrimarioId { get; set; }
         public int TipoClienteEstadoId { get; set; }
-        public int UsuarioId { get; set; }
+        public string UsuarioId { get; set; }
         public int ServicioSolicitadoId { get; set; }
         public string? RazonSocial { get; set; }
         public int Telefono { get; set; }
@@ -23,7 +24,7 @@ public class ClienteEmpresaUpdate
         public string? PaginaWeb { get; set; }
         public DateTime FechaInicio { get; set; }
         public string DireccionFisica { get; set; }
-        public string Ciudad { get; set; }
+        public string Municipio { get; set; }
         public string Departamento { get; set; }
         public int TipoOrganizacionId { get; set; }
         public int TipoEmpresaId { get; set; }
@@ -55,7 +56,7 @@ public class ClienteEmpresaUpdate
         public string? Motivacion { get; set; }
         public string? LugarDesarrolloEmprendimiento { get; set; }
         public string? Obstaculos { get; set; }
-        public string FondoConcursable { get; set; }
+        public bool FondoConcursable { get; set; }
         public string EstatusInicial { get; set; }
         public string EstatusActual { get; set; }
         public DateTime FechaEstablecimiento { get; set; }
@@ -81,7 +82,7 @@ public class ClienteEmpresaUpdate
             RuleFor(x => x.ContactoPrimarioId).GreaterThan(0).WithMessage("El contacto primario es obligatorio.");
             RuleFor(x => x.TipoClienteEstadoId).GreaterThan(0)
                 .WithMessage("El estado del tipo de cliente es obligatorio.");
-            RuleFor(x => x.UsuarioId).GreaterThan(0).WithMessage("El usuario es obligatorio.");
+            RuleFor(x => x.UsuarioId).NotEmpty().WithMessage("El usuario es obligatorio.");
             RuleFor(x => x.ServicioSolicitadoId).GreaterThan(0).WithMessage("El servicio solicitado es obligatorio.");
             RuleFor(x => x.Telefono).GreaterThan(0).WithMessage("El teléfono es obligatorio.").GreaterThan(7)
                 .WithMessage("El teléfono debe tener al menos 8 dígitos.");
@@ -90,8 +91,8 @@ public class ClienteEmpresaUpdate
             RuleFor(x => x.FechaInicio).NotEmpty().WithMessage("La fecha de inicio es obligatoria.");
             RuleFor(x => x.DireccionFisica).NotEmpty().WithMessage("La dirección física es obligatoria.")
                 .MaximumLength(1000).WithMessage("La dirección física no puede exceder los 1000 caracteres.");
-            RuleFor(x => x.Ciudad).NotEmpty().WithMessage("La ciudad es obligatoria.").MaximumLength(100)
-                .WithMessage("La ciudad no puede exceder los 100 caracteres.");
+            RuleFor(x => x.Municipio).NotEmpty().WithMessage("La Municipio es obligatoria.").MaximumLength(100)
+                .WithMessage("La Municipio no puede exceder los 100 caracteres.");
             RuleFor(x => x.Departamento).NotEmpty().WithMessage("El departamento es obligatorio.").MaximumLength(100)
                 .WithMessage("El departamento no puede exceder los 100 caracteres.");
             RuleFor(x => x.TipoOrganizacionId).GreaterThan(0).WithMessage("El tipo de organización es obligatorio.");
@@ -107,8 +108,6 @@ public class ClienteEmpresaUpdate
             RuleFor(x => x.DescripcionProductoServicio).NotEmpty()
                 .WithMessage("La descripción del producto o servicio es obligatoria.").MaximumLength(2000)
                 .WithMessage("La descripción del producto o servicio no puede exceder los 2000 caracteres.");
-            RuleFor(x => x.FondoConcursable).NotEmpty().WithMessage("El fondo concursable es obligatorio.")
-                .MaximumLength(100).WithMessage("El fondo concursable no puede exceder los 100 caracteres.");
             RuleFor(x => x.EstatusInicial).NotEmpty().WithMessage("El estatus inicial es obligatorio.")
                 .MaximumLength(200).WithMessage("El estatus inicial no puede exceder los 200 caracteres.");
             RuleFor(x => x.EstatusActual).NotEmpty().WithMessage("El estatus actual es obligatorio.").MaximumLength(200)
@@ -248,12 +247,15 @@ public class ClienteEmpresaUpdate
                     new { mensaje = "Nombre del propietario no encontrado" });
             }
             
+            // Guardar el contacto primario anterior para limpiar su relación
+            var contactoPrimarioAnteriorId = clienteEmpresa.ContactoPrimarioId;
+            
             // Actualizar los campos del cliente empresa
             clienteEmpresa.Nombre = request.Nombre ?? clienteEmpresa.Nombre;
             clienteEmpresa.TipoClienteNivelId = request.TipoClienteNivelId != 0 ? request.TipoClienteNivelId : clienteEmpresa.TipoClienteNivelId;
             clienteEmpresa.ContactoPrimarioId = request.ContactoPrimarioId != 0 ? request.ContactoPrimarioId : clienteEmpresa.ContactoPrimarioId;
             clienteEmpresa.TipoClienteEstadoId = request.TipoClienteEstadoId != 0 ? request.TipoClienteEstadoId : clienteEmpresa.TipoClienteEstadoId;
-            clienteEmpresa.UsuarioId = request.UsuarioId != 0 ? request.UsuarioId : clienteEmpresa.UsuarioId;
+            clienteEmpresa.UsuarioId = request.UsuarioId ?? clienteEmpresa.UsuarioId;
             clienteEmpresa.ServicioSolicitadoId = request.ServicioSolicitadoId != 0 ? request.ServicioSolicitadoId : clienteEmpresa.ServicioSolicitadoId;
             clienteEmpresa.RazonSocial = request.RazonSocial ?? clienteEmpresa.RazonSocial;
             clienteEmpresa.Telefono = request.Telefono != 0 ? request.Telefono : clienteEmpresa.Telefono;
@@ -261,7 +263,7 @@ public class ClienteEmpresaUpdate
             clienteEmpresa.PaginaWeb = request.PaginaWeb ?? clienteEmpresa.PaginaWeb;
             clienteEmpresa.FechaInicio = request.FechaInicio != default ? request.FechaInicio : clienteEmpresa.FechaInicio;
             clienteEmpresa.DireccionFisica = request.DireccionFisica ?? clienteEmpresa.DireccionFisica;
-            clienteEmpresa.Ciudad = request.Ciudad ?? clienteEmpresa.Ciudad;
+            clienteEmpresa.Municipio = request.Municipio ?? clienteEmpresa.Municipio;
             clienteEmpresa.Departamento = request.Departamento ?? clienteEmpresa.Departamento;
             clienteEmpresa.TipoOrganizacionId = request.TipoOrganizacionId != 0 ? request.TipoOrganizacionId : clienteEmpresa.TipoOrganizacionId;
             clienteEmpresa.TipoEmpresaId = request.TipoEmpresaId != 0 ? request.TipoEmpresaId : clienteEmpresa.TipoEmpresaId;
@@ -293,7 +295,7 @@ public class ClienteEmpresaUpdate
             clienteEmpresa.Motivacion = request.Motivacion ?? clienteEmpresa.Motivacion;
             clienteEmpresa.LugarDesarrolloEmprendimiento = request.LugarDesarrolloEmprendimiento ?? clienteEmpresa.LugarDesarrolloEmprendimiento;
             clienteEmpresa.Obstaculos = request.Obstaculos ?? clienteEmpresa.Obstaculos;
-            clienteEmpresa.FondoConcursable = request.FondoConcursable ?? clienteEmpresa.FondoConcursable;
+            clienteEmpresa.FondoConcursable = request.FondoConcursable;
             clienteEmpresa.EstatusInicial = request.EstatusInicial ?? clienteEmpresa.EstatusInicial;
             clienteEmpresa.EstatusActual = request.EstatusActual ?? clienteEmpresa.EstatusActual;
             clienteEmpresa.FechaEstablecimiento = request.FechaEstablecimiento != default ? request.FechaEstablecimiento : clienteEmpresa.FechaEstablecimiento;
@@ -309,6 +311,34 @@ public class ClienteEmpresaUpdate
             var resultado = await _context.SaveChangesAsync();
             if (resultado > 0)
             {
+                // Si el contacto primario cambió, actualizar las relaciones
+                if (contactoPrimarioAnteriorId != request.ContactoPrimarioId)
+                {
+                    // Limpiar la relación del contacto primario anterior
+                    if (contactoPrimarioAnteriorId > 0)
+                    {
+                        var contactoAnterior = await _context.Contactos.FindAsync(contactoPrimarioAnteriorId);
+                        if (contactoAnterior != null && contactoAnterior.EmpresaClienteId == request.Id)
+                        {
+                            contactoAnterior.EmpresaClienteId = null;
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                    
+                    // Establecer la relación con el nuevo contacto primario
+                    contactoPrimario.EmpresaClienteId = clienteEmpresa.Id;
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    // Si no cambió, asegurar que el contacto actual tenga la relación
+                    if (contactoPrimario.EmpresaClienteId != clienteEmpresa.Id)
+                    {
+                        contactoPrimario.EmpresaClienteId = clienteEmpresa.Id;
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                
                 return Unit.Value; // Retorna un valor vacío si la actualización fue exitosa
             }
             

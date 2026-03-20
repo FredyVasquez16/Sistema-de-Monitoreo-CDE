@@ -3,6 +3,7 @@ using Aplicacion.Contratos;
 using Aplicacion.ManejadorError;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistencia;
 
 namespace Aplicacion.ClientesEmpresas;
@@ -15,7 +16,7 @@ public class ClienteEmpresaCreate
         public int TipoClienteNivelId { get; set; }
         public int ContactoPrimarioId { get; set; }
         public int TipoClienteEstadoId { get; set; }
-        public int UsuarioId { get; set; }
+        public string UsuarioId { get; set; }
         public int ServicioSolicitadoId { get; set; }
         public string? RazonSocial { get; set; }
         public int Telefono { get; set; }
@@ -23,7 +24,7 @@ public class ClienteEmpresaCreate
         public string? PaginaWeb { get; set; }
         public DateTime FechaInicio { get; set; }
         public string DireccionFisica { get; set; }
-        public string Ciudad { get; set; }
+        public string Municipio { get; set; }
         public string Departamento { get; set; }
         public int TipoOrganizacionId { get; set; }
         public int TipoEmpresaId { get; set; }
@@ -55,7 +56,7 @@ public class ClienteEmpresaCreate
         public string? Motivacion { get; set; }
         public string? LugarDesarrolloEmprendimiento { get; set; }
         public string? Obstaculos { get; set; }
-        public string FondoConcursable { get; set; }
+        public bool FondoConcursable { get; set; }
         public string EstatusInicial { get; set; }
         public string EstatusActual { get; set; }
         public DateTime FechaEstablecimiento { get; set; }
@@ -80,7 +81,7 @@ public class ClienteEmpresaCreate
             RuleFor(x => x.ContactoPrimarioId).GreaterThan(0).WithMessage("El contacto primario es obligatorio.");
             RuleFor(x => x.TipoClienteEstadoId).GreaterThan(0)
                 .WithMessage("El estado del tipo de cliente es obligatorio.");
-            RuleFor(x => x.UsuarioId).GreaterThan(0).WithMessage("El usuario es obligatorio.");
+            RuleFor(x => x.UsuarioId).NotEmpty().WithMessage("El usuario es obligatorio.");
             RuleFor(x => x.ServicioSolicitadoId).GreaterThan(0).WithMessage("El servicio solicitado es obligatorio.");
             RuleFor(x => x.Telefono).GreaterThan(0).WithMessage("El teléfono es obligatorio.").GreaterThan(7)
                 .WithMessage("El teléfono debe tener al menos 8 dígitos.");
@@ -89,8 +90,8 @@ public class ClienteEmpresaCreate
             RuleFor(x => x.FechaInicio).NotEmpty().WithMessage("La fecha de inicio es obligatoria.");
             RuleFor(x => x.DireccionFisica).NotEmpty().WithMessage("La dirección física es obligatoria.")
                 .MaximumLength(1000).WithMessage("La dirección física no puede exceder los 1000 caracteres.");
-            RuleFor(x => x.Ciudad).NotEmpty().WithMessage("La ciudad es obligatoria.").MaximumLength(100)
-                .WithMessage("La ciudad no puede exceder los 100 caracteres.");
+            RuleFor(x => x.Municipio).NotEmpty().WithMessage("La Municipio es obligatoria.").MaximumLength(100)
+                .WithMessage("La Municipio no puede exceder los 100 caracteres.");
             RuleFor(x => x.Departamento).NotEmpty().WithMessage("El departamento es obligatorio.").MaximumLength(100)
                 .WithMessage("El departamento no puede exceder los 100 caracteres.");
             RuleFor(x => x.TipoOrganizacionId).GreaterThan(0).WithMessage("El tipo de organización es obligatorio.");
@@ -106,8 +107,6 @@ public class ClienteEmpresaCreate
             RuleFor(x => x.DescripcionProductoServicio).NotEmpty()
                 .WithMessage("La descripción del producto o servicio es obligatoria.").MaximumLength(2000)
                 .WithMessage("La descripción del producto o servicio no puede exceder los 2000 caracteres.");
-            RuleFor(x => x.FondoConcursable).NotEmpty().WithMessage("El fondo concursable es obligatorio.")
-                .MaximumLength(100).WithMessage("El fondo concursable no puede exceder los 100 caracteres.");
             RuleFor(x => x.EstatusInicial).NotEmpty().WithMessage("El estatus inicial es obligatorio.")
                 .MaximumLength(200).WithMessage("El estatus inicial no puede exceder los 200 caracteres.");
             RuleFor(x => x.EstatusActual).NotEmpty().WithMessage("El estatus actual es obligatorio.").MaximumLength(200)
@@ -115,6 +114,11 @@ public class ClienteEmpresaCreate
             RuleFor(x => x.NombrePropietarioId).GreaterThan(0).WithMessage("El nombre del propietario es obligatorio.");
             RuleFor(x => x.GeneroPropietario).NotEmpty().WithMessage("El género del propietario es obligatorio.")
                 .MaximumLength(100).WithMessage("El género del propietario no puede exceder los 100 caracteres.");
+            RuleFor(x => x.FechaIngresosBrutos).NotEmpty().WithMessage("La fecha de ingresos brutos es obligatoria.");
+            RuleFor(x => x.FechaGananciasPerdidasBrutas).NotEmpty()
+                .WithMessage("La fecha de ganancias o pérdidas brutas es obligatoria.");
+            RuleFor(x => x.FechaEstablecimiento).NotEmpty()
+                .WithMessage("La fecha de establecimiento es obligatoria.");
         }
     }
 
@@ -243,9 +247,28 @@ public class ClienteEmpresaCreate
                 throw new ManejadorExcepcion(HttpStatusCode.NotFound,
                     new { mensaje = "Nombre del propietario no encontrado" });
             }
+            
+            var ultimoCodigo = await _context.ClientesEmpresas
+                .Where(ce => ce.CodigoUnico.StartsWith("CDE-CE-")) // Prefijo para Cliente/Empresa
+                .OrderByDescending(ce => ce.Id)
+                .Select(ce => ce.CodigoUnico)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            int nuevoNumero = 1;
+            if (!string.IsNullOrEmpty(ultimoCodigo))
+            {
+                var partes = ultimoCodigo.Split('-');
+                if (partes.Length > 1 && int.TryParse(partes.Last(), out int ultimoNumero))
+                {
+                    nuevoNumero = ultimoNumero + 1;
+                }
+            }
+            var nuevoCodigoUnico = $"CDE-CE-{nuevoNumero:D5}";
 
             var clienteEmpresa = new Dominio.ClientesEmpresas
             {
+                CodigoUnico = nuevoCodigoUnico,
+                
                 Nombre = request.Nombre,
                 TipoClienteNivelId = request.TipoClienteNivelId,
                 ContactoPrimarioId = request.ContactoPrimarioId,
@@ -256,9 +279,9 @@ public class ClienteEmpresaCreate
                 Telefono = request.Telefono,
                 Correo = request.Correo,
                 PaginaWeb = request.PaginaWeb,
-                FechaInicio = request.FechaInicio,
+                FechaInicio = DateTime.SpecifyKind(request.FechaInicio, DateTimeKind.Utc),
                 DireccionFisica = request.DireccionFisica,
-                Ciudad = request.Ciudad,
+                Municipio = request.Municipio,
                 Departamento = request.Departamento,
                 TipoOrganizacionId = request.TipoOrganizacionId,
                 TipoEmpresaId = request.TipoEmpresaId,
@@ -280,10 +303,10 @@ public class ClienteEmpresaCreate
                 FuenteFinanciamientoId = request.FuenteFinanciamientoId,
                 SubFuenteFinanciamientoId = request.SubFuenteFinanciamientoId,
                 IngresosBrutosAnuales = request.IngresosBrutosAnuales,
-                FechaIngresosBrutos = request.FechaIngresosBrutos,
+                FechaIngresosBrutos = DateTime.SpecifyKind(request.FechaIngresosBrutos, DateTimeKind.Utc),
                 IngresosExportaciones = request.IngresosExportaciones,
                 GananciasPerdidasBrutas = request.GananciasPerdidasBrutas,
-                FechaGananciasPerdidasBrutas = request.FechaGananciasPerdidasBrutas,
+                FechaGananciasPerdidasBrutas = DateTime.SpecifyKind(request.FechaGananciasPerdidasBrutas, DateTimeKind.Utc),
                 DescripcionProductoServicio = request.DescripcionProductoServicio,
                 AreasADominar = request.AreasADominar,
                 Instrucciones = request.Instrucciones,
@@ -293,7 +316,7 @@ public class ClienteEmpresaCreate
                 FondoConcursable = request.FondoConcursable,
                 EstatusInicial = request.EstatusInicial,
                 EstatusActual = request.EstatusActual,
-                FechaEstablecimiento = request.FechaEstablecimiento,
+                FechaEstablecimiento = DateTime.SpecifyKind(request.FechaEstablecimiento, DateTimeKind.Utc),
                 NombrePropietarioId = request.NombrePropietarioId,
                 GeneroPropietario = request.GeneroPropietario,
                 HaSolicitadoCredito = request.HaSolicitadoCredito,
@@ -305,18 +328,18 @@ public class ClienteEmpresaCreate
             };
 
             _context.ClientesEmpresas.Add(clienteEmpresa);
-            var valor = await _context.SaveChangesAsync();
+            var valor = await _context.SaveChangesAsync(cancellationToken);
 
             if (valor > 0)
             {
-                clienteEmpresa.CodigoUnico = _codigoUnicoGenerator.GenerarCodigo("CE", clienteEmpresa.Id);
-                await _context.SaveChangesAsync();
+                // Actualizar el campo empresaClienteId del contacto primario
+                contactoPrimario.EmpresaClienteId = clienteEmpresa.Id;
+                await _context.SaveChangesAsync(cancellationToken);
                 
                 return Unit.Value;
             }
 
-            throw new ManejadorExcepcion(HttpStatusCode.BadRequest,
-                new { mensaje = "No se pudo crear el cliente empresa" });
+            throw new ManejadorExcepcion(HttpStatusCode.BadRequest, new { mensaje = "No se pudo crear el cliente empresa" });
         }
     }
 }

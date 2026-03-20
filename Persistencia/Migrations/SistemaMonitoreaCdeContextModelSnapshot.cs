@@ -70,12 +70,13 @@ namespace Persistencia.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CLienteEmpresaId")
+                    b.Property<int>("ClienteEmpresaId")
                         .HasColumnType("integer")
                         .HasColumnName("cliente_empresa_id");
 
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("integer")
+                    b.Property<string>("UsuarioId")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("usuario_id");
 
                     b.HasKey("Id")
@@ -313,11 +314,6 @@ namespace Persistencia.Migrations
                         .HasColumnType("text")
                         .HasColumnName("centro");
 
-                    b.Property<string>("Ciudad")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("ciudad");
-
                     b.Property<string>("CoPatrocinios")
                         .HasColumnType("text")
                         .HasColumnName("co_patrocinios");
@@ -389,6 +385,11 @@ namespace Persistencia.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("lugar_desarrollo");
+
+                    b.Property<string>("Municipio")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("municipio");
 
                     b.Property<string>("Notas")
                         .HasColumnType("text")
@@ -565,11 +566,6 @@ namespace Persistencia.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("beneficiado_cde");
 
-                    b.Property<string>("Ciudad")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("ciudad");
-
                     b.Property<string>("CodigoUnico")
                         .IsRequired()
                         .HasColumnType("text")
@@ -645,9 +641,8 @@ namespace Persistencia.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("fecha_inicio");
 
-                    b.Property<string>("FondoConcursable")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<bool>("FondoConcursable")
+                        .HasColumnType("boolean")
                         .HasColumnName("fondo_concursable");
 
                     b.Property<int>("FuenteFinanciamientoId")
@@ -690,6 +685,11 @@ namespace Persistencia.Migrations
                     b.Property<string>("Motivacion")
                         .HasColumnType("text")
                         .HasColumnName("motivacion");
+
+                    b.Property<string>("Municipio")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("municipio");
 
                     b.Property<bool>("NegocioEnCasa")
                         .HasColumnType("boolean")
@@ -788,8 +788,9 @@ namespace Persistencia.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("usa_pago_electronico");
 
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("integer")
+                    b.Property<string>("UsuarioId")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("usuario_id");
 
                     b.Property<bool>("ZonaIndigena")
@@ -834,6 +835,9 @@ namespace Persistencia.Migrations
                     b.HasIndex("TipoOrganizacionId")
                         .HasDatabaseName("ix_clientes_empresas_tipo_organizacion_id");
 
+                    b.HasIndex("UsuarioId")
+                        .HasDatabaseName("ix_clientes_empresas_usuario_id");
+
                     b.ToTable("clientes_empresas");
                 });
 
@@ -863,11 +867,6 @@ namespace Persistencia.Migrations
                     b.Property<string>("Centro")
                         .HasColumnType("text")
                         .HasColumnName("centro");
-
-                    b.Property<string>("Ciudad")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("ciudad");
 
                     b.Property<string>("CodigoUnico")
                         .IsRequired()
@@ -922,6 +921,11 @@ namespace Persistencia.Migrations
                     b.Property<string>("LocalidadEtnica")
                         .HasColumnType("text")
                         .HasColumnName("localidad_etnica");
+
+                    b.Property<string>("Municipio")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("municipio");
 
                     b.Property<string>("Nacionalidad")
                         .IsRequired()
@@ -2042,6 +2046,13 @@ namespace Persistencia.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_clientes_empresas_tipos_organizacion_tipo_organizacion_id");
 
+                    b.HasOne("Dominio.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_clientes_empresas_aspnetusers_usuario_id");
+
                     b.Navigation("ComercioInternacional");
 
                     b.Navigation("ContactoPrimario");
@@ -2067,6 +2078,8 @@ namespace Persistencia.Migrations
                     b.Navigation("TipoEmpresa");
 
                     b.Navigation("TipoOrganizacion");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Dominio.Contacto", b =>

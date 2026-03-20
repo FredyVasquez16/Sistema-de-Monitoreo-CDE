@@ -8,7 +8,7 @@ public class AsesoresClientesEmpresas
     [Column("id")]
     public int Id { get; set; }
     [Column("usuario_id")]
-    public int UsuarioId { get; set; }
+    public string UsuarioId { get; set; }
     [Column("cliente_empresa_id")]
-    public int CLienteEmpresaId { get; set; }
+    public int ClienteEmpresaId { get; set; }
 }

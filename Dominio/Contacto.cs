@@ -41,8 +41,8 @@ public class Contacto
     [Column("direccion")]
     public string Direccion { get; set; }
 
-    [Column("ciudad")]
-    public string Ciudad { get; set; }
+    [Column("municipio")]
+    public string Municipio { get; set; }
 
     [Column("departamento")]
     public string Departamento { get; set; }

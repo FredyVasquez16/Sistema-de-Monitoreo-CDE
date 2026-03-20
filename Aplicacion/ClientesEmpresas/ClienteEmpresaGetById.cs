@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistencia;
 
 namespace Aplicacion.ClientesEmpresas;
@@ -22,6 +23,13 @@ public class ClienteEmpresaGetById
         public async Task<Dominio.ClientesEmpresas> Handle(ClienteEmpresaUnico request, CancellationToken cancellationToken)
         {
             var clienteEmpresa = await _context.ClientesEmpresas.FindAsync(request.Id);
+            
+            var cliente = await _context.ClientesEmpresas
+                .Include(c => c.ContactoPrimario)
+                .Include(c => c.Usuario)
+                .Include(c => c.NombrePropietario)
+                .FirstOrDefaultAsync(c => c.Id == request.Id);
+
             if (clienteEmpresa == null)
             {
                 throw new ManejadorError.ManejadorExcepcion(System.Net.HttpStatusCode.NotFound, 

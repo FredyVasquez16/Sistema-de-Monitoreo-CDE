@@ -25,7 +25,7 @@ public class CapacitacionUpdate
         public int? NumeroMaxParticipantes { get; set; }
         public int NumeroSesiones { get; set; }
         public string Direccion { get; set; }
-        public string Ciudad { get; set; }
+        public string Municipio { get; set; }
         public string Departamento { get; set; }
         public string LugarDesarrollo { get; set; }
         public string? Centro { get; set; }
@@ -56,7 +56,7 @@ public class CapacitacionUpdate
             RuleFor(x => x.FormatoProgramaId).GreaterThan(0).WithMessage("El formato del programa es obligatorio.");
             RuleFor(x => x.NumeroSesiones).GreaterThan(0).WithMessage("El número de sesiones debe ser mayor que cero.");
             RuleFor(x => x.Direccion).NotEmpty().WithMessage("La dirección es obligatoria.").MaximumLength(1000).WithMessage("La dirección no puede exceder los 1000 caracteres.");
-            RuleFor(x => x.Ciudad).NotEmpty().WithMessage("La ciudad es obligatoria.").MaximumLength(100).WithMessage("La ciudad no puede exceder los 100 caracteres.");
+            RuleFor(x => x.Municipio).NotEmpty().WithMessage("La Municipio es obligatoria.").MaximumLength(100).WithMessage("La Municipio no puede exceder los 100 caracteres.");
             RuleFor(x => x.Departamento).NotEmpty().WithMessage("El departamento es obligatorio.").MaximumLength(100).WithMessage("El departamento no puede exceder los 100 caracteres.");
             RuleFor(x => x.LugarDesarrollo).NotEmpty().WithMessage("El lugar de desarrollo es obligatorio.").MaximumLength(200).WithMessage("El lugar de desarrollo no puede exceder los 200 caracteres.");
         }
@@ -124,7 +124,7 @@ public class CapacitacionUpdate
             capacitacion.NumeroMaxParticipantes = request.NumeroMaxParticipantes ?? capacitacion.NumeroMaxParticipantes;
             capacitacion.NumeroSesiones = request.NumeroSesiones > 0 ? request.NumeroSesiones : capacitacion.NumeroSesiones;
             capacitacion.Direccion = request.Direccion ?? capacitacion.Direccion;
-            capacitacion.Ciudad = request.Ciudad ?? capacitacion.Ciudad;
+            capacitacion.Municipio = request.Municipio ?? capacitacion.Municipio;
             capacitacion.Departamento = request.Departamento ?? capacitacion.Departamento;
             capacitacion.LugarDesarrollo = request.LugarDesarrollo ?? capacitacion.LugarDesarrollo;
             capacitacion.Centro = request.Centro ?? capacitacion.Centro;

@@ -121,6 +121,12 @@ public class SistemaMonitoreaCdeContext : IdentityDbContext<Usuario>
             .HasOne(au => au.Unidad)
             .WithMany(u => u.AsesoriasUnidades)
             .HasForeignKey(au => au.UnidadId);
+        
+        modelBuilder.Entity<ClientesEmpresas>()
+            .HasOne(ce => ce.Usuario)       // Un ClienteEmpresa tiene un Usuario (Asesor)
+            .WithMany()                     // Un Usuario puede tener muchos ClientesEmpresas (no necesitamos la colección inversa aquí)
+            .HasForeignKey(ce => ce.UsuarioId) // La clave foránea es UsuarioId
+            .OnDelete(DeleteBehavior.Restrict); 
     }
 
 
@@ -159,7 +165,7 @@ public class SistemaMonitoreaCdeContext : IdentityDbContext<Usuario>
 
     public DbSet<TiposOrganizacion> TiposOrganizaciones { get; set; }
 
-    // public DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<Unidad> Unidades { get; set; }
     public DbSet<UsuarioUnidad> UsuariosUnidades { get; set; }
 }
