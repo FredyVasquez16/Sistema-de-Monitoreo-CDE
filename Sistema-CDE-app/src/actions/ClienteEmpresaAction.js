@@ -41,7 +41,8 @@ export const obtenerTiposComercioInternacional = async () => {
 }
 
 export const obtenerFuentesFinanciamiento = async () => {
-    return HttpCliente.get('/ClienteEmpresa/FuentesFinanciamiento');
+    const response = await HttpCliente.get('/ClienteEmpresa/FuentesFinanciamiento');
+    return response.data.data;
 }
 
 export const obtenerClientesEmpresas = async () => {

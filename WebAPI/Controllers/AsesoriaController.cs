@@ -4,6 +4,7 @@ using Dominio;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Persistencia;
 
 namespace WebAPI.Controllers
@@ -48,6 +49,28 @@ namespace WebAPI.Controllers
             {
                 Status = true,
                 Data = asesorias
+            });
+        }
+
+        [HttpGet("TiposContactos")]
+        public async Task<ActionResult<ResponseDto<List<TiposContacto>>>> GetTiposContactos()
+        {
+            var tipos = await _context.TiposContactos.ToListAsync();
+            return Ok(new ResponseDto<List<TiposContacto>>
+            {
+                Status = true,
+                Data = tipos
+            });
+        }
+
+        [HttpGet("AreasAsesoria")]
+        public async Task<ActionResult<ResponseDto<List<AreasAsesoria>>>> GetAreasAsesoria()
+        {
+            var areas = await _context.AreasAsesorias.ToListAsync();
+            return Ok(new ResponseDto<List<AreasAsesoria>>
+            {
+                Status = true,
+                Data = areas
             });
         }
 

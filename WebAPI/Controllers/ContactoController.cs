@@ -18,6 +18,17 @@ namespace WebAPI.Controllers
             _mediator = mediator;
         }*/
         
+        [HttpGet("buscar")]
+        public async Task<ActionResult<ResponseDto<List<Aplicacion.ClientesEmpresas.DTOs.ContactoDto>>>> BuscarContactos([FromQuery] string termino)
+        {
+            var contactos = await Mediator.Send(new Consulta.FiltroContactos() { TerminoBusqueda = termino });
+            return Ok(new ResponseDto<List<Aplicacion.ClientesEmpresas.DTOs.ContactoDto>>
+            {
+                Status = true,
+                Data = contactos
+            });
+        }
+
         [HttpGet]
         //[Authorize] //solo agregar si se requiere autenticación ya esta todo configurado en el proyecto
         public async Task<ActionResult<ResponseDto<IReadOnlyList<Contacto>>>> Get()

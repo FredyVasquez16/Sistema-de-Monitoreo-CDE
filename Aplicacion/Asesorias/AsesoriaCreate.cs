@@ -31,6 +31,7 @@ public class AsesoriaCreate
 
         public List<string> ListaAsesores { get; set; }
         public List<int> ListaContactos { get; set; }
+        public List<int> ListaClientes { get; set; }
     }
 
     //validador para la solicitud de creación de una asesoría
@@ -224,6 +225,42 @@ public class AsesoriaCreate
 
                 _context.Asesorias.Add(asesoria);
                 await _context.SaveChangesAsync(cancellationToken); // Guarda para obtener el ID generado
+
+                // Asignar clientes/empresas
+                if (request.ListaClientes != null && request.ListaClientes.Any())
+                {
+                    foreach (var clienteId in request.ListaClientes)
+                    {
+                        var clienteEmpresa = await _context.ClientesEmpresas.FindAsync(clienteId);
+                        if (clienteEmpresa == null)
+                            throw new ManejadorExcepcion(HttpStatusCode.NotFound,
+                                new { mensaje = $"El cliente/empresa con el Id {clienteId} no fue encontrado." });
+
+                        // Solo crear registro si hay contactos
+                        if (request.ListaContactos != null && request.ListaContactos.Any())
+                        {
+                            foreach (var contactoId in request.ListaContactos)
+                            {
+                                _context.AsesoriasContactos.Add(new AsesoriaContacto
+                                {
+                                    ContactoId = contactoId,
+                                    AsesoriaId = asesoria.Id,
+                                    ClienteEmpresaId = clienteId
+                                });
+                            }
+                        }
+                        else
+                        {
+                            // Si no hay contactos, crear registro solo con cliente
+                            _context.AsesoriasContactos.Add(new AsesoriaContacto
+                            {
+                                ContactoId = 1, // Temporal
+                                AsesoriaId = asesoria.Id,
+                                ClienteEmpresaId = clienteId
+                            });
+                        }
+                    }
+                }
 
                 // Asignar asesores
                 if (request.ListaAsesores != null)
