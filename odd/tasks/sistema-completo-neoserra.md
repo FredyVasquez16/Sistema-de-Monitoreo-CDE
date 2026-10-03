@@ -46,9 +46,11 @@
 - Flujo verificado end-to-end con Playwright: login → formulario (3 autocompletes con chips ✓, selects MUI, fecha/tiempo) → Guardar → **POST 201 Created** → redirect. Lista con filas reales y nombres ✓; detalle con todos los campos y nombres enriquecidos ✓ (screenshot /tmp/cde-ver-asesoria.png).
 - Asesoría de prueba creada desde el formulario: id 5, CDE-AS-0005, "Prueba Playwright flujo completo" ✓.
 
-### GAP DE DISEÑO PENDIENTE (decisión del usuario): visibilidad por unidades
-- El Create NO asigna unidades a la asesoría → las asesorías nuevas son invisibles para todos (el filtro del Get exige `AsesoriasUnidades`; ni el creador ni el asesor asignado las ven).
-- Opciones: (a) heredar unidades del creador en el Create, (b) ampliar el filtro del Get para incluir asesorías donde el usuario es asesor asignado, (c) ambos.
+### GAP DE DISEÑO RESUELTO (2026-10-03): visibilidad por unidades — **done**
+- Decisión del usuario: AMBOS. Implementado (commit `88ab8ea`):
+  1. Create: la asesoría hereda las unidades del usuario que la crea (IUsuarioSesion + UserManager inyectados en el Manejador; inserta AsesoriasUnidades tras el primer SaveChanges).
+  2. Get: el filtro incluye también asesorías donde el usuario es asesor asignado (`|| a.Asesores.Any(aa => aa.AsesorId == usuarioId)`).
+- Verificado con Playwright: asesoría creada desde el formulario (id 6, "Prueba visibilidad por unidades", Moda y Estilo + María + Diego Alvarado) recibió las 4 unidades del creador y APARECE en la lista ✓.
 
 ### T3. Ruta de edición de asesoría — pending
 - `EditarAsesoria.js` o ruta dual create/edit en NuevaAsesoria.js.
