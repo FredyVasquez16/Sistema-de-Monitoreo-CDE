@@ -27,9 +27,28 @@
 - Payload: formState.clienteId es array (autocomplete) → el payload lo sobrescribe con id single (compatibilidad) + listaClientes (ids) para el backend.
 - Decisión de dominio aplicada: contacto/asesor/cliente ≥1 (Neoserra "uno o más") — sin migración de BD (ContactoId no nullable queda protegido por validación).
 
-### T2. VerAsesoria.js sin mock → API real — **in_progress**
-- Quitar datos hardcodeados (`cliente: 'Café Copán'`, notas, etc.); consumir `/api/Asesoria/{id}` vía `obtenerAsesoriaPorId`.
-- Evidencia: (pendiente)
+### T2. VerAsesoria.js sin mock → API real — **done (2026-10-02)**
+- Alcance ampliado por hallazgos: `ListaAsesoria.js` también usaba mock, la ruta no llevaba `:id` y los DTOs no traían nombres.
+- Backend: DTOs enriquecidos (ClienteNombre, TipoContactoNombre, AreaAsesoriaNombre, FuenteFinanciamientoNombre; ContactoNombre/ClienteEmpresaNombre en AsesoriaContactoDto) vía ForMember en MappingProfile (convención del proyecto, fallback `RazonSocial ?? Nombre`); Includes faltantes agregados en AsesoriaGet y AsesoriaGetById.
+- Frontend: VerAsesoria.js consume `obtenerAsesoriaPorId(id)` con useParams, loading, estado vacío; ListaAsesoria.js consume `obtenerAsesorias()` con Link → `/asesoria/ver/{id}`; ruta `/asesoria/ver/:id` en App.js.
+- Evidencia: commit `05f04b6` (feat: vistas de asesorías conectadas a la API real con nombres enriquecidos en DTOs — 9 archivos). Delegado a gentle-ai-worker (completó, builds en verde: backend 0 errores, frontend compila).
+
+### T2.5. Verificación funcional del flujo (servicios + Playwright) — **done (2026-10-03)**
+- Servicios: PostgreSQL ✓ (ya estaba), backend :5006 ✓, frontend servido como build de producción en :3001 (el dev server CRA tarda >15 min en compilar — usar `npx serve -s build -l 3001`).
+- Usuario de prueba: `testasesor` / `Test123$` (creado via /api/Auth/signin). Datos de prueba: 4 unidades del CDE insertadas (unidades estaba VACÍA — gap), asignadas a testasesor y a la asesoría 4 via SQL.
+- Fixes descubiertos y aplicados por la verificación (commit `e9d2703`):
+  1. UTC: `fecha_sesion` es `timestamp with time zone` — Npgsql exige UTC; fix en el handler ACTIVO de AsesoriaCreate (¡el bloque viejo estaba comentado y el primer fix cayó dentro del comentario!) y en AsesoriaUpdate.
+  2. `tiempoContacto`: el form manda "h:mm" pero `TimeOnly?` exige "HH:mm:ss" — convertido en el payload.
+  3. `numeroParticipantes`: el form manda "" pero `int?` lo rechaza — número vacío viaja como null.
+  4. **Chips invisibles**: el `startAdornment` personalizado (ícono Search) REEMPLAZABA el de params.InputProps (donde MUI renderiza los chips) — fix: preservar params.InputProps.startAdornment junto al ícono.
+  5. `/ClienteEmpresa/buscar` buscaba CONTACTOS (usaba FiltroContactos) — reemplazado por búsqueda real de clientes/empresas (ClienteEmpresaFiltro nuevo siguiendo el patrón AsesorFiltro).
+  6. Redirect a `/asesorias` (plural, ruta inexistente) → corregido a `/asesoria`.
+- Flujo verificado end-to-end con Playwright: login → formulario (3 autocompletes con chips ✓, selects MUI, fecha/tiempo) → Guardar → **POST 201 Created** → redirect. Lista con filas reales y nombres ✓; detalle con todos los campos y nombres enriquecidos ✓ (screenshot /tmp/cde-ver-asesoria.png).
+- Asesoría de prueba creada desde el formulario: id 5, CDE-AS-0005, "Prueba Playwright flujo completo" ✓.
+
+### GAP DE DISEÑO PENDIENTE (decisión del usuario): visibilidad por unidades
+- El Create NO asigna unidades a la asesoría → las asesorías nuevas son invisibles para todos (el filtro del Get exige `AsesoriasUnidades`; ni el creador ni el asesor asignado las ven).
+- Opciones: (a) heredar unidades del creador en el Create, (b) ampliar el filtro del Get para incluir asesorías donde el usuario es asesor asignado, (c) ambos.
 
 ### T3. Ruta de edición de asesoría — pending
 - `EditarAsesoria.js` o ruta dual create/edit en NuevaAsesoria.js.
