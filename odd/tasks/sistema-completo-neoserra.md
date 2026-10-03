@@ -14,14 +14,13 @@
 
 ## Tareas
 
-### T0. Rescate: commit del WIP del módulo Asesorías — **in_progress**
+### T0. Rescate: commit del WIP del módulo Asesorías — **done (2026-10-01)**
 - Incluir: `Aplicacion/Asesorias/AsesoriaCreate.cs`, `WebAPI/Controllers/AsesoriaController.cs`, `WebAPI/Controllers/ContactoController.cs`, `Sistema-CDE-app/src/actions/ClienteEmpresaAction.js`, `Sistema-CDE-app/src/actions/AsesoriaAction.js` (nuevo), `Sistema-CDE-app/src/components/asesorias/NuevaAsesoria.js`, este doc.
 - Excluir: `.idea/`, `WebAPI/wwwroot/build/`, screenshots raíz, `usuario.json`, `skills-lock.json`, config de agentes (.agent/.agents/.atl/.claude).
 - Commit: `feat: vinculación de asesorías a clientes/empresas con autocompletes`
-- Evidencia: (pendiente)
+- Evidencia: commits `da95158` (feat: vinculación de asesorías a clientes/empresas con autocompletes — 6 archivos, 443 inserciones) y `72bd152` (docs: seguimiento ODD). Queda solo ruido `.idea` sin trackear (excluido por diseño, se limpia en T4).
 
-### T1. Corregir hack ContactoId=1 Temporal + verificar payload — pending
-- `AsesoriaCreate.cs`: al crear asesoría sin contactos inserta `ContactoId = 1 // Temporal` (contacto falso). Decidir arreglo real: `ContactoId` nullable en `AsesoriaContacto` (migración) o no crear registro sin contacto (la validación de ListaContactos puede ya exigir contactos).
+### T1. Corregir hack ContactoId=1 Temporal + verificar payload — **in_progress**
 - Verificar payload real de `guardarAsesoria`: el formulario arma `formState.clienteId` (array de ids) pero el backend espera `ListaClientes` — posible mismatch.
 - Evidencia: (pendiente)
 

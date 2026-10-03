@@ -19,7 +19,8 @@ import {
     obtenerFuentesFinanciamiento,
     buscarClientesEmpresasPorTermino,
     buscarContactosPorTermino,
-    buscarAsesoresPorTermino
+    buscarAsesoresPorTermino,
+    guardarAsesoria
 } from '../../actions/AsesoriaAction';
 
 const useStyles = makeStyles((theme) => ({
@@ -120,6 +121,7 @@ const NuevaAsesoria = () => {
     });
 
     const [errors, setErrors] = useState({});
+    const [saving, setSaving] = useState(false);
 
     const debouncedBusqueda = useCallback(
         debounce(async (inputValue, buscarAction, setOpciones, setLoadingState) => {
@@ -188,7 +190,7 @@ const NuevaAsesoria = () => {
 
     const handleCancel = () => { history.goBack(); };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const formDataToValidate = {
@@ -202,14 +204,42 @@ const NuevaAsesoria = () => {
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length === 0) {
-            console.log("Formulario válido, enviando datos:", {
-                ...formState,
-                listaClientes: selectedClientes.map(c => c.id),
-                listaContactos: selectedContactos.map(c => c.id),
-                listaAsesores: selectedAsesores.map(a => a.id)
-            });
-            alert("Asesoría guardada con éxito (simulación).");
-            history.push('/asesorias');
+            setSaving(true);
+            try {
+                const objetoAsesoria = {
+                    ...formState,
+                    clienteId: selectedClientes.length > 0 ? selectedClientes[0].id : 0,
+                    listaClientes: selectedClientes.map(c => c.id),
+                    listaContactos: selectedContactos.map(c => c.id),
+                    listaAsesores: selectedAsesores.map(a => a.id)
+                };
+                await guardarAsesoria(objetoAsesoria);
+                dispatch({
+                    type: 'OPEN_SNACKBAR',
+                    payload: { open: true, mensaje: 'Asesoría guardada con éxito.', severity: 'success' }
+                });
+                history.push('/asesorias');
+            } catch (error) {
+                let mensajeError = 'Error al guardar la asesoría';
+                if (error.response && error.response.data) {
+                    const errorData = error.response.data;
+                    if (typeof errorData === 'string') {
+                        mensajeError = errorData;
+                    } else if (errorData.mensaje) {
+                        mensajeError = errorData.mensaje;
+                    } else if (errorData.errores && Array.isArray(errorData.errores)) {
+                        mensajeError = errorData.errores.join(' ');
+                    }
+                } else if (error.message) {
+                    mensajeError = error.message;
+                }
+                dispatch({
+                    type: 'OPEN_SNACKBAR',
+                    payload: { open: true, mensaje: mensajeError, severity: 'error' }
+                });
+            } finally {
+                setSaving(false);
+            }
         } else {
             console.log("Errores de validación:", validationErrors);
         }
@@ -361,7 +391,9 @@ const NuevaAsesoria = () => {
                     </Paper>
 
                     <Grid container spacing={2} justify="flex-end" className={classes.buttonContainer}>
-                        <Grid item><Button type="submit" variant="contained" className={classes.buttonGuardar}>Guardar</Button></Grid>
+                        <Grid item><Button type="submit" variant="contained" className={classes.buttonGuardar} disabled={saving}>
+                            {saving ? <CircularProgress size={24} /> : 'Guardar'}
+                        </Button></Grid>
                         <Grid item><Button variant="contained" className={classes.buttonCancelar} onClick={handleCancel}>Cancelar</Button></Grid>
                     </Grid>
                 </form>

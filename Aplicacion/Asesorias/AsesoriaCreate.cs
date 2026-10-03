@@ -39,16 +39,15 @@ public class AsesoriaCreate
     {
         public EjecutaValidacion()
         {
-            RuleFor(x => x.ClienteId).GreaterThan(0).WithMessage("El Cliente es obligatorio.");
             RuleFor(x => x.FechaSesion).NotEmpty().WithMessage("La Fecha de Sesión es obligatoria.");
             RuleFor(x => x.TipoContactoId).GreaterThan(0).WithMessage("El Tipo de Contacto es obligatorio.");
             RuleFor(x => x.AreaAsesoriaId).GreaterThan(0).WithMessage("El Área de Asesoría es obligatoria.");
             RuleFor(x => x.FuenteFinanciamientoId).GreaterThan(0)
                 .WithMessage("La Fuente de Financiamiento es obligatoria.");
             
-            // ListaAsesores y ListaContactos son opcionales
-            RuleFor(x => x.ListaAsesores).NotNull().WithMessage("La lista de asesores es obligatoria.").When(x => x.ListaAsesores != null && x.ListaAsesores.Any());
-            RuleFor(x => x.ListaContactos).NotNull().WithMessage("La lista de contactos es obligatoria.").When(x => x.ListaContactos != null && x.ListaContactos.Any());
+            RuleFor(x => x.ListaClientes).NotEmpty().WithMessage("Debe seleccionar al menos un cliente/empresa.");
+            RuleFor(x => x.ListaAsesores).NotEmpty().WithMessage("Debe seleccionar al menos un asesor.");
+            RuleFor(x => x.ListaContactos).NotEmpty().WithMessage("Debe seleccionar al menos un contacto.");
         }
     }
 
@@ -236,7 +235,7 @@ public class AsesoriaCreate
                             throw new ManejadorExcepcion(HttpStatusCode.NotFound,
                                 new { mensaje = $"El cliente/empresa con el Id {clienteId} no fue encontrado." });
 
-                        // Solo crear registro si hay contactos
+                        // Solo crear registro si hay contactos (ahora siempre hay por validación)
                         if (request.ListaContactos != null && request.ListaContactos.Any())
                         {
                             foreach (var contactoId in request.ListaContactos)
@@ -248,16 +247,6 @@ public class AsesoriaCreate
                                     ClienteEmpresaId = clienteId
                                 });
                             }
-                        }
-                        else
-                        {
-                            // Si no hay contactos, crear registro solo con cliente
-                            _context.AsesoriasContactos.Add(new AsesoriaContacto
-                            {
-                                ContactoId = 1, // Temporal
-                                AsesoriaId = asesoria.Id,
-                                ClienteEmpresaId = clienteId
-                            });
                         }
                     }
                 }
@@ -280,25 +269,6 @@ public class AsesoriaCreate
                     }
                 }
                 
-                // Asignar contactos
-                if (request.ListaContactos != null)
-                {
-                    foreach (var contactoId in request.ListaContactos)
-                    {
-                        var contacto = await _context.Contactos.FindAsync(contactoId);
-                        if (contacto == null)
-                            throw new ManejadorExcepcion(HttpStatusCode.NotFound,
-                                new { mensaje = $"El contacto con el Id {contactoId} no fue encontrado." });
-
-                        _context.AsesoriasContactos.Add(new AsesoriaContacto
-                        {
-                            ContactoId = contacto.Id,
-                            AsesoriaId = asesoria.Id,
-                            ClienteEmpresaId = request.ClienteId // Asignar cliente empresa
-                        });
-                    }
-                }
-
                 // Generar código único y guardar 
                 asesoria.CodigoUnico = _codigoUnicoGenerator.GenerarCodigo("AS", asesoria.Id);
                 await _context.SaveChangesAsync(cancellationToken);
