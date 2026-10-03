@@ -52,9 +52,10 @@
   2. Get: el filtro incluye también asesorías donde el usuario es asesor asignado (`|| a.Asesores.Any(aa => aa.AsesorId == usuarioId)`).
 - Verificado con Playwright: asesoría creada desde el formulario (id 6, "Prueba visibilidad por unidades", Moda y Estilo + María + Diego Alvarado) recibió las 4 unidades del creador y APARECE en la lista ✓.
 
-### T3. Ruta de edición de asesoría — pending
-- `EditarAsesoria.js` o ruta dual create/edit en NuevaAsesoria.js.
-- Evidencia: (pendiente)
+### T3. Ruta de edición de asesoría — **done (2026-10-03)**
+- Evidencia: commit `690252e` (feat: ruta de edicion de asesoria con pre-fill de chips y PUT — 5 archivos, EditarAsesoria.js nuevo). Backend: AsesorDto.Id agregado (pre-fill de chips), AsesoriaUpdateEjecuta soporta ListaClientes (rebuild clientes × contactos + fallback ClienteId único). Frontend: EditarAsesoria.js (carga por id, pre-fill formState + chips, PUT con el mismo payload), ruta `/asesoria/editar/:id` en App.js, botón "Editar Asesoría" en VerAsesoria navega.
+- Verificado end-to-end con Playwright: /asesoria/editar/6 carga con 3 chips precargados ("Moda y Estilo S de RL"...), asunto y fecha; cambio de asunto → **PUT 200** "Asesoría actualizada exitosamente" → redirect a la lista; cambio persistido en BD y vinculaciones intactas (1 contacto, 1 asesor, 4 unidades).
+- Nota: el worker dejó las ediciones hechas y se trabó en los builds (4 min stall, 2º incidente del runtime hoy); builds + verificación se completaron inline. El botón de edición se llama "Actualizar" (no "Guardar").
 
 ### T4. Limpieza: .gitignore + postbuild — pending
 - Ignorar `WebAPI/wwwroot/build/`, screenshots raíz, ruido `.idea`. Arreglar postbuild "Acceso denegado".
