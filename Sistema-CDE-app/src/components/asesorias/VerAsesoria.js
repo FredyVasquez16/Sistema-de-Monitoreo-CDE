@@ -155,7 +155,7 @@ const VerAsesoria = () => {
                     <Typography className={classes.headerTitle}>Información de la Asesoría</Typography>
                     <Box>
                         <Button className={classes.newButton} startIcon={<Add />} variant="contained" onClick={() => history.push('/asesoria/nuevo')}>Nueva Asesoría</Button>
-                        <Button className={classes.editButton} startIcon={<Edit />} variant="contained" style={{ marginLeft: 8 }}>Editar Asesoría</Button>
+                        <Button className={classes.editButton} startIcon={<Edit />} variant="contained" style={{ marginLeft: 8 }} onClick={() => history.push(`/asesoria/editar/${id}`)}>Editar Asesoría</Button>
                         <Button className={classes.deleteButton} startIcon={<Delete />} variant="contained" style={{ marginLeft: 8 }}>Eliminar Asesoría</Button>
                     </Box>
                 </Paper>

@@ -30,6 +30,7 @@ public class AsesoriaUpdate
         
         public List<string> ListaAsesores { get; set; }
         public List<int> ListaContactos { get; set; }
+        public List<int> ListaClientes { get; set; }
     }
     
     //validador para la solicitud de creación de una asesoría
@@ -136,19 +137,49 @@ public class AsesoriaUpdate
                 }
             }
             
-            if (request.ListaContactos != null)
+            if (request.ListaContactos != null && request.ListaContactos.Count > 0)
             {
-                if(request.ListaContactos.Count > 0)
-                {
-                    // Eliminar contactos existentes
-                    var contactosBD = _context.AsesoriasContactos.Where(a => a.AsesoriaId == request.Id).ToList();
+                // Eliminar contactos existentes
+                var contactosBD = _context.AsesoriasContactos.Where(a => a.AsesoriaId == request.Id).ToList();
 
-                    foreach (var contactoEliminar in contactosBD)
+                foreach (var contactoEliminar in contactosBD)
+                {
+                    _context.AsesoriasContactos.Remove(contactoEliminar);
+                }
+
+                if (request.ListaClientes != null && request.ListaClientes.Any())
+                {
+                    // Mismo patrón clientes × contactos que el Create
+                    foreach (var clienteId in request.ListaClientes)
                     {
-                        _context.AsesoriasContactos.Remove(contactoEliminar);
+                        var clienteEmpresa = await _context.ClientesEmpresas.FindAsync(clienteId);
+                        if (clienteEmpresa == null)
+                        {
+                            throw new ManejadorExcepcion(HttpStatusCode.NotFound,
+                                new { mensaje = $"El cliente/empresa con el Id {clienteId} no fue encontrado." });
+                        }
+
+                        foreach (var contactoId in request.ListaContactos)
+                        {
+                            var contacto = await _context.Contactos.FindAsync(contactoId);
+                            if (contacto == null)
+                            {
+                                throw new ManejadorExcepcion(HttpStatusCode.NotFound,
+                                    new { mensaje = $"El contacto con el Id {contactoId} no fue encontrado." });
+                            }
+
+                            _context.AsesoriasContactos.Add(new AsesoriaContacto
+                            {
+                                AsesoriaId = request.Id,
+                                ContactoId = contactoId,
+                                ClienteEmpresaId = clienteId
+                            });
+                        }
                     }
-                    
-                    // Agregar nuevos contactos
+                }
+                else
+                {
+                    // Compatibilidad: sin ListaClientes se usa el ClienteId único
                     foreach (var id in request.ListaContactos)
                     {
                         var contacto = await _context.Contactos.FindAsync(id);
@@ -158,13 +189,12 @@ public class AsesoriaUpdate
                                 new { mensaje = $"El contacto con el Id {id} no fue encontrado." });
                         }
 
-                        var nuevoContacto = new AsesoriaContacto
+                        _context.AsesoriasContactos.Add(new AsesoriaContacto
                         {
                             AsesoriaId = request.Id,
                             ContactoId = id,
                             ClienteEmpresaId = request.ClienteId // ✅ Asignar correctamente
-                        };
-                        _context.AsesoriasContactos.Add(nuevoContacto);
+                        });
                     }
                 }
             }

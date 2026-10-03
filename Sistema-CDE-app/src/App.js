@@ -24,6 +24,7 @@ import ListaClienteEmpresa from './components/cliente_empresa/ListaClienteEmpres
 import NuevaAsesoria from './components/asesorias/NuevaAsesoria';
 import ListaAsesoria from './components/asesorias/ListaAsesoria';
 import VerAsesoria from './components/asesorias/VerAsesoria';
+import EditarAsesoria from './components/asesorias/EditarAsesoria';
 import VerReporte from './components/reportes/VerReporte';
 import NuevoCapacitacionEvento from './components/capacitacion_evento/NuevoCapacitacionEvento';
 import ListaCapacitacionEvento from './components/capacitacion_evento/ListaCapacitacionEvento';
@@ -116,6 +117,7 @@ function App() {
                         <RutasProtegidas path="/asesoria/nuevo" exact component={NuevaAsesoria} />
                         <RutasProtegidas path="/asesoria" exact component={ListaAsesoria} />
                         <RutasProtegidas path="/asesoria/ver/:id" exact component={VerAsesoria} />
+                        <RutasProtegidas path="/asesoria/editar/:id" exact component={EditarAsesoria} />
                         <RutasProtegidas path="/reporte" exact component={VerReporte} />
                         <RutasProtegidas path="/capacitacion_evento/nuevo" exact component={NuevoCapacitacionEvento} />
                         <RutasProtegidas path="/capacitacion_evento" exact component={ListaCapacitacionEvento} />
