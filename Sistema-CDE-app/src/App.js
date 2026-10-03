@@ -115,7 +115,7 @@ function App() {
                         <RutasProtegidas path="/cliente_empresa" exact component={ListaClienteEmpresa} />
                         <RutasProtegidas path="/asesoria/nuevo" exact component={NuevaAsesoria} />
                         <RutasProtegidas path="/asesoria" exact component={ListaAsesoria} />
-                        <RutasProtegidas path="/asesoria/ver" exact component={VerAsesoria} />
+                        <RutasProtegidas path="/asesoria/ver/:id" exact component={VerAsesoria} />
                         <RutasProtegidas path="/reporte" exact component={VerReporte} />
                         <RutasProtegidas path="/capacitacion_evento/nuevo" exact component={NuevoCapacitacionEvento} />
                         <RutasProtegidas path="/capacitacion_evento" exact component={ListaCapacitacionEvento} />

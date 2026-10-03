@@ -70,7 +70,11 @@ public class AsesoriaGet
                 .ThenInclude(aa => aa.Asesor)
                 .Include(x => x.AsesoriasContactos)
                 .ThenInclude(ac => ac.Contacto)
+                .ThenInclude(ac => ac.ClienteEmpresa)
                 .Include(x => x.AreaAsesoria)
+                .Include(x => x.TiposContacto)
+                .Include(x => x.FuenteFinanciamiento)
+                .Include(x => x.Cliente)
                 .ToListAsync(cancellationToken);
 
             // 4. Mapear las entidades filtradas al DTO de respuesta.

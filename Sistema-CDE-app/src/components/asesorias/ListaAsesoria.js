@@ -1,14 +1,16 @@
 // src/components/pages/ListaAsesoria.js
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     AppBar, Toolbar, Typography, Button, Box, Paper, Grid, TextField,
     InputAdornment, IconButton, Table, TableContainer, TableHead, TableRow,
-    TableCell, TableBody, Link
+    TableCell, TableBody, Link, CircularProgress
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Search, FilterList, Add } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
+import { useStateValue } from '../../Context/store';
+import { obtenerAsesorias } from '../../actions/AsesoriaAction';
 
 // Estilos consistentes con las vistas anteriores
 const useStyles = makeStyles((theme) => ({
@@ -64,20 +66,38 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-// Datos de ejemplo para la tabla de asesorías
-const createData = (cliente, fecha, asesor, area, tipo, tiempo) => {
-    return { cliente, fecha, asesor, area, tipo, tiempo };
+// Formatea la fecha de sesión en un formato legible (es-HN)
+const formatearFecha = (fecha) => {
+    if (!fecha) return '—';
+    const d = new Date(fecha);
+    return isNaN(d.getTime()) ? fecha : d.toLocaleDateString('es-HN', { year: 'numeric', month: 'long', day: 'numeric' });
 };
-
-const rows = [
-    createData('Café Copán', '2025-08-15', 'Kristel Padilla', 'Finanzas', 'Presencial', '1:30'),
-    createData('Inversiones S. de R.L.', '2025-08-14', 'Jose Manuel', 'Marketing Digital', 'En Línea', '1:00'),
-    createData('Tienda La Bendición', '2025-08-12', 'Kristel Padilla', 'Plan de Negocios', 'Telefónico', '0:45'),
-];
 
 const ListaAsesoria = () => {
     const classes = useStyles();
     const history = useHistory();
+    const [, dispatch] = useStateValue();
+    const [rows, setRows] = useState([]);
+    const [cargando, setCargando] = useState(true);
+
+    useEffect(() => {
+        const cargarAsesorias = async () => {
+            try {
+                const data = await obtenerAsesorias();
+                setRows(data || []);
+            } catch (error) {
+                console.error('Error al cargar las asesorías:', error);
+                dispatch({
+                    type: 'OPEN_SNACKBAR',
+                    payload: { open: true, mensaje: 'Error al cargar las asesorías', severity: 'error' },
+                });
+            } finally {
+                setCargando(false);
+            }
+        };
+
+        cargarAsesorias();
+    }, [dispatch]);
 
     const handleNavigate = (path) => {
         history.push(path);
@@ -116,37 +136,42 @@ const ListaAsesoria = () => {
                         </Grid>
                     </Grid>
 
-                    <TableContainer style={{ marginTop: '20px' }}>
-                        <Table>
-                            <TableHead className={classes.tableHeader}>
-                                <TableRow>
-                                    <TableCell className={classes.headerCell}>Cliente/Empresa</TableCell>
-                                    <TableCell className={classes.headerCell}>Fecha de Sesión</TableCell>
-                                    <TableCell className={classes.headerCell}>Asesor Principal</TableCell>
-                                    <TableCell className={classes.headerCell}>Área de Asesoría</TableCell>
-                                    <TableCell className={classes.headerCell}>Tipo de Contacto</TableCell>
-                                    <TableCell className={classes.headerCell}>Tiempo (h:mm)</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {rows.map((row, index) => (
-                                    <TableRow key={index} style={{ backgroundColor: index % 2 === 0 ? 'white' : '#F5F5F5' }}>
-                                        <TableCell>
-                                            {/* Eventualmente, este enlace podría llevar a ver el detalle de la asesoría */}
-                                            <Link component="button" variant="body2">
-                                                {row.cliente}
-                                            </Link>
-                                        </TableCell>
-                                        <TableCell>{row.fecha}</TableCell>
-                                        <TableCell>{row.asesor}</TableCell>
-                                        <TableCell>{row.area}</TableCell>
-                                        <TableCell>{row.tipo}</TableCell>
-                                        <TableCell>{row.tiempo}</TableCell>
+                    {cargando ? (
+                        <Box display="flex" justifyContent="center" alignItems="center" style={{ marginTop: '40px' }}>
+                            <CircularProgress style={{ color: '#D5A408' }} />
+                        </Box>
+                    ) : (
+                        <TableContainer style={{ marginTop: '20px' }}>
+                            <Table>
+                                <TableHead className={classes.tableHeader}>
+                                    <TableRow>
+                                        <TableCell className={classes.headerCell}>Cliente/Empresa</TableCell>
+                                        <TableCell className={classes.headerCell}>Fecha de Sesión</TableCell>
+                                        <TableCell className={classes.headerCell}>Asesor Principal</TableCell>
+                                        <TableCell className={classes.headerCell}>Área de Asesoría</TableCell>
+                                        <TableCell className={classes.headerCell}>Tipo de Contacto</TableCell>
+                                        <TableCell className={classes.headerCell}>Tiempo (h:mm)</TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                </TableHead>
+                                <TableBody>
+                                    {rows.map((row, index) => (
+                                        <TableRow key={index} style={{ backgroundColor: index % 2 === 0 ? 'white' : '#F5F5F5' }}>
+                                            <TableCell>
+                                                <Link component="button" variant="body2" onClick={() => handleNavigate(`/asesoria/ver/${row.id}`)}>
+                                                    {row.clienteNombre}
+                                                </Link>
+                                            </TableCell>
+                                            <TableCell>{formatearFecha(row.fechaSesion)}</TableCell>
+                                            <TableCell>{row.asesores && row.asesores[0] ? row.asesores[0].nombreCompleto : '—'}</TableCell>
+                                            <TableCell>{row.areaAsesoriaNombre}</TableCell>
+                                            <TableCell>{row.tipoContactoNombre}</TableCell>
+                                            <TableCell>{row.tiempoContacto && typeof row.tiempoContacto === 'string' ? row.tiempoContacto.slice(0, 5) : '—'}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    )}
                 </Paper>
             </main>
         </div>

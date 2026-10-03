@@ -31,6 +31,11 @@ public class AsesoriaGetById
                 .ThenInclude(y => y.Asesor)
                 .Include(x => x.AsesoriasContactos)
                 .ThenInclude(x => x.Contacto)
+                .ThenInclude(ac => ac.ClienteEmpresa)
+                .Include(x => x.AreaAsesoria)
+                .Include(x => x.TiposContacto)
+                .Include(x => x.FuenteFinanciamiento)
+                .Include(x => x.Cliente)
                 .FirstOrDefaultAsync(a => a.Id == request.Id);
             
             if (asesoria == null)

@@ -1,11 +1,14 @@
 // src/components/pages/VerAsesoria.js
 
-import React from 'react';
-import { 
-    AppBar, Toolbar, Typography, Button, Box, Paper, Grid, List, ListItem, ListItemText
+import React, { useEffect, useState } from 'react';
+import {
+    AppBar, Toolbar, Typography, Button, Box, Paper, Grid, List, ListItem, ListItemText, CircularProgress
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Add, Edit, Delete } from '@material-ui/icons';
+import { useParams, useHistory } from 'react-router-dom';
+import { useStateValue } from '../../Context/store';
+import { obtenerAsesoriaPorId } from '../../actions/AsesoriaAction';
 
 // Estilos consistentes con las vistas anteriores
 const useStyles = makeStyles((theme) => ({
@@ -53,25 +56,17 @@ const useStyles = makeStyles((theme) => ({
     listItem: { padding: theme.spacing(0.5, 0) },
 }));
 
-// Datos de ejemplo para poblar la vista
-const asesoriaData = {
-    cliente: 'Café Copán',
-    fechaSesion: '15 de Agosto, 2025',
-    tiempoContacto: '1:30',
-    tipoContacto: 'Presencial',
-    areaAsesoria: 'Finanzas',
-    ayudaAdicional: 'Asesoría Especializada',
-    asunto: 'Análisis de Flujo de Caja Q3',
-    fuenteFinanciamiento: 'Otra',
-    centro: 'SERCOTEC',
-    numeroParticipantes: 3,
-    notas: 'Se revisó el flujo de caja del tercer trimestre. Se identificaron oportunidades de ahorro en costos de materia prima. El cliente preparará un nuevo presupuesto para la próxima sesión.',
-    referidoA: 'Banco de Occidente',
-    descripcionReferido: 'Se refiere al cliente para explorar opciones de crédito pyme.',
-    descripcionDerivado: 'N/A',
-    descripcionAsesoriaEspecializada: 'Se requiere un experto en contabilidad agrícola para optimizar la declaración de impuestos.',
-    asesores: ['Kristel Padilla', 'Jose Manuel (Especialista)'],
-    contactos: ['Ana Méndez (Propietaria)', 'Carlos Pineda (Contador)'],
+// Formatea la fecha de sesión en un formato legible (es-HN)
+const formatearFecha = (fecha) => {
+    if (!fecha) return '—';
+    const d = new Date(fecha);
+    return isNaN(d.getTime()) ? fecha : d.toLocaleDateString('es-HN', { year: 'numeric', month: 'long', day: 'numeric' });
+};
+
+// El tiempo de contacto llega como "HH:mm:ss"; se muestran los primeros 5 caracteres (HH:mm)
+const formatearTiempo = (tiempo) => {
+    if (!tiempo || typeof tiempo !== 'string') return '—';
+    return tiempo.slice(0, 5);
 };
 
 const InfoRow = ({ label, value }) => {
@@ -96,6 +91,54 @@ const InfoCard = ({ title, children }) => {
 
 const VerAsesoria = () => {
     const classes = useStyles();
+    const { id } = useParams();
+    const history = useHistory();
+    const [, dispatch] = useStateValue();
+    const [asesoria, setAsesoria] = useState(null);
+    const [cargando, setCargando] = useState(true);
+
+    useEffect(() => {
+        const cargarAsesoria = async () => {
+            try {
+                const data = await obtenerAsesoriaPorId(id);
+                setAsesoria(data);
+            } catch (error) {
+                console.error('Error al cargar la asesoría:', error);
+                dispatch({
+                    type: 'OPEN_SNACKBAR',
+                    payload: { open: true, mensaje: 'Error al cargar la asesoría', severity: 'error' },
+                });
+            } finally {
+                setCargando(false);
+            }
+        };
+
+        cargarAsesoria();
+    }, [id, dispatch]);
+
+    // Indicador de carga
+    if (cargando) {
+        return (
+            <div className={classes.root}>
+                <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+                    <CircularProgress style={{ color: '#D5A408' }} />
+                </Box>
+            </div>
+        );
+    }
+
+    // Estado vacío: asesoría no encontrada
+    if (!asesoria) {
+        return (
+            <div className={classes.root}>
+                <main className={classes.content}>
+                    <Paper className={classes.headerBar}>
+                        <Typography className={classes.headerTitle}>Asesoría no encontrada</Typography>
+                    </Paper>
+                </main>
+            </div>
+        );
+    }
 
     return (
         <div className={classes.root}>
@@ -111,7 +154,7 @@ const VerAsesoria = () => {
                 <Paper className={classes.headerBar}>
                     <Typography className={classes.headerTitle}>Información de la Asesoría</Typography>
                     <Box>
-                        <Button className={classes.newButton} startIcon={<Add />} variant="contained">Nueva Asesoría</Button>
+                        <Button className={classes.newButton} startIcon={<Add />} variant="contained" onClick={() => history.push('/asesoria/nuevo')}>Nueva Asesoría</Button>
                         <Button className={classes.editButton} startIcon={<Edit />} variant="contained" style={{ marginLeft: 8 }}>Editar Asesoría</Button>
                         <Button className={classes.deleteButton} startIcon={<Delete />} variant="contained" style={{ marginLeft: 8 }}>Eliminar Asesoría</Button>
                     </Box>
@@ -121,28 +164,29 @@ const VerAsesoria = () => {
                     {/* --- Columna Izquierda --- */}
                     <Grid item xs={12} md={8}>
                         <Paper className={classes.mainPaper}>
-                            <InfoRow label="Cliente/Empresa" value={asesoriaData.cliente} />
-                            <InfoRow label="Fecha de Sesión" value={asesoriaData.fechaSesion} />
-                            <InfoRow label="Tiempo de Contacto" value={`${asesoriaData.tiempoContacto} (h:mm)`} />
-                            <InfoRow label="Tipo de Contacto" value={asesoriaData.tipoContacto} />
-                            <InfoRow label="Área de Asesoría" value={asesoriaData.areaAsesoria} />
-                            <InfoRow label="Ayuda Adicional" value={asesoriaData.ayudaAdicional} />
-                            <InfoRow label="Asunto" value={asesoriaData.asunto} />
-                            <InfoRow label="Número de Asistencias" value={asesoriaData.numeroParticipantes} />
+                            <InfoRow label="Cliente/Empresa" value={asesoria.clienteNombre} />
+                            <InfoRow label="Fecha de Sesión" value={formatearFecha(asesoria.fechaSesion)} />
+                            <InfoRow label="Tiempo de Contacto" value={asesoria.tiempoContacto ? `${formatearTiempo(asesoria.tiempoContacto)} (h:mm)` : '—'} />
+                            <InfoRow label="Tipo de Contacto" value={asesoria.tipoContactoNombre} />
+                            <InfoRow label="Área de Asesoría" value={asesoria.areaAsesoriaNombre} />
+                            <InfoRow label="Ayuda Adicional" value={asesoria.ayudaAdicional} />
+                            <InfoRow label="Asunto" value={asesoria.asunto} />
+                            <InfoRow label="Número de Asistencias" value={asesoria.numeroParticipantes} />
+                            <InfoRow label="Fuente de Financiamiento" value={asesoria.fuenteFinanciamientoNombre} />
                         </Paper>
-                        
+
                         <InfoCard title="Notas">
-                            <Typography className={classes.notesSection}>{asesoriaData.notas}</Typography>
+                            <Typography className={classes.notesSection}>{asesoria.notas}</Typography>
                         </InfoCard>
 
                         <InfoCard title="Información de Referidos">
-                            <InfoRow label="Referido a" value={asesoriaData.referidoA} />
-                            <InfoRow label="Descripción del Referido" value={asesoriaData.descripcionReferido} />
+                            <InfoRow label="Referido a" value={asesoria.referidoA} />
+                            <InfoRow label="Descripción del Referido" value={asesoria.descripcionReferido} />
                         </InfoCard>
 
                         <InfoCard title="Información Adicional">
-                             <InfoRow label="Descripción de Derivado" value={asesoriaData.descripcionDerivado} />
-                             <InfoRow label="Asesoría Especializada" value={asesoriaData.descripcionAsesoriaEspecializada} />
+                             <InfoRow label="Descripción de Derivado" value={asesoria.descripcionDerivado} />
+                             <InfoRow label="Asesoría Especializada" value={asesoria.descripcionAsesoriaEspecializada} />
                         </InfoCard>
                     </Grid>
 
@@ -150,9 +194,9 @@ const VerAsesoria = () => {
                     <Grid item xs={12} md={4}>
                          <InfoCard title="Asesores Involucrados">
                              <List dense>
-                                {asesoriaData.asesores.map((nombre, index) => (
+                                {(asesoria.asesores || []).map((asesor, index) => (
                                     <ListItem key={index} className={classes.listItem}>
-                                        <ListItemText primary={nombre} />
+                                        <ListItemText primary={asesor.nombreCompleto} />
                                     </ListItem>
                                 ))}
                             </List>
@@ -160,9 +204,9 @@ const VerAsesoria = () => {
 
                          <InfoCard title="Contactos Participantes">
                              <List dense>
-                                {asesoriaData.contactos.map((nombre, index) => (
+                                {(asesoria.contactos || []).map((contacto, index) => (
                                     <ListItem key={index} className={classes.listItem}>
-                                        <ListItemText primary={nombre} />
+                                        <ListItemText primary={contacto.contactoNombre} />
                                     </ListItem>
                                 ))}
                             </List>

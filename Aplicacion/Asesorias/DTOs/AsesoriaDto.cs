@@ -21,6 +21,12 @@ public class AsesoriaDto
     public string? DescripcionReferido { get; set; }
     public string? DescripcionDerivado { get; set; }
     public string? DescripcionAsesoriaEspecializada { get; set; }
+
+    // Nombres enriquecidos para las vistas (patrón ClienteEmpresaDto)
+    public string? ClienteNombre { get; set; }
+    public string? TipoContactoNombre { get; set; }
+    public string? AreaAsesoriaNombre { get; set; }
+    public string? FuenteFinanciamientoNombre { get; set; }
     
     public ICollection<AsesorDto> Asesores { get; set; }
     public ICollection<AsesoriaContactoDto> Contactos { get; set; }

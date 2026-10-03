@@ -20,11 +20,14 @@
 - Commit: `feat: vinculación de asesorías a clientes/empresas con autocompletes`
 - Evidencia: commits `da95158` (feat: vinculación de asesorías a clientes/empresas con autocompletes — 6 archivos, 443 inserciones) y `72bd152` (docs: seguimiento ODD). Queda solo ruido `.idea` sin trackear (excluido por diseño, se limpia en T4).
 
-### T1. Corregir hack ContactoId=1 Temporal + verificar payload — **in_progress**
-- Verificar payload real de `guardarAsesoria`: el formulario arma `formState.clienteId` (array de ids) pero el backend espera `ListaClientes` — posible mismatch.
-- Evidencia: (pendiente)
+### T1. Corregir hack ContactoId=1 Temporal + verificar payload — **done (2026-10-02)**
+- Evidencia: commit `c69a5be` (fix: guardado real de asesorías y corrección de doble inserción de AsesoriaContacto). Backend 0 errores, frontend compila.
+- Nota: delegado a gentle-ai-worker, que editó a medias y falló (error de modelo tras 1041 turns); 3 arreglos quirúrgicos inline completaron la tarea (bloque viejo duplicado eliminado, comillas escapadas, </Button> faltante).
+- Hallazgo adicional: el formulario NUNCA guardaba — handleSubmit solo hacía console.log + alert("simulación"). Ahora llama guardarAsesoria (POST /Asesoria) con snackbar y estado saving.
+- Payload: formState.clienteId es array (autocomplete) → el payload lo sobrescribe con id single (compatibilidad) + listaClientes (ids) para el backend.
+- Decisión de dominio aplicada: contacto/asesor/cliente ≥1 (Neoserra "uno o más") — sin migración de BD (ContactoId no nullable queda protegido por validación).
 
-### T2. VerAsesoria.js sin mock → API real — pending
+### T2. VerAsesoria.js sin mock → API real — **in_progress**
 - Quitar datos hardcodeados (`cliente: 'Café Copán'`, notas, etc.); consumir `/api/Asesoria/{id}` vía `obtenerAsesoriaPorId`.
 - Evidencia: (pendiente)
 
