@@ -152,17 +152,15 @@ namespace WebAPI.Controllers
             });
         }
 
-        [HttpGet("buscar")] // La ruta será /api/Contacto/buscar?termino=juan
-        public async Task<ActionResult<ResponseDto<List<ContactoDto>>>> BuscarContactos([FromQuery] string termino)
+        [HttpGet("buscar")] // La ruta es /api/ClienteEmpresa/buscar?termino=tech — busca clientes/empresas
+        public async Task<ActionResult<ResponseDto<List<ClienteEmpresaFiltroDto>>>> BuscarClientesEmpresas([FromQuery] string termino)
         {
-            // Usamos el mismo mediador que probablemente ya tienes para obtener la lista de contactos,
-            // pero con un filtro. Si no tienes un DTO, puedes devolver List<Dominio.Contacto>.
-            var contactos = await Mediator.Send(new Consulta.FiltroContactos() { TerminoBusqueda = termino });
-    
-            return new ResponseDto<List<ContactoDto>>
+            var clientes = await Mediator.Send(new ClienteEmpresaFiltro.ClienteEmpresaFiltroEjecuta { TerminoBusqueda = termino });
+
+            return new ResponseDto<List<ClienteEmpresaFiltroDto>>
             {
                 Status = true,
-                Data = contactos
+                Data = clientes
             };
         }
         

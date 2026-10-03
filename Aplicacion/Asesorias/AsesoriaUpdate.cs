@@ -96,7 +96,7 @@ public class AsesoriaUpdate
             
             // Actualizar los campos de la asesoría
             asesoria.ClienteId = request.ClienteId != 0 ? request.ClienteId : asesoria.ClienteId;
-            asesoria.FechaSesion = request.FechaSesion != default ? request.FechaSesion : asesoria.FechaSesion;
+            asesoria.FechaSesion = request.FechaSesion != default ? DateTime.SpecifyKind(request.FechaSesion, DateTimeKind.Utc) : asesoria.FechaSesion; // Npgsql exige UTC
             asesoria.TiempoContacto = request.TiempoContacto ?? asesoria.TiempoContacto;
             asesoria.TipoContactoId = request.TipoContactoId != 0 ? request.TipoContactoId : asesoria.TipoContactoId;
             asesoria.AreaAsesoriaId = request.AreaAsesoriaId != 0 ? request.AreaAsesoriaId : asesoria.AreaAsesoriaId;

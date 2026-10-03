@@ -97,7 +97,7 @@ public class AsesoriaCreate
             var asesoria = new Dominio.Asesorias
             {
                 ClienteId = request.ClienteId,
-                FechaSesion = request.FechaSesion,
+                FechaSesion = DateTime.SpecifyKind(request.FechaSesion, DateTimeKind.Utc), // Npgsql exige UTC para timestamp with time zone
                 TiempoContacto = request.TiempoContacto,
                 TipoContactoId = request.TipoContactoId,
                 AreaAsesoriaId = request.AreaAsesoriaId,
@@ -206,7 +206,7 @@ public class AsesoriaCreate
                 {
                     CodigoUnico = "TEMP", // Valor temporal, se actualiza después
                     ClienteId = request.ClienteId,
-                    FechaSesion = request.FechaSesion,
+                    FechaSesion = DateTime.SpecifyKind(request.FechaSesion, DateTimeKind.Utc), // Npgsql exige UTC para timestamp with time zone
                     TiempoContacto = request.TiempoContacto,
                     TipoContactoId = request.TipoContactoId,
                     AreaAsesoriaId = request.AreaAsesoriaId,

@@ -209,6 +209,10 @@ const NuevaAsesoria = () => {
                 const objetoAsesoria = {
                     ...formState,
                     clienteId: selectedClientes.length > 0 ? selectedClientes[0].id : 0,
+                    // TimeOnly del backend exige formato HH:mm:ss; el campo llega como "h:mm"
+                    tiempoContacto: formState.tiempoContacto ? `${formState.tiempoContacto}:00`.padStart(8, '0') : null,
+                    // int? del backend rechaza "" — número vacío viaja como null
+                    numeroParticipantes: formState.numeroParticipantes === '' || formState.numeroParticipantes === null ? null : Number(formState.numeroParticipantes),
                     listaClientes: selectedClientes.map(c => c.id),
                     listaContactos: selectedContactos.map(c => c.id),
                     listaAsesores: selectedAsesores.map(a => a.id)
@@ -218,7 +222,7 @@ const NuevaAsesoria = () => {
                     type: 'OPEN_SNACKBAR',
                     payload: { open: true, mensaje: 'Asesoría guardada con éxito.', severity: 'success' }
                 });
-                history.push('/asesorias');
+                history.push('/asesoria'); // ruta real de la lista (singular)
             } catch (error) {
                 let mensajeError = 'Error al guardar la asesoría';
                 if (error.response && error.response.data) {
@@ -279,7 +283,13 @@ const NuevaAsesoria = () => {
                                 {React.cloneElement(params.InputProps.endAdornment, { style: { display: 'none' } })}
                             </React.Fragment>
                         ),
-                        startAdornment: (<InputAdornment position="start"><Search /></InputAdornment>),
+                        startAdornment: (
+                            <React.Fragment>
+                                <InputAdornment position="start"><Search /></InputAdornment>
+                                {/* Los chips de la selección viven en params.InputProps.startAdornment — se pierden si se sobrescribe */}
+                                {params.InputProps.startAdornment}
+                            </React.Fragment>
+                        ),
                     }}
                 />
             )}
