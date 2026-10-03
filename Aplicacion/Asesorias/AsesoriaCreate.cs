@@ -4,6 +4,8 @@ using Aplicacion.ManejadorError;
 using Dominio;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Persistencia;
 
 namespace Aplicacion.Asesorias;
@@ -55,11 +57,15 @@ public class AsesoriaCreate
     {
         private readonly SistemaMonitoreaCdeContext _context;
         private readonly ICodigoUnicoGenerator _codigoUnicoGenerator;
+        private readonly IUsuarioSesion _usuarioSesion;
+        private readonly UserManager<Usuario> _userManager;
 
-        public Manejador(SistemaMonitoreaCdeContext context, ICodigoUnicoGenerator codigoUnicoGenerator)
+        public Manejador(SistemaMonitoreaCdeContext context, ICodigoUnicoGenerator codigoUnicoGenerator, IUsuarioSesion usuarioSesion, UserManager<Usuario> userManager)
         {
             _context = context;
             _codigoUnicoGenerator = codigoUnicoGenerator;
+            _usuarioSesion = usuarioSesion;
+            _userManager = userManager;
         }
 
         public async Task<Unit> Handle(AsesoriaCreateEjecuta request, CancellationToken cancellationToken)
@@ -224,6 +230,29 @@ public class AsesoriaCreate
 
                 _context.Asesorias.Add(asesoria);
                 await _context.SaveChangesAsync(cancellationToken); // Guarda para obtener el ID generado
+
+                // Asignar las unidades del usuario que crea la asesoría (visibilidad por unidades)
+                var userNameCreador = _usuarioSesion.ObtenerUsuarioSesion();
+                if (!string.IsNullOrEmpty(userNameCreador))
+                {
+                    var usuarioCreador = await _userManager.FindByNameAsync(userNameCreador);
+                    if (usuarioCreador != null)
+                    {
+                        var unidadesDelCreador = await _context.UsuariosUnidades
+                            .Where(uu => uu.UsuarioId == usuarioCreador.Id)
+                            .Select(uu => uu.UnidadId)
+                            .ToListAsync(cancellationToken);
+
+                        foreach (var unidadId in unidadesDelCreador)
+                        {
+                            _context.AsesoriasUnidades.Add(new AsesoriaUnidad
+                            {
+                                AsesoriaId = asesoria.Id,
+                                UnidadId = unidadId
+                            });
+                        }
+                    }
+                }
 
                 // Asignar clientes/empresas
                 if (request.ListaClientes != null && request.ListaClientes.Any())

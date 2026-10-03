@@ -63,9 +63,10 @@ public class AsesoriaGet
                 return new List<AsesoriaDto>();
             }
 
-            // Filtrar las asesorías basándonos en las unidades del asesor.
+            // Filtrar las asesorías basándonos en las unidades del asesor, o en las que es asesor asignado.
             var asesorias = await _context.Asesorias
-                .Where(a => a.AsesoriasUnidades.Any(au => unidadesDelAsesorIds.Contains(au.UnidadId)))  // Usamos la tabla intermedia
+                .Where(a => a.AsesoriasUnidades.Any(au => unidadesDelAsesorIds.Contains(au.UnidadId))
+                         || a.Asesores.Any(aa => aa.AsesorId == usuarioId))  // Usamos las tablas intermedias
                 .Include(x => x.Asesores)
                 .ThenInclude(aa => aa.Asesor)
                 .Include(x => x.AsesoriasContactos)
