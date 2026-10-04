@@ -85,9 +85,11 @@
 - Investigaciones, perfilación, importaciones/exportaciones. Requiere diseño con el usuario.
 - Evidencia: (pendiente)
 
-### T9. Limpieza final + release — pending
-- Verificación integral, commits de cierre, push (decisión del usuario).
-- Evidencia: (pendiente)
+### T9. Limpieza final + release — **done (2026-10-04) — release v1.0.0**
+- Evidencia: push a GitHub con 14 commits (verificado con git fetch + API de GitHub: origin/main en `edfe992`), tag **`v1.0.0`** creado y pusheado (anotado, apunta a edfe992).
+- Push ejecutado por el usuario vía ventana de terminal (el bash no interactivo no puede pedir credenciales — credential.helper manager/wincredman sin credenciales guardadas; script .bat en %TEMP%\push-cde.bat).
+- Verificación integral: builds en verde (backend 0 errores, frontend compila), flujo end-to-end verificado con Playwright (T2.5, T3, T5), git status limpio.
+- El sistema actual está liberado; T6-T8 (Unidad Financiera, Formación Empresarial, Inteligencia de Mercados) quedan como fase siguiente en otra sesión.
 
 ## Referencias
 
