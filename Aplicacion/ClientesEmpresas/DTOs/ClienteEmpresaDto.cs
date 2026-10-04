@@ -16,4 +16,5 @@ public class ClienteEmpresaDto
     public int Telefono { get; set; }
     public string Correo { get; set; }
     public string EstatusActual { get; set; }
+    public string Departamento { get; set; } // Para el reporte de clientes por departamento
 }
