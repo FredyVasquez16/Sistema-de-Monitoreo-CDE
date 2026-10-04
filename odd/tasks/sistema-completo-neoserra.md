@@ -57,9 +57,13 @@
 - Verificado end-to-end con Playwright: /asesoria/editar/6 carga con 3 chips precargados ("Moda y Estilo S de RL"...), asunto y fecha; cambio de asunto → **PUT 200** "Asesoría actualizada exitosamente" → redirect a la lista; cambio persistido en BD y vinculaciones intactas (1 contacto, 1 asesor, 4 unidades).
 - Nota: el worker dejó las ediciones hechas y se trabó en los builds (4 min stall, 2º incidente del runtime hoy); builds + verificación se completaron inline. El botón de edición se llama "Actualizar" (no "Guardar").
 
-### T4. Limpieza: .gitignore + postbuild — pending
-- Ignorar `WebAPI/wwwroot/build/`, screenshots raíz, ruido `.idea`. Arreglar postbuild "Acceso denegado".
-- Evidencia: (pendiente)
+### T4. Limpieza: .gitignore + postbuild — **done (2026-10-03)**
+- Evidencia: commit `9e3ed60` (chore: limpiar .gitignore y postbuild con xcopy).
+- .gitignore: `WebAPI/wwwroot/` completo (era artefacto trackeado), `Sistema-CDE-app/build/`, dirs de agentes (.agent/.agents/.atl/.claude), `skills-lock.json`, `usuario.json` (credenciales de prueba), screenshots de referencia.
+- `.idea/` y `WebAPI/wwwroot/` untrackeados con `git rm -r --cached` (archivos quedan en disco; el backend sigue funcionando).
+- postbuild: `move` → `xcopy /E /Y /I /Q` — el "Acceso denegado" era move intentando fusionar directorios con archivos en conflicto (wwwroot ya tenía el build de una sesión anterior, directamente en la raíz, no en build/). Probado: 19 archivos copiados sin error, y `Sistema-CDE-app/build/` se conserva (el serve de :3001 sigue vivo).
+- Nota: la app hace `serviceWorker.unregister()` — sin riesgo de cache vieja.
+- git status queda LIMPIO (sin ruido de configuración ni artefactos).
 
 ### T5. Reportes reales — pending
 - `reportes/` tiene solo `VerReporte.js`. Definir alcance de reportes con el usuario (qué reportes necesita el CDE).
