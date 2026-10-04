@@ -65,9 +65,13 @@
 - Nota: la app hace `serviceWorker.unregister()` — sin riesgo de cache vieja.
 - git status queda LIMPIO (sin ruido de configuración ni artefactos).
 
-### T5. Reportes reales — pending
-- `reportes/` tiene solo `VerReporte.js`. Definir alcance de reportes con el usuario (qué reportes necesita el CDE).
-- Evidencia: (pendiente)
+### T5. Reportes reales — **done (2026-10-03)**
+- Evidencia: commit `94dd92a` (feat: reportes con datos reales — 2 archivos).
+- VerReporte.js: los 3 charts (asesorías por mes Bar, clientes por departamento Doughnut, contactos por género Doughnut) conectados a la API via Promise.all de las 3 acciones existentes; agregaciones calculadas en frontend (proporcionado para el volumen actual); loading + snackbar error; colores ciclan con módulo.
+- Backend: `ClienteEmpresaDto` ahora incluye `Departamento` (1 línea, mapeo por convención) — sin él el gráfico de departamentos quedaba vacío aunque la BD tenía datos.
+- Fix cosmético: `maintainAspectRatio: false` + Box height 300 — el doughnut se aplastaba en cards angostas.
+- Verificado con Playwright + screenshot: los 3 charts renderizan completos con datos reales (Octubre: 2 asesorías; 5 departamentos; género Femenino/Masculino).
+- Nota: los reportes muestran lo que el usuario puede ver (modelo de seguridad de unidades) — reportes globales por rol, camino futuro.
 
 ### T6. Unidad Financiera — pending
 - Módulo según servicios del CDE (acompañamiento, vinculación bancaria). Requiere diseño con el usuario.
