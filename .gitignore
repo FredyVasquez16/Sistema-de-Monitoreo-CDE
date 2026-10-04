@@ -708,3 +708,17 @@ fabric.properties
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/rider,csharp,aspnetcore,jetbrains,visualstudiocode,dotnetcore
+# === CDE MIPYME ROC: artifacts and tooling ===
+# Production build outputs
+WebAPI/wwwroot/
+Sistema-CDE-app/build/
+# Agent/tooling config (machine-local)
+.agent/
+.agents/
+.atl/
+.claude/
+skills-lock.json
+usuario.json
+# Working reference screenshots at repo root
+formulario-*.png
+cde-*.png
