@@ -12,7 +12,31 @@
 - Rescate decidido por el usuario: commit del WIP como unidad de trabajo antes de corregir.
 - Git: main sincronizada con origin; el WIP solo existía en el working tree.
 
-## Tareas
+## FASE DE CORRECCIÓN — hallazgos del barrido Playwright (2026-10-04)
+
+### F1. Bug de doble desenvoltura `response.data.data` — **done (2026-10-04)**
+- FIX aplicado: helper `extraerData(response)` acepta ambas formas (axios crudo o array desenvuelto), reemplazando `(response.data.data || [])` en las 20 ocurrencias (10 por archivo). Los 9 catálogos crudos siguen funcionando y los 6 desenvueltos ahora cargan.
+- Verificado con **Chrome DevTools MCP**: select "Fuente de Financiamiento" muestra las 7 opciones reales (antes snackbar de error + vacío), "Nivel" sigue mostrando Nivel 1-3, 0 errores de consola.
+- Evidencia: commit `42bdefd`. Nota: el backend se caía entre llamadas del shell (backgrounded en bash no detached) — ahora se levanta con PowerShell Start-Process (proceso independiente que sobrevive al shell).
+- Revisado con RDD: ver `gentle_review` lineage de este commit.
+
+### F2. Doble navbar en 5 vistas — **PENDIENTE**
+- Vistas con AppBar propio apilado sobre el navbar de la app (+ nombre de usuario hardcodeado "Freddy Yoel Vasquez"): VerContacto, VerAsesoria, VerReporte, VerCapacitacionEvento, NuevoSesion.
+- Verificado: navbars:2 en /contactos/ver/:id, /asesoria/ver/:id, /reporte, /capacitacion_evento/ver, /capacitacion_evento/sesion/nueva.
+- Fix: quitar el AppBar propio de cada vista (el navbar de la app ya lo cubre).
+
+### F3. Botones muertos (sin onClick) — **PENDIENTE**
+- VerContacto: 5 botones de navegación (dentro del navbar duplicado — desaparecen con F2).
+- VerAsesoria: "Eliminar Asesoría" (backend DELETE existe pero requiere rol Admin — decidir: wire con confirmación + ocultar para no-Admin, o quitar).
+- VerClienteEmpresa: "Asignar" (card Capacitaciones Recibidas, línea 286) y "Registrar" (card Asesorías Recibidas, línea 294).
+
+### F4. Ruta rota `/capacitacion_evento/ver` sin `:id` — **PENDIENTE**
+- La ruta no recibe id (mismo defecto que tenían las asesorías antes de T2); el detalle no puede cargar datos. Fix: `:id` en la ruta + useParams en VerCapacitacionEvento + navegación desde la lista.
+
+### Nota de causa raíz (2026-10-04)
+- Durante el barrido el backend (:5006) estaba CAÍDO (matado por los taskkill de los rebuilds) → ERR_CONNECTION_REFUSED en todas las llamadas. Eso explicaba la mayor parte de los síntomas reportados (login, listas, acciones). Ya está arriba y verificado. Lección: SIEMPRE verificar :5006 arriba antes de probar en vivo.
+
+## Tareas originales
 
 ### T0. Rescate: commit del WIP del módulo Asesorías — **done (2026-10-01)**
 - Incluir: `Aplicacion/Asesorias/AsesoriaCreate.cs`, `WebAPI/Controllers/AsesoriaController.cs`, `WebAPI/Controllers/ContactoController.cs`, `Sistema-CDE-app/src/actions/ClienteEmpresaAction.js`, `Sistema-CDE-app/src/actions/AsesoriaAction.js` (nuevo), `Sistema-CDE-app/src/components/asesorias/NuevaAsesoria.js`, este doc.
