@@ -21,6 +21,16 @@ import { obtenerNivelesFormalizacion } from '../../actions/ClienteEmpresaAction'
 import { obtenerTiposComercioInternacional } from '../../actions/ClienteEmpresaAction';
 import { obtenerFuentesFinanciamiento } from '../../actions/ClienteEmpresaAction';
 
+// Las acciones de catálogo devuelven formas distintas: algunas el axios response crudo
+// (array en .data.data) y otras ya desenvuelven el array. Este helper acepta ambas.
+const extraerData = (response) => {
+    if (!response) return [];
+    if (Array.isArray(response)) return response;
+    if (response.data && Array.isArray(response.data.data)) return response.data.data;
+    if (response.data && Array.isArray(response.data)) return response.data;
+    return [];
+};
+
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: '#033565',
@@ -341,7 +351,7 @@ const NuevoClienteEmpresa = () => {
                 const response = await obtenerTiposClientesNivel();
                 // Ajusta según la estructura de tu backend
                 setTiposClienteNivel(
-                    (response.data.data || []).map(t => ({
+                    extraerData(response).map(t => ({
                         value: t.id,
                         label: t.descripcion
                     }))
@@ -365,7 +375,7 @@ const NuevoClienteEmpresa = () => {
             try {
                 const response = await obtenerServiciosSolicitados();
                 setServiciosSolicitados(
-                    (response.data.data || []).map(s => ({
+                    extraerData(response).map(s => ({
                         value: s.id,
                         label: s.descripcion
                     }))
@@ -389,7 +399,7 @@ const NuevoClienteEmpresa = () => {
             try {
                 const response = await obtenerTiposClientesEstado();
                 setTiposClienteEstado(
-                    (response.data.data || []).map(e => ({
+                    extraerData(response).map(e => ({
                         value: e.id,
                         label: e.descripcion
                     }))
@@ -413,7 +423,7 @@ const NuevoClienteEmpresa = () => {
             try {
                 const response = await obtenerTiposOrganizacion();
                 setTiposOrganizacion(
-                    (response.data.data || []).map(t => ({
+                    extraerData(response).map(t => ({
                         value: t.id,
                         label: t.descripcion
                     }))
@@ -437,7 +447,7 @@ const NuevoClienteEmpresa = () => {
             try {
                 const response = await obtenerTiposEmpresa();
                 setTiposEmpresa(
-                    (response.data.data || []).map(t => ({
+                    extraerData(response).map(t => ({
                         value: t.id,
                         label: t.descripcion
                     }))
@@ -461,7 +471,7 @@ const NuevoClienteEmpresa = () => {
             try {
                 const response = await obtenerTamanosEmpresa();
                 setTamanosEmpresa(
-                    (response.data.data || []).map(t => ({
+                    extraerData(response).map(t => ({
                         value: t.id,
                         label: t.descripcion
                     }))
@@ -485,7 +495,7 @@ const NuevoClienteEmpresa = () => {
             try {
                 const response = await obtenerTipoContabilidades();
                 setTiposContabilidad(
-                    (response.data.data || []).map(t => ({
+                    extraerData(response).map(t => ({
                         value: t.id,
                         label: t.descripcion
                     }))
@@ -509,7 +519,7 @@ const NuevoClienteEmpresa = () => {
             try {
                 const response = await obtenerNivelesFormalizacion();
                 setNivelesFormalizacion(
-                    (response.data.data || []).map(n => ({
+                    extraerData(response).map(n => ({
                         value: n.id,
                         label: n.descripcion
                     }))
@@ -533,7 +543,7 @@ const NuevoClienteEmpresa = () => {
             try {
                 const response = await obtenerTiposComercioInternacional();
                 setTiposComercioInternacional(
-                    (response.data.data || []).map(t => ({
+                    extraerData(response).map(t => ({
                         value: t.id,
                         label: t.descripcion
                     }))
@@ -557,7 +567,7 @@ const NuevoClienteEmpresa = () => {
             try {
                 const response = await obtenerFuentesFinanciamiento();
                 setFuentesFinanciamiento(
-                    (response.data.data || []).map(f => ({
+                    extraerData(response).map(f => ({
                         value: f.id,
                         label: f.descripcion
                     }))
