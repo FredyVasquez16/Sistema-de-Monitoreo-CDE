@@ -20,10 +20,11 @@
 - Evidencia: commit `42bdefd`. Nota: el backend se caía entre llamadas del shell (backgrounded en bash no detached) — ahora se levanta con PowerShell Start-Process (proceso independiente que sobrevive al shell).
 - Revisado con RDD: ver `gentle_review` lineage de este commit.
 
-### F2. Doble navbar en 5 vistas — **PENDIENTE**
-- Vistas con AppBar propio apilado sobre el navbar de la app (+ nombre de usuario hardcodeado "Freddy Yoel Vasquez"): VerContacto, VerAsesoria, VerReporte, VerCapacitacionEvento, NuevoSesion.
-- Verificado: navbars:2 en /contactos/ver/:id, /asesoria/ver/:id, /reporte, /capacitacion_evento/ver, /capacitacion_evento/sesion/nueva.
-- Fix: quitar el AppBar propio de cada vista (el navbar de la app ya lo cubre).
+### F2. Doble navbar en 5 vistas — **done (2026-10-13)**
+- Fix: borrado el bloque `<AppBar className={classes.appBar}>…</AppBar>` propio de las 5 vistas (sed por rango, robusto a indentación) + imports AppBar/Toolbar limpiados donde quedaron sin uso.
+- Verificado en vivo con Playwright CLI: navbars=1 en las 5 rutas afectadas.
+- Evidencia: commit `db0f6a6`. El runtime del worker quedó inutilizable en esa sesión (nvidia glm-5.3-flash no respondía) → F2 se hizo inline (incidente registrado).
+- RDD: revisión RDD del rango post-release completada — lineage `review-0a0b425356cfa07a` **APPROVED** y burned (token acknowledge nativo). Los 4 hallazgos advisory fueron sugerencias no bloqueantes: extraer `extraerData` a un util compartido (course of F2), tests del helper no existentes, fallback silencioso a [], doc del F2 viejo.
 
 ### F3. Botones muertos (sin onClick) — **PENDIENTE**
 - VerContacto: 5 botones de navegación (dentro del navbar duplicado — desaparecen con F2).
