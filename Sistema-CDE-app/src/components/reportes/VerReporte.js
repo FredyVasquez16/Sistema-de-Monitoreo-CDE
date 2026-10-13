@@ -1,7 +1,7 @@
 // src/components/pages/VerReporte.js
 
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, Typography, Button, Box, Paper, Grid, CircularProgress } from '@material-ui/core';
+import { Typography, Button, Box, Paper, Grid, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Bar, Doughnut } from 'react-chartjs-2';
 import { useHistory } from 'react-router-dom';
@@ -150,13 +150,6 @@ const VerReporte = () => {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static" className={classes.appBar}>
-                <Toolbar>
-                    <img src="/Logo CDE.png" alt="Logo CDE MIPYME" className={classes.logo} />
-                    <Box className={classes.navLinks}><Button color="inherit" className={classes.navButton}>Indicadores y Reportes</Button></Box>
-                    <Box className={classes.userInfo}><Typography variant="subtitle1" style={{fontWeight: 'bold'}}>Freddy Yoel Vasquez</Typography><Typography variant="body2">CDE MYPIME ROC</Typography></Box>
-                </Toolbar>
-            </AppBar>
 
             <main className={classes.content}>
                 {cargando ? (

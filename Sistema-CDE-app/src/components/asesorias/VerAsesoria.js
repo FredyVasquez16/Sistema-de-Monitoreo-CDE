@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-    AppBar, Toolbar, Typography, Button, Box, Paper, Grid, List, ListItem, ListItemText, CircularProgress
+    Typography, Button, Box, Paper, Grid, List, ListItem, ListItemText, CircularProgress
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Add, Edit, Delete } from '@material-ui/icons';
@@ -142,13 +142,6 @@ const VerAsesoria = () => {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static" className={classes.appBar}>
-                 <Toolbar>
-                    <img src="/Logo CDE.png" alt="Logo CDE MIPYME" className={classes.logo} />
-                    <Box className={classes.navLinks}><Button color="inherit" className={classes.navButton}>Asesoría</Button>{/* ...otros botones... */}</Box>
-                    <Box className={classes.userInfo}><Typography variant="subtitle1" style={{fontWeight: 'bold'}}>Freddy Yoel Vasquez</Typography><Typography variant="body2">CDE MYPIME ROC</Typography></Box>
-                </Toolbar>
-            </AppBar>
 
             <main className={classes.content}>
                 <Paper className={classes.headerBar}>
