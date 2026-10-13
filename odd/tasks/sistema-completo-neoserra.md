@@ -37,6 +37,10 @@
 ### Nota de causa raíz (2026-10-04)
 - Durante el barrido el backend (:5006) estaba CAÍDO (matado por los taskkill de los rebuilds) → ERR_CONNECTION_REFUSED en todas las llamadas. Eso explicaba la mayor parte de los síntomas reportados (login, listas, acciones). Ya está arriba y verificado. Lección: SIEMPRE verificar :5006 arriba antes de probar en vivo.
 
+### RDD F3+F4 — estado: STALLED en el relay (no por el código)
+- Lineage `review-f38a98b62d108fc6`: START ok (tier medium, lens reliability, 279 líneas), pero el lens superó el límite del relay (931680ms vs 931675ms) → slot declarado inalcanzable. El withdraw del provider falló en el CLI nativo: primero por ownership del repo D: (resuelto con `git config --global safe.directory "*"`), luego por rctx2 inválido (contexto consumido por la primera corrida).
+- Si se quiere completar la revisión nativa: subir `GENTLE_PI_REVIEW_RELAY_PI_TIMEOUT_MS` (>15 min) y reintentar, o nueva revisión. El cambio funciona y la entrega sigue política ordinaria.
+
 ## Tareas originales
 
 ### T0. Rescate: commit del WIP del módulo Asesorías — **done (2026-10-01)**
