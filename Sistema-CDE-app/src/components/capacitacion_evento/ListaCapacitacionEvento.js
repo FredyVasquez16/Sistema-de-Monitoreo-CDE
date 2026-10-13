@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     AppBar, Toolbar, Typography, Button, Box, Paper, Grid, TextField,
     InputAdornment, IconButton, Table, TableContainer, TableHead, TableRow,
-    TableCell, TableBody, Link
+    TableCell, TableBody, Link, CircularProgress
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Search, FilterList, Add } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
+import { useStateValue } from '../../Context/store';
+import { obtenerCapacitaciones } from '../../actions/CapacitacionEventoAction';
 
 // Estilos consistentes con las vistas anteriores
 const useStyles = makeStyles((theme) => ({
@@ -62,20 +64,38 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-// Datos de ejemplo para la tabla
-const createData = (titulo, fechaInicio, fechaCierre, tema, estado) => {
-    return { titulo, fechaInicio, fechaCierre, tema, estado };
+// Formatea la fecha en un formato legible (es-HN)
+const formatearFecha = (fecha) => {
+    if (!fecha) return '—';
+    const d = new Date(fecha);
+    return isNaN(d.getTime()) ? fecha : d.toLocaleDateString('es-HN', { year: 'numeric', month: 'long', day: 'numeric' });
 };
-
-const rows = [
-    createData('Introducción a la Contabilidad para Emprendedores', '2025-09-10', '2025-09-10', 'Contabilidad', 'Abierto'),
-    createData('Marketing Digital en Redes Sociales', '2025-09-15', '2025-09-17', 'Marketing', 'Abierto'),
-    createData('Taller de Plan de Negocios', '2025-08-20', '2025-08-22', 'Plan de Negocios', 'Completo'),
-];
 
 const ListaCapacitacionEvento = () => {
     const classes = useStyles();
     const history = useHistory();
+    const [, dispatch] = useStateValue();
+    const [rows, setRows] = useState([]);
+    const [cargando, setCargando] = useState(true);
+
+    useEffect(() => {
+        const cargarCapacitaciones = async () => {
+            try {
+                const data = await obtenerCapacitaciones();
+                setRows(data || []);
+            } catch (error) {
+                console.error('Error al cargar las capacitaciones y eventos:', error);
+                dispatch({
+                    type: 'OPEN_SNACKBAR',
+                    payload: { open: true, mensaje: 'Error al cargar las capacitaciones y eventos', severity: 'error' },
+                });
+            } finally {
+                setCargando(false);
+            }
+        };
+
+        cargarCapacitaciones();
+    }, [dispatch]);
 
     const handleNavigate = (path) => {
         history.push(path);
@@ -126,20 +146,27 @@ const ListaCapacitacionEvento = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows.map((row, index) => (
-                                    <TableRow key={index} style={{ backgroundColor: index % 2 === 0 ? 'white' : '#F5F5F5' }}>
-                                        <TableCell>
-                                            {/* Más adelante, este enlace llevará a la vista de detalle */}
-                                            <Link component="button" variant="body2">
-                                                {row.titulo}
-                                            </Link>
+                                {cargando ? (
+                                    <TableRow>
+                                        <TableCell colSpan={5} align="center">
+                                            <CircularProgress style={{ color: '#D5A408' }} />
                                         </TableCell>
-                                        <TableCell>{row.fechaInicio}</TableCell>
-                                        <TableCell>{row.fechaCierre}</TableCell>
-                                        <TableCell>{row.tema}</TableCell>
-                                        <TableCell>{row.estado}</TableCell>
                                     </TableRow>
-                                ))}
+                                ) : (
+                                    rows.map((row, index) => (
+                                        <TableRow key={row.id} style={{ backgroundColor: index % 2 === 0 ? 'white' : '#F5F5F5' }}>
+                                            <TableCell>
+                                                <Link component="button" variant="body2" onClick={() => handleNavigate(`/capacitacion_evento/ver/${row.id}`)}>
+                                                    {row.titulo}
+                                                </Link>
+                                            </TableCell>
+                                            <TableCell>{formatearFecha(row.fechaInicio)}</TableCell>
+                                            <TableCell>{formatearFecha(row.fechaCierre)}</TableCell>
+                                            <TableCell>{row.temaPrincipalId}</TableCell>
+                                            <TableCell>{row.estado || '—'}</TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
                             </TableBody>
                         </Table>
                     </TableContainer>

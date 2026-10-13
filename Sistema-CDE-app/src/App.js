@@ -121,7 +121,7 @@ function App() {
                         <RutasProtegidas path="/reporte" exact component={VerReporte} />
                         <RutasProtegidas path="/capacitacion_evento/nuevo" exact component={NuevoCapacitacionEvento} />
                         <RutasProtegidas path="/capacitacion_evento" exact component={ListaCapacitacionEvento} />
-                        <RutasProtegidas path="/capacitacion_evento/ver" exact component={VerCapacitacionEvento} />
+                        <RutasProtegidas path="/capacitacion_evento/ver/:id" exact component={VerCapacitacionEvento} />
                         <RutasProtegidas path="/capacitacion_evento/sesion/nueva" exact component={NuevoSesion} />
 
                         {/* --- Ruta por Defecto --- */}

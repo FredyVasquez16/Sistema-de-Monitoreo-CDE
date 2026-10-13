@@ -1,10 +1,12 @@
-import React from 'react';
-import { 
-    Typography, Button, Box, Paper, Grid, List, ListItem, ListItemText, Chip, Link
+import React, { useEffect, useState } from 'react';
+import {
+    Typography, Button, Box, Paper, Grid, CircularProgress
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Add, Edit, Delete } from '@material-ui/icons';
-import { useHistory } from 'react-router-dom';
+import { Add, Delete } from '@material-ui/icons';
+import { useHistory, useParams } from 'react-router-dom';
+import { useStateValue } from '../../Context/store';
+import { obtenerCapacitacionPorId, eliminarCapacitacion } from '../../actions/CapacitacionEventoAction';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -73,27 +75,81 @@ const InfoCard = ({ title, actionButton, children }) => {
     );
 };
 
-// Datos de ejemplo
-const capacitacionData = {
-    titulo: 'Marketing Digital en Redes Sociales',
-    descripcion: 'Aprende a crear y gestionar campañas de marketing efectivas en las principales redes sociales.',
-    fechaInicio: '15 de Septiembre, 2025',
-    fechaCierre: '17 de Septiembre, 2025',
-    temaPrincipal: 'Marketing',
-    estado: 'Abierto',
-    temas: ['Marketing y Ventas', 'Social Media', 'Comercio Electrónico'],
-    sesiones: [
-        { id: 1, titulo: 'Introducción a Facebook e Instagram Ads', fecha: '2025-09-15' },
-        { id: 2, titulo: 'Creación de Contenido Atractivo', fecha: '2025-09-16' },
-        { id: 3, titulo: 'Análisis de Métricas y ROI', fecha: '2025-09-17' },
-    ],
-    participantes: ['Ana Méndez (Café Copán)', 'Juan Pérez (JP Soluciones)'],
-    instructores: ['Gabriela Castillo (Experta en Marketing)'],
+// Formatea una fecha en un formato legible (es-HN)
+const formatearFecha = (fecha) => {
+    if (!fecha) return '—';
+    const d = new Date(fecha);
+    return isNaN(d.getTime()) ? fecha : d.toLocaleDateString('es-HN', { year: 'numeric', month: 'long', day: 'numeric' });
+};
+
+// La hora programada llega como "HH:mm:ss"; se muestran los primeros 5 caracteres (HH:mm)
+const formatearHora = (hora) => {
+    if (!hora || typeof hora !== 'string') return '—';
+    return hora.slice(0, 5);
 };
 
 const VerCapacitacionEvento = () => {
     const classes = useStyles();
+    const { id } = useParams();
     const history = useHistory();
+    const [, dispatch] = useStateValue();
+    const [capacitacion, setCapacitacion] = useState(null);
+    const [cargando, setCargando] = useState(true);
+
+    useEffect(() => {
+        const cargarCapacitacion = async () => {
+            try {
+                const data = await obtenerCapacitacionPorId(id);
+                setCapacitacion(data);
+            } catch (error) {
+                console.error('Error al cargar la capacitación:', error);
+                dispatch({
+                    type: 'OPEN_SNACKBAR',
+                    payload: { open: true, mensaje: 'Error al cargar la capacitación', severity: 'error' },
+                });
+            } finally {
+                setCargando(false);
+            }
+        };
+
+        cargarCapacitacion();
+    }, [id, dispatch]);
+
+    const handleEliminar = async () => {
+        if (!window.confirm('¿Eliminar esta capacitación? Esta acción no se puede deshacer.')) return;
+        try {
+            await eliminarCapacitacion(id);
+            dispatch({ type: 'OPEN_SNACKBAR', payload: { open: true, mensaje: 'Capacitación eliminada.', severity: 'success' } });
+            history.push('/capacitacion_evento');
+        } catch (error) {
+            console.error('Error al eliminar la capacitación:', error);
+            dispatch({ type: 'OPEN_SNACKBAR', payload: { open: true, mensaje: error.response?.data?.mensaje || 'No se pudo eliminar la capacitación.', severity: 'error' } });
+        }
+    };
+
+    // Indicador de carga
+    if (cargando) {
+        return (
+            <div className={classes.root}>
+                <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+                    <CircularProgress style={{ color: '#D5A408' }} />
+                </Box>
+            </div>
+        );
+    }
+
+    // Estado vacío: capacitación no encontrada
+    if (!capacitacion) {
+        return (
+            <div className={classes.root}>
+                <main className={classes.content}>
+                    <Paper className={classes.headerBar}>
+                        <Typography className={classes.headerTitle}>Capacitación no encontrada</Typography>
+                    </Paper>
+                </main>
+            </div>
+        );
+    }
 
     return (
         <div className={classes.root}>
@@ -103,8 +159,7 @@ const VerCapacitacionEvento = () => {
                     <Typography className={classes.headerTitle}>Detalle de la Capacitación</Typography>
                     <Box>
                         <Button className={classes.newButton} startIcon={<Add />} variant="contained" onClick={() => history.push('/capacitacion_evento/nuevo')}>Nueva</Button>
-                        <Button className={classes.editButton} startIcon={<Edit />} variant="contained" style={{ marginLeft: 8 }}>Editar</Button>
-                        <Button className={classes.deleteButton} startIcon={<Delete />} variant="contained" style={{ marginLeft: 8 }}>Eliminar</Button>
+                        <Button className={classes.deleteButton} startIcon={<Delete />} variant="contained" style={{ marginLeft: 8 }} onClick={handleEliminar}>Eliminar</Button>
                     </Box>
                 </Paper>
 
@@ -112,54 +167,36 @@ const VerCapacitacionEvento = () => {
                     {/* --- Columna Izquierda --- */}
                     <Grid item xs={12} md={8}>
                         <Paper className={classes.mainPaper}>
-                            <Typography variant="h5" gutterBottom style={{ fontWeight: 'bold' }}>{capacitacionData.titulo}</Typography>
-                            <InfoRow label="Fecha" value={`${capacitacionData.fechaInicio} - ${capacitacionData.fechaCierre}`} />
-                            <InfoRow label="Tema Principal" value={capacitacionData.temaPrincipal} />
-                            <InfoRow label="Estado" value={capacitacionData.estado} />
-                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', marginTop: 16 }}>Temas a Tratar:</Typography>
-                            <Box className={classes.chipContainer}>
-                                {capacitacionData.temas.map(tema => <Chip key={tema} label={tema} />)}
-                            </Box>
+                            <Typography variant="h5" gutterBottom style={{ fontWeight: 'bold' }}>{capacitacion.titulo}</Typography>
+                            <InfoRow label="Fecha" value={`${formatearFecha(capacitacion.fechaInicio)} - ${formatearFecha(capacitacion.fechaCierre)}`} />
+                            <InfoRow label="Fecha de Informes" value={formatearFecha(capacitacion.fechaInformes)} />
+                            <InfoRow label="Hora Programada" value={formatearHora(capacitacion.horaProgramada)} />
+                            <InfoRow label="Total de Horas" value={capacitacion.totalHoras != null ? capacitacion.totalHoras : '—'} />
+                            <InfoRow label="Tema Principal" value={capacitacion.temaPrincipalId} />
+                            <InfoRow label="Estado" value={capacitacion.estado || '—'} />
+                            <InfoRow label="Descripción" value={capacitacion.descripcion} />
                         </Paper>
-                        
-                        {/* --- NUEVA SECCIÓN DE SESIONES --- */}
-                        <InfoCard 
+
+                        {/* --- SECCIÓN DE SESIONES --- */}
+                        <InfoCard
                             title="Sesiones Programadas"
                             actionButton={<Button size="small" variant="contained" className={classes.newButton} startIcon={<Add />} onClick={() => history.push('/capacitacion_evento/sesion/nueva')}>Añadir Sesión</Button>}
                         >
-                            <List dense>
-                                {capacitacionData.sesiones.map(sesion => (
-                                     <ListItem key={sesion.id} divider>
-                                        <ListItemText 
-                                            primary={sesion.titulo} 
-                                            secondary={`Fecha: ${sesion.fecha}`} 
-                                        />
-                                        <Link component="button" variant="body2" style={{marginRight: '16px'}}>Editar</Link>
-                                        <Link component="button" variant="body2" className={classes.actionLink}>Eliminar</Link>
-                                     </ListItem>
-                                ))}
-                            </List>
+                            <InfoRow label="Número de Sesiones" value={capacitacion.numeroSesiones} />
                         </InfoCard>
                     </Grid>
 
                     {/* --- Columna Derecha --- */}
                     <Grid item xs={12} md={4}>
-                         <InfoCard 
-                            title="Participantes Inscritos"
-                            actionButton={<Button size="small" variant="contained" className={classes.newButton} startIcon={<Add />}>Añadir</Button>}
-                        >
-                            <List dense>
-                                {capacitacionData.participantes.map(nombre => <ListItem key={nombre}><ListItemText primary={nombre} /></ListItem>)}
-                            </List>
+                         <InfoCard title="Participantes">
+                            <InfoRow label="Número Máximo de Participantes" value={capacitacion.numeroMaxParticipantes != null ? capacitacion.numeroMaxParticipantes : '—'} />
                         </InfoCard>
 
-                         <InfoCard 
-                            title="Instructores"
-                            actionButton={<Button size="small" variant="contained" className={classes.newButton} startIcon={<Add />}>Añadir</Button>}
-                        >
-                            <List dense>
-                               {capacitacionData.instructores.map(nombre => <ListItem key={nombre}><ListItemText primary={nombre} /></ListItem>)}
-                            </List>
+                         <InfoCard title="Ubicación">
+                            <InfoRow label="Lugar de Desarrollo" value={capacitacion.lugarDesarrollo} />
+                            <InfoRow label="Dirección" value={capacitacion.direccion} />
+                            <InfoRow label="Municipio" value={capacitacion.municipio} />
+                            <InfoRow label="Departamento" value={capacitacion.departamento} />
                         </InfoCard>
                     </Grid>
                 </Grid>

@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Add, Edit, Delete } from '@material-ui/icons';
 import { useParams, useHistory } from 'react-router-dom';
 import { useStateValue } from '../../Context/store';
-import { obtenerAsesoriaPorId } from '../../actions/AsesoriaAction';
+import { obtenerAsesoriaPorId, eliminarAsesoria } from '../../actions/AsesoriaAction';
 
 // Estilos consistentes con las vistas anteriores
 const useStyles = makeStyles((theme) => ({
@@ -116,6 +116,18 @@ const VerAsesoria = () => {
         cargarAsesoria();
     }, [id, dispatch]);
 
+    const handleEliminar = async () => {
+        if (!window.confirm('¿Eliminar esta asesoría? Esta acción no se puede deshacer.')) return;
+        try {
+            await eliminarAsesoria(id);
+            dispatch({ type: 'OPEN_SNACKBAR', payload: { open: true, mensaje: 'Asesoría eliminada.', severity: 'success' } });
+            history.push('/asesoria');
+        } catch (error) {
+            console.error('Error al eliminar la asesoría:', error);
+            dispatch({ type: 'OPEN_SNACKBAR', payload: { open: true, mensaje: error.response?.data?.mensaje || 'No se pudo eliminar la asesoría.', severity: 'error' } });
+        }
+    };
+
     // Indicador de carga
     if (cargando) {
         return (
@@ -149,7 +161,7 @@ const VerAsesoria = () => {
                     <Box>
                         <Button className={classes.newButton} startIcon={<Add />} variant="contained" onClick={() => history.push('/asesoria/nuevo')}>Nueva Asesoría</Button>
                         <Button className={classes.editButton} startIcon={<Edit />} variant="contained" style={{ marginLeft: 8 }} onClick={() => history.push(`/asesoria/editar/${id}`)}>Editar Asesoría</Button>
-                        <Button className={classes.deleteButton} startIcon={<Delete />} variant="contained" style={{ marginLeft: 8 }}>Eliminar Asesoría</Button>
+                        <Button className={classes.deleteButton} startIcon={<Delete />} variant="contained" style={{ marginLeft: 8 }} onClick={handleEliminar}>Eliminar Asesoría</Button>
                     </Box>
                 </Paper>
 

@@ -283,7 +283,7 @@ const VerClienteEmpresa = () => {
                             </List>
                         </InfoCard>
 
-                        <InfoCard title="Capacitaciones Recibidas" actionButton={<Button size="small" variant="contained" className={classes.newButton} startIcon={<Add />}>Asignar</Button>}>
+                        <InfoCard title="Capacitaciones Recibidas" actionButton={<Button size="small" variant="contained" className={classes.newButton} startIcon={<Add />} onClick={() => handleNavigate('/capacitacion_evento/nuevo')}>Asignar</Button>}>
                             <List dense>
                                 {/* Aquí iría un mapeo de las capacitaciones del cliente */}
                                 <ListItem className={classes.listItem}><ListItemText primary="Finanzas para Emprendedores" /></ListItem>
@@ -291,7 +291,7 @@ const VerClienteEmpresa = () => {
                             </List>
                         </InfoCard>
 
-                        <InfoCard title="Asesorías Recibidas" actionButton={<Button size="small" variant="contained" className={classes.newButton} startIcon={<Add />}>Registrar</Button>}>
+                        <InfoCard title="Asesorías Recibidas" actionButton={<Button size="small" variant="contained" className={classes.newButton} startIcon={<Add />} onClick={() => handleNavigate('/asesoria/nuevo')}>Registrar</Button>}>
                             <List dense>
                                 {/* Aquí iría un mapeo de las asesorías del cliente */}
                                 <ListItem className={classes.listItem}><ListItemText primary="Asistencia Técnica en Plan de Negocios" /></ListItem>
