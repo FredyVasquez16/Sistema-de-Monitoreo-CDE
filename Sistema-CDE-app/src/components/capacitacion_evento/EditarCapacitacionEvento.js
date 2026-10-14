@@ -1,0 +1,388 @@
+import React, { useState, useEffect } from 'react';
+import {
+    Typography, Button, Paper, Grid, TextField,
+    Select, MenuItem, FormControl, Input, Chip, FormHelperText, CircularProgress
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { useHistory, useParams } from 'react-router-dom';
+import { validarCapacitacion } from '../../validators/CapacitacionValidator';
+import { useStateValue } from '../../Context/store';
+import {
+    actualizarCapacitacion,
+    obtenerCapacitacionPorId,
+    obtenerTemasCapacitacion,
+    obtenerTiposCapacitacion,
+    obtenerFormatosPrograma
+} from '../../actions/CapacitacionEventoAction';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        backgroundColor: '#033565',
+        minHeight: '100vh',
+        paddingBottom: theme.spacing(4),
+    },
+    appBar: { backgroundColor: '#D5A408', color: '#000000' },
+    logo: { height: '50px', marginRight: theme.spacing(2) },
+    navLinks: { flexGrow: 1 },
+    navButton: { fontWeight: 'bold', margin: theme.spacing(0, 1) },
+    userInfo: { textAlign: 'right' },
+    content: { padding: theme.spacing(3) },
+    formSection: {
+        backgroundColor: '#EAEAEA',
+        padding: theme.spacing(3),
+        borderRadius: '12px',
+        marginBottom: theme.spacing(3),
+    },
+    inputLabel: {
+        fontWeight: 'bold',
+        marginBottom: theme.spacing(0.5),
+        fontSize: '0.9rem',
+    },
+    textField: {
+        '& .MuiOutlinedInput-root': {
+            backgroundColor: 'white',
+        },
+    },
+    placeholder: { color: "#aaa" },
+    chips: { display: 'flex', flexWrap: 'wrap' },
+    chip: { margin: 2 },
+    buttonContainer: { marginTop: theme.spacing(2) },
+    buttonGuardar: {
+        backgroundColor: '#4CAF50',
+        color: 'white',
+        fontWeight: 'bold',
+        '&:hover': { backgroundColor: '#45a049' },
+    },
+    buttonCancelar: {
+        backgroundColor: '#F44336',
+        color: 'white',
+        fontWeight: 'bold',
+        '&:hover': { backgroundColor: '#d32f2f' },
+    }
+}));
+
+const FormField = ({ label, children, required = true, ...props }) => {
+    const classes = useStyles();
+    return (
+        <Grid item xs={12} md={4} {...props}>
+            <Typography className={classes.inputLabel}>{label} {required && '*'}</Typography>
+            {children}
+        </Grid>
+    );
+};
+
+const temasDisponibles = [
+    'Contabilidad y Presupuestos', 'Iniciar un negocio', 'Relaciones Públicas',
+    'Franquicias', 'Temas Legales', 'Tecnología', 'Financiación de Empresas',
+    'Plan de Negocios', 'Comercio Electrónico', 'Administración de Empresas',
+    'Mercadotecnia y Ventas', 'Empresa liderada por una mujer'
+];
+
+const ubicaciones = {
+    "Copán": ["Santa Rosa de Copán", "La Entrada", "Copán Ruinas", "Florida"],
+    "Lempira": ["Gracias", "La Iguala", "Erandique", "Belén"],
+    "Ocotepeque": ["Ocotepeque", "San Marcos", "Sinuapa", "La Labor"],
+};
+const departamentos = Object.keys(ubicaciones); // ["Copán", "Lempira", "Ocotepeque"]
+
+const EditarCapacitacionEvento = () => {
+    const classes = useStyles();
+    const history = useHistory();
+    const { id } = useParams();
+    const [errors, setErrors] = useState({});
+    const [formState, setFormState] = useState({
+        Temas: [], Centro: 'CDE MIPYME ROC', TipoId: '', Titulo: '', FechaInicio: '', FechaCierre: '', FechaInformes: '',
+        HoraProgramada: '', TotalHoras: '', Descripcion: '', TemaPrincipalId: '', FormatoProgramaId: '', Estado: '', NumeroMaxParticipantes: '',
+        Direccion: '', Ciudad: '', Departamento: '', LugarDesarrollo: '', PatrociniosCentro: '', CoPatrocinios: '', Recursos: '', Contacto: '',
+        CorreoContacto: '', TelefonoContacto: '', Idioma: '', UnidadHistorica: '', FuenteFinanciamientoId: '', InstruccionesAsistente: '',
+        Notas: '', NumeroSesiones: '',
+    });
+
+    const tipoDeRegistro = formState.TipoId === 2 ? 'del Evento' : 'de la Capacitación';
+
+    const [, dispatch] = useStateValue(); // Para las notificaciones (snackbar)
+    const [saving, setSaving] = useState(false);
+    const [cargando, setCargando] = useState(true);
+    const [temas, setTemas] = useState([]);
+    const [tipos, setTipos] = useState([]);
+    const [formatos, setFormatos] = useState([]);
+
+    // Carga los catálogos y la capacitación por Id, y pre-llena el formulario
+    useEffect(() => {
+        const cargarDatos = async () => {
+            try {
+                const [listaTemas, listaTipos, listaFormatos, dto] = await Promise.all([
+                    obtenerTemasCapacitacion(),
+                    obtenerTiposCapacitacion(),
+                    obtenerFormatosPrograma(),
+                    obtenerCapacitacionPorId(id),
+                ]);
+                setTemas(listaTemas.map(t => ({ value: t.id, label: t.descripcion })));
+                setTipos(listaTipos.map(t => ({ value: t.id, label: t.descripcion })));
+                setFormatos(listaFormatos.map(f => ({ value: f.id, label: f.descripcion })));
+
+                if (!dto) {
+                    dispatch({
+                        type: 'OPEN_SNACKBAR',
+                        payload: { open: true, mensaje: 'La capacitación/evento no fue encontrada.', severity: 'error' },
+                    });
+                    history.push('/capacitacion_evento');
+                    return;
+                }
+
+                // La entidad llega con campos PascalCase; se mapean al formulario (mismas claves que Nuevo)
+                setFormState((prev) => ({
+                    ...prev,
+                    Titulo: dto.titulo || '',
+                    // "yyyy-MM-dd" para los inputs de tipo date
+                    FechaInicio: dto.fechaInicio ? String(dto.fechaInicio).slice(0, 10) : '',
+                    FechaCierre: dto.fechaCierre ? String(dto.fechaCierre).slice(0, 10) : '',
+                    FechaInformes: dto.fechaInformes ? String(dto.fechaInformes).slice(0, 10) : '',
+                    // TimeOnly serializa como "HH:mm:ss" → "HH:mm" para el input de tipo time
+                    HoraProgramada: dto.horaProgramada ? String(dto.horaProgramada).slice(0, 5) : '',
+                    TotalHoras: dto.totalHoras != null ? String(dto.totalHoras) : '',
+                    Descripcion: dto.descripcion || '',
+                    // Los ids se conservan como números para coincidir con los values de los selects de catálogo
+                    TipoId: dto.tipoId != null ? dto.tipoId : '',
+                    TemaPrincipalId: dto.temaPrincipalId != null ? dto.temaPrincipalId : '',
+                    FormatoProgramaId: dto.formatoProgramaId != null ? dto.formatoProgramaId : '',
+                    FuenteFinanciamientoId: dto.fuenteFinanciamientoId != null ? dto.fuenteFinanciamientoId : '',
+                    Estado: dto.estado || '',
+                    NumeroMaxParticipantes: dto.numeroMaxParticipantes != null ? String(dto.numeroMaxParticipantes) : '',
+                    NumeroSesiones: dto.numeroSesiones != null ? String(dto.numeroSesiones) : '',
+                    Direccion: dto.direccion || '',
+                    // El backend almacena "Municipio"; el formulario usa "Ciudad"
+                    Ciudad: dto.municipio || '',
+                    Departamento: dto.departamento || '',
+                    LugarDesarrollo: dto.lugarDesarrollo || '',
+                    Centro: dto.centro || 'CDE MIPYME ROC',
+                    PatrociniosCentro: dto.patrociniosCentro ? String(dto.patrociniosCentro) : '',
+                    CoPatrocinios: dto.coPatrocinios || '',
+                    Recursos: dto.recursos || '',
+                    Contacto: dto.contacto || '',
+                    CorreoContacto: dto.correoContacto || '',
+                    TelefonoContacto: dto.telefonoContacto != null ? String(dto.telefonoContacto) : '',
+                    Idioma: dto.idioma || '',
+                    UnidadHistorica: dto.unidadHistorica || '',
+                    InstruccionesAsistente: dto.instruccionesAsistente || '',
+                    Notas: dto.notas || '',
+                    Temas: [], // Aún sin soporte en el backend
+                }));
+            } catch (error) {
+                console.error('Error al cargar la capacitación/evento:', error);
+                dispatch({
+                    type: 'OPEN_SNACKBAR',
+                    payload: { open: true, mensaje: 'Error al cargar la capacitación/evento', severity: 'error' },
+                });
+            } finally {
+                setCargando(false);
+            }
+        };
+        cargarDatos();
+    }, [id, dispatch, history]);
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormState(prevState => {
+            const newState = { ...prevState, [name]: value };
+            // Si el campo que cambió es 'Departamento', reiniciamos 'Ciudad'
+            if (name === 'Departamento') {
+                newState.Ciudad = '';
+            }
+            return newState;
+        });
+    };
+
+    const handleCancel = () => { history.goBack(); };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const validationErrors = validarCapacitacion(formState);
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length === 0) {
+            setSaving(true);
+            const payload = {
+                ...formState,
+                TipoId: parseInt(formState.TipoId) || 0,
+                FechaInicio: formState.FechaInicio, // "yyyy-MM-dd" — el backend lo normaliza a UTC
+                FechaCierre: formState.FechaCierre,
+                FechaInformes: formState.FechaInformes,
+                HoraProgramada: formState.HoraProgramada ? `${formState.HoraProgramada}:00` : '00:00:00', // el input de tipo time devuelve "HH:mm"
+                TotalHoras: formState.TotalHoras ? parseInt(formState.TotalHoras) : null,
+                NumeroMaxParticipantes: formState.NumeroMaxParticipantes ? parseInt(formState.NumeroMaxParticipantes) : null,
+                NumeroSesiones: parseInt(formState.NumeroSesiones) || 0,
+                TelefonoContacto: formState.TelefonoContacto ? parseInt(formState.TelefonoContacto) : null,
+                PatrociniosCentro: !!formState.PatrociniosCentro,
+                FuenteFinanciamientoId: formState.FuenteFinanciamientoId ? parseInt(formState.FuenteFinanciamientoId) : null,
+                IntruccionesAsistente: formState.InstruccionesAsistente, // el backend usa "Intrucciones"
+                Municipio: formState.Ciudad, // Renombrado: el backend espera Municipio
+            };
+            delete payload.Ciudad;
+            delete payload.Temas; // Aún sin soporte en el backend
+
+            try {
+                await actualizarCapacitacion(id, payload);
+                dispatch({
+                    type: 'OPEN_SNACKBAR',
+                    payload: { open: true, mensaje: 'Capacitación/Evento actualizada con éxito.', severity: 'success' },
+                });
+                history.push('/capacitacion_evento');
+            } catch (error) {
+                console.error('Error al actualizar la capacitación/evento:', error.response || error);
+                const errorData = error.response?.data;
+                let mensajeError = 'No se pudo actualizar la capacitación/evento.';
+                if (errorData && errorData.errors) {
+                    // Errores de FluentValidation del backend
+                    mensajeError = Object.values(errorData.errors).slice(0, 2).join(' ');
+                } else if (errorData && errorData.mensaje) {
+                    mensajeError = errorData.mensaje;
+                }
+                dispatch({
+                    type: 'OPEN_SNACKBAR',
+                    payload: { open: true, mensaje: mensajeError, severity: 'error' },
+                });
+            } finally {
+                setSaving(false);
+            }
+        }
+    };
+
+    const renderSelect = (name, placeholder, items) => (
+        <FormControl variant="outlined" fullWidth className={classes.textField} error={!!errors[name]}>
+            <Select name={name} value={formState[name]} onChange={handleChange} displayEmpty>
+                <MenuItem value="" disabled><em className={classes.placeholder}>{placeholder}</em></MenuItem>
+                {items.map(item => <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>)}
+            </Select>
+            {errors[name] && <FormHelperText>{errors[name]}</FormHelperText>}
+        </FormControl>
+    );
+
+    // Indicador de carga mientras se obtienen catálogos y la entidad
+    if (cargando) {
+        return (
+            <div className={classes.root}>
+                <main className={classes.content} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+                    <CircularProgress />
+                </main>
+            </div>
+        );
+    }
+
+    return (
+        <div className={classes.root}>
+            <main className={classes.content}>
+                <form onSubmit={handleSubmit}>
+                    <Paper className={classes.formSection}>
+                        <Typography variant="h5" style={{ fontWeight: 'bold' }}>Editar Capacitación/Evento</Typography>
+                    </Paper>
+
+                    <Paper className={classes.formSection}>
+                        <Grid container spacing={3}>
+                            <FormField label="Tipo">
+                                {renderSelect('TipoId', 'Seleccione un tipo', tipos)}
+                            </FormField>
+                            <FormField label={`Título ${tipoDeRegistro}`} md={8}>
+                                <TextField name="Titulo" fullWidth variant="outlined" className={classes.textField} value={formState.Titulo} onChange={handleChange} error={!!errors.Titulo} helperText={errors.Titulo} />
+                            </FormField>
+                            <FormField label="Fecha de Inicio"><TextField name="FechaInicio" type="date" fullWidth variant="outlined" className={classes.textField} value={formState.FechaInicio} onChange={handleChange} InputLabelProps={{ shrink: true }} error={!!errors.FechaInicio} helperText={errors.FechaInicio} /></FormField>
+                            <FormField label="Fecha de Cierre"><TextField name="FechaCierre" type="date" fullWidth variant="outlined" className={classes.textField} value={formState.FechaCierre} onChange={handleChange} InputLabelProps={{ shrink: true }} error={!!errors.FechaCierre} helperText={errors.FechaCierre} /></FormField>
+                            <FormField label="Fecha de Informes"><TextField name="FechaInformes" type="date" fullWidth variant="outlined" className={classes.textField} value={formState.FechaInformes} onChange={handleChange} InputLabelProps={{ shrink: true }} error={!!errors.FechaInformes} helperText={errors.FechaInformes} /></FormField>
+                            <FormField label="Hora Programada"><TextField name="HoraProgramada" type="time" fullWidth variant="outlined" className={classes.textField} value={formState.HoraProgramada} onChange={handleChange} InputLabelProps={{ shrink: true }} error={!!errors.HoraProgramada} helperText={errors.HoraProgramada} /></FormField>
+                            <FormField label="Total de Horas" required={false}><TextField name="TotalHoras" type="number" fullWidth variant="outlined" className={classes.textField} value={formState.TotalHoras} onChange={handleChange} /></FormField>
+                            <FormField label="Formato del Programa">{renderSelect('FormatoProgramaId', 'Seleccione un formato', formatos)}</FormField>
+
+                            <FormField label={`Temas ${tipoDeRegistro}`} md={8} required={false}>
+                                <FormControl variant="outlined" fullWidth className={classes.textField}>
+                                    <Select multiple name="Temas" value={formState.Temas} onChange={handleChange} input={<Input />}
+                                        renderValue={(selected) => (
+                                            <div className={classes.chips}>
+                                                {selected.map((value) => (<Chip key={value} label={value} className={classes.chip} />))}
+                                            </div>
+                                        )}>
+                                        <MenuItem value="" disabled>Seleccione los temas</MenuItem>
+                                        {temasDisponibles.map((tema) => (<MenuItem key={tema} value={tema}>{tema}</MenuItem>))}
+                                    </Select>
+                                </FormControl>
+                            </FormField>
+                            <FormField label="Tema Principal">
+                                {renderSelect('TemaPrincipalId', 'Seleccione un tema', temas)}
+                            </FormField>
+
+                            <FormField label="Descripción" md={12} required={false}><TextField name="Descripcion" multiline rows={4} fullWidth variant="outlined" className={classes.textField} value={formState.Descripcion} onChange={handleChange} /></FormField>
+                        </Grid>
+                    </Paper>
+
+                    <Paper className={classes.formSection}>
+                        <Grid container spacing={3}>
+                            <FormField label="Estado" required={false}>{renderSelect('Estado', 'Seleccione un estado', [{ value: 'Abierto', label: 'Abierto' }, { value: 'Completo', label: 'Completo' }])}</FormField>
+                            <FormField label="Número Máximo de Participantes" required={false}><TextField name="NumeroMaxParticipantes" type="number" fullWidth variant="outlined" className={classes.textField} value={formState.NumeroMaxParticipantes} onChange={handleChange} /></FormField>
+                            <FormField label="Dirección">
+                                <TextField name="Direccion" fullWidth variant="outlined" className={classes.textField} value={formState.Direccion} onChange={handleChange} error={!!errors.Direccion} helperText={errors.Direccion} />
+                            </FormField>
+                            <FormField label="Departamento">
+                                <FormControl variant="outlined" fullWidth className={classes.textField} error={!!errors.Departamento}>
+                                    <Select name="Departamento" value={formState.Departamento} onChange={handleChange} displayEmpty>
+                                        <MenuItem value="" disabled><em className={classes.placeholder}>Seleccione un departamento</em></MenuItem>
+                                        {departamentos.map(dep => <MenuItem key={dep} value={dep}>{dep}</MenuItem>)}
+                                    </Select>
+                                    {errors.Departamento && <FormHelperText>{errors.Departamento}</FormHelperText>}
+                                </FormControl>
+                            </FormField>
+
+                            {/* Select dependiente: las opciones se cargan según el departamento seleccionado */}
+                            <FormField label="Municipio">
+                                <FormControl variant="outlined" fullWidth className={classes.textField} disabled={!formState.Departamento} error={!!errors.Ciudad}>
+                                    <Select name="Ciudad" value={formState.Ciudad} onChange={handleChange} displayEmpty>
+                                        <MenuItem value="" disabled><em className={classes.placeholder}>Seleccione un municipio</em></MenuItem>
+                                        {formState.Departamento && (ubicaciones[formState.Departamento] || []).map(ciudad => (
+                                            <MenuItem key={ciudad} value={ciudad}>{ciudad}</MenuItem>
+                                        ))}
+                                    </Select>
+                                    {errors.Ciudad && <FormHelperText>{errors.Ciudad}</FormHelperText>}
+                                </FormControl>
+                            </FormField>
+                            <FormField label="Lugar donde se desarrollará">
+                                <TextField name="LugarDesarrollo" fullWidth variant="outlined" className={classes.textField} value={formState.LugarDesarrollo} onChange={handleChange} error={!!errors.LugarDesarrollo} helperText={errors.LugarDesarrollo} />
+                            </FormField>
+                        </Grid>
+                    </Paper>
+
+                    <Paper className={classes.formSection}>
+                        <Grid container spacing={3}>
+                            <FormField label="Centro" required={false}><TextField name="Centro" disabled fullWidth variant="outlined" className={classes.textField} value={formState.Centro} /></FormField>
+                            <FormField label="Patrocinio del Centro" required={false}><TextField name="PatrociniosCentro" fullWidth variant="outlined" className={classes.textField} value={formState.PatrociniosCentro} onChange={handleChange} /></FormField>
+                            <FormField label="Co-Patrocinios" required={false}><TextField name="CoPatrocinios" fullWidth variant="outlined" className={classes.textField} value={formState.CoPatrocinios} onChange={handleChange} /></FormField>
+                            <FormField label="Recursos" required={false}><TextField name="Recursos" fullWidth variant="outlined" className={classes.textField} value={formState.Recursos} onChange={handleChange} /></FormField>
+                            <FormField label="Contacto" required={false}><TextField name="Contacto" fullWidth variant="outlined" className={classes.textField} value={formState.Contacto} onChange={handleChange} /></FormField>
+                            <FormField label="Correo del Contacto" required={false}><TextField name="CorreoContacto" type="email" fullWidth variant="outlined" className={classes.textField} value={formState.CorreoContacto} onChange={handleChange} /></FormField>
+                            <FormField label="Teléfono del Contacto" required={false}><TextField name="TelefonoContacto" type="number" fullWidth variant="outlined" className={classes.textField} value={formState.TelefonoContacto} onChange={handleChange} /></FormField>
+                            <FormField label="Idioma" required={false}>{renderSelect('Idioma', 'Seleccione un idioma', [{ value: 'Español', label: 'Español' }, { value: 'Inglés', label: 'Inglés' }])}</FormField>
+                            <FormField label="Unidad Histórica" required={false}>{renderSelect('UnidadHistorica', 'Seleccione una unidad', [{ value: 'Nuevo', label: 'Nuevo' }, { value: 'Continuación', label: 'Continuación' }])}</FormField>
+                            <FormField label="Fuente de Financiamiento" required={false}>{renderSelect('FuenteFinanciamientoId', 'Seleccione una fuente', [{ value: 1, label: 'Otra' }])}</FormField>
+                            <FormField label="Número de Sesiones">
+                                <TextField name="NumeroSesiones" type="number" fullWidth variant="outlined" className={classes.textField} value={formState.NumeroSesiones} onChange={handleChange} error={!!errors.NumeroSesiones} helperText={errors.NumeroSesiones} />
+                            </FormField>
+                        </Grid>
+                    </Paper>
+
+                    <Paper className={classes.formSection}>
+                        <Grid container spacing={3}>
+                            <FormField label="Instrucciones para Asistentes" md={12} required={false}><TextField name="InstruccionesAsistente" multiline rows={4} fullWidth variant="outlined" className={classes.textField} value={formState.InstruccionesAsistente} onChange={handleChange} /></FormField>
+                            <FormField label="Notas" md={12} required={false}><TextField name="Notas" multiline rows={4} fullWidth variant="outlined" className={classes.textField} value={formState.Notas} onChange={handleChange} /></FormField>
+                        </Grid>
+                    </Paper>
+
+                    <Grid container spacing={2} justify="flex-end" className={classes.buttonContainer}>
+                        <Grid item><Button type="submit" variant="contained" className={classes.buttonGuardar} disabled={saving}>
+                            {saving ? <CircularProgress size={24} /> : 'Actualizar'}
+                        </Button></Grid>
+                        <Grid item><Button variant="contained" className={classes.buttonCancelar} onClick={handleCancel}>Cancelar</Button></Grid>
+                    </Grid>
+                </form>
+            </main>
+        </div>
+    );
+};
+
+export default EditarCapacitacionEvento;

@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Search, FilterList, Add } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 import { useStateValue } from '../../Context/store';
-import { obtenerCapacitaciones } from '../../actions/CapacitacionEventoAction';
+import { obtenerCapacitaciones, obtenerTemasCapacitacion } from '../../actions/CapacitacionEventoAction';
 
 // Estilos consistentes con las vistas anteriores
 const useStyles = makeStyles((theme) => ({
@@ -71,18 +71,31 @@ const formatearFecha = (fecha) => {
     return isNaN(d.getTime()) ? fecha : d.toLocaleDateString('es-HN', { year: 'numeric', month: 'long', day: 'numeric' });
 };
 
+// Traduce un id de catálogo a su descripción; '—' si no se encuentra
+const nombreCatalogo = (lista, id) => {
+    if (id === null || id === undefined) return '—';
+    const item = (lista || []).find(x => x.id === Number(id));
+    return item ? item.descripcion : '—';
+};
+
 const ListaCapacitacionEvento = () => {
     const classes = useStyles();
     const history = useHistory();
     const [, dispatch] = useStateValue();
     const [rows, setRows] = useState([]);
     const [cargando, setCargando] = useState(true);
+    // Catálogo de temas para mostrar el nombre en lugar del id crudo
+    const [temas, setTemas] = useState([]);
 
     useEffect(() => {
         const cargarCapacitaciones = async () => {
             try {
-                const data = await obtenerCapacitaciones();
+                const [data, listaTemas] = await Promise.all([
+                    obtenerCapacitaciones(),
+                    obtenerTemasCapacitacion(),
+                ]);
                 setRows(data || []);
+                setTemas(listaTemas || []);
             } catch (error) {
                 console.error('Error al cargar las capacitaciones y eventos:', error);
                 dispatch({
@@ -162,7 +175,7 @@ const ListaCapacitacionEvento = () => {
                                             </TableCell>
                                             <TableCell>{formatearFecha(row.fechaInicio)}</TableCell>
                                             <TableCell>{formatearFecha(row.fechaCierre)}</TableCell>
-                                            <TableCell>{row.temaPrincipalId}</TableCell>
+                                            <TableCell>{nombreCatalogo(temas, row.temaPrincipalId)}</TableCell>
                                             <TableCell>{row.estado || '—'}</TableCell>
                                         </TableRow>
                                     ))

@@ -3,10 +3,10 @@ import {
     Typography, Button, Box, Paper, Grid, CircularProgress
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Add, Delete } from '@material-ui/icons';
+import { Add, Delete, Edit } from '@material-ui/icons';
 import { useHistory, useParams } from 'react-router-dom';
 import { useStateValue } from '../../Context/store';
-import { obtenerCapacitacionPorId, eliminarCapacitacion } from '../../actions/CapacitacionEventoAction';
+import { obtenerCapacitacionPorId, eliminarCapacitacion, obtenerTemasCapacitacion, obtenerTiposCapacitacion, obtenerFormatosPrograma } from '../../actions/CapacitacionEventoAction';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -88,6 +88,20 @@ const formatearHora = (hora) => {
     return hora.slice(0, 5);
 };
 
+// Obtiene el valor de un campo de la entidad aceptando PascalCase o camelCase
+const obtenerCampo = (entidad, campo) => {
+    const camel = campo.charAt(0).toLowerCase() + campo.slice(1);
+    const valor = entidad[campo] !== undefined ? entidad[campo] : entidad[camel];
+    return valor !== undefined && valor !== null ? valor : null;
+};
+
+// Traduce un id de catálogo a su descripción; '—' si no se encuentra
+const nombreCatalogo = (lista, id) => {
+    if (id === null || id === undefined) return '—';
+    const item = (lista || []).find(x => x.id === Number(id));
+    return item ? item.descripcion : '—';
+};
+
 const VerCapacitacionEvento = () => {
     const classes = useStyles();
     const { id } = useParams();
@@ -95,12 +109,24 @@ const VerCapacitacionEvento = () => {
     const [, dispatch] = useStateValue();
     const [capacitacion, setCapacitacion] = useState(null);
     const [cargando, setCargando] = useState(true);
+    // Catálogos para traducir los ids a nombres descriptivos
+    const [temas, setTemas] = useState([]);
+    const [tipos, setTipos] = useState([]);
+    const [formatos, setFormatos] = useState([]);
 
     useEffect(() => {
         const cargarCapacitacion = async () => {
             try {
-                const data = await obtenerCapacitacionPorId(id);
+                const [data, listaTemas, listaTipos, listaFormatos] = await Promise.all([
+                    obtenerCapacitacionPorId(id),
+                    obtenerTemasCapacitacion(),
+                    obtenerTiposCapacitacion(),
+                    obtenerFormatosPrograma(),
+                ]);
                 setCapacitacion(data);
+                setTemas(listaTemas || []);
+                setTipos(listaTipos || []);
+                setFormatos(listaFormatos || []);
             } catch (error) {
                 console.error('Error al cargar la capacitación:', error);
                 dispatch({
@@ -159,6 +185,7 @@ const VerCapacitacionEvento = () => {
                     <Typography className={classes.headerTitle}>Detalle de la Capacitación</Typography>
                     <Box>
                         <Button className={classes.newButton} startIcon={<Add />} variant="contained" onClick={() => history.push('/capacitacion_evento/nuevo')}>Nueva</Button>
+                        <Button className={classes.editButton} startIcon={<Edit />} variant="contained" style={{ marginLeft: 8 }} onClick={() => history.push(`/capacitacion_evento/editar/${id}`)}>Editar</Button>
                         <Button className={classes.deleteButton} startIcon={<Delete />} variant="contained" style={{ marginLeft: 8 }} onClick={handleEliminar}>Eliminar</Button>
                     </Box>
                 </Paper>
@@ -172,7 +199,9 @@ const VerCapacitacionEvento = () => {
                             <InfoRow label="Fecha de Informes" value={formatearFecha(capacitacion.fechaInformes)} />
                             <InfoRow label="Hora Programada" value={formatearHora(capacitacion.horaProgramada)} />
                             <InfoRow label="Total de Horas" value={capacitacion.totalHoras != null ? capacitacion.totalHoras : '—'} />
-                            <InfoRow label="Tema Principal" value={capacitacion.temaPrincipalId} />
+                            <InfoRow label="Tema Principal" value={nombreCatalogo(temas, obtenerCampo(capacitacion, 'TemaPrincipalId'))} />
+                            <InfoRow label="Tipo de Capacitación/Evento" value={nombreCatalogo(tipos, obtenerCampo(capacitacion, 'TipoId'))} />
+                            <InfoRow label="Formato del Programa" value={nombreCatalogo(formatos, obtenerCampo(capacitacion, 'FormatoProgramaId'))} />
                             <InfoRow label="Estado" value={capacitacion.estado || '—'} />
                             <InfoRow label="Descripción" value={capacitacion.descripcion} />
                         </Paper>

@@ -262,7 +262,7 @@ const NuevoCapacitacionEvento = () => {
                                     <Select name="Ciudad" value={formState.Ciudad} onChange={handleChange} displayEmpty>
                                         <MenuItem value="" disabled><em className={classes.placeholder}>Seleccione un municipio</em></MenuItem>
                                         {/* Las opciones se cargan dinámicamente según el departamento seleccionado */}
-                                        {formState.Departamento && ubicaciones[formState.Departamento].map(ciudad => (
+                                        {formState.Departamento && (ubicaciones[formState.Departamento]  ||  []).map(ciudad => (
                                             <MenuItem key={ciudad} value={ciudad}>{ciudad}</MenuItem>
                                         ))}
                                     </Select>

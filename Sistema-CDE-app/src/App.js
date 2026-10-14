@@ -29,6 +29,7 @@ import VerReporte from './components/reportes/VerReporte';
 import NuevoCapacitacionEvento from './components/capacitacion_evento/NuevoCapacitacionEvento';
 import ListaCapacitacionEvento from './components/capacitacion_evento/ListaCapacitacionEvento';
 import VerCapacitacionEvento from './components/capacitacion_evento/VerCapacitacionEvento';
+import EditarCapacitacionEvento from './components/capacitacion_evento/EditarCapacitacionEvento';
 import NuevoSesion from './components/capacitacion_evento/NuevoSesion';
 import EditarContacto from './components/contactos/EditarContacto';
 import EditarClienteEmpresa from './components/cliente_empresa/EditarClienteEmpresa';
@@ -122,6 +123,7 @@ function App() {
                         <RutasProtegidas path="/capacitacion_evento/nuevo" exact component={NuevoCapacitacionEvento} />
                         <RutasProtegidas path="/capacitacion_evento" exact component={ListaCapacitacionEvento} />
                         <RutasProtegidas path="/capacitacion_evento/ver/:id" exact component={VerCapacitacionEvento} />
+                        <RutasProtegidas path="/capacitacion_evento/editar/:id" exact component={EditarCapacitacionEvento} />
                         <RutasProtegidas path="/capacitacion_evento/sesion/nueva" exact component={NuevoSesion} />
 
                         {/* --- Ruta por Defecto --- */}
