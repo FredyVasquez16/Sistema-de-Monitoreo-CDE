@@ -181,7 +181,7 @@ namespace WebAPI.Controllers
             });
         }
 
-        [Authorize(Roles = "Admin")]// Solo el administrador puede eliminar asesorías
+        [Authorize(Roles = "Administrador")]// Solo el administrador puede eliminar asesorías (el rol en BD es "Administrador", no "Admin")
         [HttpDelete("{id:int}")]
         public async Task<ActionResult<Unit>> Delete(int id)
         {

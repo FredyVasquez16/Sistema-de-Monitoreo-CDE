@@ -1,6 +1,8 @@
 using System.Net;
 using Aplicacion.ManejadorError;
+using Dominio;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistencia;
 
 namespace Aplicacion.Contactos;
@@ -27,6 +29,15 @@ public class ContactoDelete
             {
                 //throw new Exception("Contacto no encontrado");
                 throw new ManejadorExcepcion(HttpStatusCode.NotFound, new {mensaje = "El contacto no existe o no se ha encontrado."} );
+            }
+            // Si el contacto es contacto primario de una empresa, la FK RESTRICT lo bloquearía:
+            // se impide con un mensaje claro en lugar de una excepción de base de datos.
+            var esPrimarioDeUnaEmpresa = await _context.ClientesEmpresas
+                .AnyAsync(c => c.ContactoPrimarioId == request.Id, cancellationToken);
+            if (esPrimarioDeUnaEmpresa)
+            {
+                throw new ManejadorExcepcion(HttpStatusCode.Conflict,
+                    new { mensaje = "No se puede eliminar: el contacto es el contacto primario de una empresa. Primero reasigná el contacto primario de esa empresa." });
             }
             _context.Remove(contacto);
             var result = await _context.SaveChangesAsync();

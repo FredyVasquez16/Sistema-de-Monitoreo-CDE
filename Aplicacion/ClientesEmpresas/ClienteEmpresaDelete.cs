@@ -1,6 +1,8 @@
 using System.Net;
 using Aplicacion.ManejadorError;
+using Dominio;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistencia;
 
 namespace Aplicacion.ClientesEmpresas;
@@ -29,6 +31,14 @@ public class ClienteEmpresaDelete
                 //throw new Exception("Cliente o empresa no encontrado");
                 throw new ManejadorExcepcion(HttpStatusCode.NotFound, new { mensaje = "El cliente o empresa no existe o no se ha encontrado." });
             }
+            
+            // Los contactos vinculados a esta empresa (contactos.empresa_cliente_id)
+            // bloquean la eliminación (FK RESTRICT). Se desvinculan, sin borrar los contactos.
+            var contactosVinculados = await _context.Contactos
+                .Where(c => c.EmpresaClienteId == request.Id)
+                .ToListAsync(cancellationToken);
+            foreach (var contacto in contactosVinculados)
+                contacto.EmpresaClienteId = null;
             
             _context.Remove(clienteEmpresa);
             var result = await _context.SaveChangesAsync();
