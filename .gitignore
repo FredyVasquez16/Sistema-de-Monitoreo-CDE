@@ -722,3 +722,4 @@ usuario.json
 # Working reference screenshots at repo root
 formulario-*.png
 cde-*.png
+.playwright-cli/

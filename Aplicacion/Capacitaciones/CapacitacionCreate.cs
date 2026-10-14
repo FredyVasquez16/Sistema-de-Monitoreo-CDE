@@ -108,11 +108,14 @@ public class CapacitacionCreate
             
             var capacitacion = new Dominio.Capacitaciones
             {
+                CodigoUnico = "TEMP", // Npgsql: codigo_unico es NOT NULL; el código real se genera tras el primer SaveChanges (igual que en Asesorías)
+                Unidad = string.Empty, // columna "unidad" NOT NULL con default ''; el legacy la deja vacía
                 TipoId = request.TipoId,
                 Titulo = request.Titulo,
-                FechaInicio = request.FechaInicio,
-                FechaCierre = request.FechaCierre,
-                FechaInformes = request.FechaInformes,
+                // Npgsql exige Kind=Utc para columnas "timestamp with time zone"
+                FechaInicio = DateTime.SpecifyKind(request.FechaInicio, DateTimeKind.Utc),
+                FechaCierre = DateTime.SpecifyKind(request.FechaCierre, DateTimeKind.Utc),
+                FechaInformes = DateTime.SpecifyKind(request.FechaInformes, DateTimeKind.Utc),
                 HoraProgramada = request.HoraProgramada,
                 TotalHoras = request.TotalHoras,
                 Descripcion = request.Descripcion,

@@ -4,6 +4,7 @@ using Dominio;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Persistencia;
 
 namespace WebAPI.Controllers
@@ -32,6 +33,39 @@ namespace WebAPI.Controllers
             });
         }
         
+        [HttpGet("Temas")]
+        public async Task<ActionResult<ResponseDto<List<Temas>>>> GetTemas()
+        {
+            var temas = await _context.Temas.ToListAsync();
+            return Ok(new ResponseDto<List<Temas>>
+            {
+                Status = true,
+                Data = temas
+            });
+        }
+
+        [HttpGet("Tipos")]
+        public async Task<ActionResult<ResponseDto<List<Tipos>>>> GetTipos()
+        {
+            var tipos = await _context.Tipos.ToListAsync();
+            return Ok(new ResponseDto<List<Tipos>>
+            {
+                Status = true,
+                Data = tipos
+            });
+        }
+
+        [HttpGet("FormatosPrograma")]
+        public async Task<ActionResult<ResponseDto<List<FormatosPrograma>>>> GetFormatosPrograma()
+        {
+            var formatos = await _context.FormatosProgramas.ToListAsync();
+            return Ok(new ResponseDto<List<FormatosPrograma>>
+            {
+                Status = true,
+                Data = formatos
+            });
+        }
+
         [HttpGet("{id:int}")]
         public async Task<ActionResult<ResponseDto<Capacitaciones>>> GetById(int id)
         {

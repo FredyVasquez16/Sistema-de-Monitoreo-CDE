@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     AppBar, Toolbar, Typography, Button, Box, Paper, Grid, TextField,
     Select, MenuItem, FormControl, Input, Chip, FormHelperText
@@ -6,6 +6,8 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import { validarCapacitacion } from '../../validators/CapacitacionValidator';
+import { useStateValue } from '../../Context/store';
+import { guardarCapacitacion, obtenerTemasCapacitacion, obtenerTiposCapacitacion, obtenerFormatosPrograma } from '../../actions/CapacitacionEventoAction';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -91,6 +93,35 @@ const NuevoCapacitacionEvento = () => {
 
     const tipoDeRegistro = formState.TipoId === 2 ? 'del Evento' : 'de la Capacitación';
 
+    const [, dispatch] = useStateValue(); // Para las notificaciones (snackbar)
+    const [saving, setSaving] = useState(false);
+    const [temas, setTemas] = useState([]);
+    const [tipos, setTipos] = useState([]);
+    const [formatos, setFormatos] = useState([]);
+
+    // Cargamos los catálogos (temas, tipos y formatos) desde la API
+    useEffect(() => {
+        const cargarCatalogos = async () => {
+            try {
+                const [listaTemas, listaTipos, listaFormatos] = await Promise.all([
+                    obtenerTemasCapacitacion(),
+                    obtenerTiposCapacitacion(),
+                    obtenerFormatosPrograma(),
+                ]);
+                setTemas(listaTemas.map(t => ({ value: t.id, label: t.descripcion })));
+                setTipos(listaTipos.map(t => ({ value: t.id, label: t.descripcion })));
+                setFormatos(listaFormatos.map(f => ({ value: f.id, label: f.descripcion })));
+            } catch (error) {
+                console.log(error);
+                dispatch({
+                    type: 'OPEN_SNACKBAR',
+                    payload: { open: true, mensaje: 'Error al cargar los catálogos', severity: 'error' },
+                });
+            }
+        };
+        cargarCatalogos();
+    }, [dispatch]);
+
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormState(prevState => {
@@ -105,17 +136,56 @@ const NuevoCapacitacionEvento = () => {
 
     const handleCancel = () => { history.goBack(); };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const validationErrors = validarCapacitacion(formState);
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length === 0) {
-            console.log("Formulario válido, enviando datos:", formState);
-            alert(`'${tipoDeRegistro}' guardado con éxito (simulación).`);
-            history.push('/capacitaciones');
-        } else {
-            console.log("Errores de validación encontrados:", validationErrors);
+            setSaving(true);
+            const payload = {
+                ...formState,
+                TipoId: parseInt(formState.TipoId) || 0,
+                FechaInicio: formState.FechaInicio, // "yyyy-MM-dd" — el backend lo normaliza a UTC
+                FechaCierre: formState.FechaCierre,
+                FechaInformes: formState.FechaInformes,
+                HoraProgramada: formState.HoraProgramada ? `${formState.HoraProgramada}:00` : '00:00:00', // el input de tipo time devuelve "HH:mm"
+                TotalHoras: formState.TotalHoras ? parseInt(formState.TotalHoras) : null,
+                NumeroMaxParticipantes: formState.NumeroMaxParticipantes ? parseInt(formState.NumeroMaxParticipantes) : null,
+                NumeroSesiones: parseInt(formState.NumeroSesiones) || 0,
+                TelefonoContacto: formState.TelefonoContacto ? parseInt(formState.TelefonoContacto) : null,
+                PatrociniosCentro: !!formState.PatrociniosCentro,
+                FuenteFinanciamientoId: formState.FuenteFinanciamientoId ? parseInt(formState.FuenteFinanciamientoId) : null,
+                IntruccionesAsistente: formState.InstruccionesAsistente, // el backend usa "Intrucciones"
+                Municipio: formState.Ciudad, // Renombrado: el backend espera Municipio
+            };
+            delete payload.Ciudad;
+            delete payload.Temas; // Aún sin soporte en el backend
+
+            try {
+                await guardarCapacitacion(payload);
+                dispatch({
+                    type: 'OPEN_SNACKBAR',
+                    payload: { open: true, mensaje: 'Capacitación/Evento guardada con éxito.', severity: 'success' },
+                });
+                history.push('/capacitacion_evento');
+            } catch (error) {
+                console.error('Error al guardar la capacitación/evento:', error.response || error);
+                const errorData = error.response?.data;
+                let mensajeError = 'No se pudo guardar la capacitación/evento.';
+                if (errorData && errorData.errors) {
+                    // Errores de FluentValidation del backend
+                    mensajeError = Object.values(errorData.errors).slice(0, 2).join(' ');
+                } else if (errorData && errorData.mensaje) {
+                    mensajeError = errorData.mensaje;
+                }
+                dispatch({
+                    type: 'OPEN_SNACKBAR',
+                    payload: { open: true, mensaje: mensajeError, severity: 'error' },
+                });
+            } finally {
+                setSaving(false);
+            }
         }
     };
 
@@ -136,10 +206,7 @@ const NuevoCapacitacionEvento = () => {
                     <Paper className={classes.formSection}>
                         <Grid container spacing={3}>
                             <FormField label="Tipo">
-                                {renderSelect('TipoId', 'Seleccione un tipo', [
-                                    { value: 1, label: 'Capacitación' },
-                                    { value: 2, label: 'Evento' }
-                                ])}
+                                {renderSelect('TipoId', 'Seleccione un tipo', tipos)}
                             </FormField>
                             <FormField label={`Título ${tipoDeRegistro}`} md={8}>
                                 <TextField name="Titulo" fullWidth variant="outlined" className={classes.textField} value={formState.Titulo} onChange={handleChange} error={!!errors.Titulo} helperText={errors.Titulo} />
@@ -149,7 +216,7 @@ const NuevoCapacitacionEvento = () => {
                             <FormField label="Fecha de Informes"><TextField name="FechaInformes" type="date" fullWidth variant="outlined" className={classes.textField} value={formState.FechaInformes} onChange={handleChange} InputLabelProps={{ shrink: true }} error={!!errors.FechaInformes} helperText={errors.FechaInformes} /></FormField>
                             <FormField label="Hora Programada"><TextField name="HoraProgramada" type="time" fullWidth variant="outlined" className={classes.textField} value={formState.HoraProgramada} onChange={handleChange} InputLabelProps={{ shrink: true }} error={!!errors.HoraProgramada} helperText={errors.HoraProgramada} /></FormField>
                             <FormField label="Total de Horas" required={false}><TextField name="TotalHoras" type="number" fullWidth variant="outlined" className={classes.textField} value={formState.TotalHoras} onChange={handleChange} /></FormField>
-                            <FormField label="Formato del Programa">{renderSelect('FormatoProgramaId', 'Seleccione un formato', [{ value: 1, label: 'Curso' }, { value: 2, label: 'Seminario' }])}</FormField>
+                            <FormField label="Formato del Programa">{renderSelect('FormatoProgramaId', 'Seleccione un formato', formatos)}</FormField>
 
                             <FormField label={`Temas ${tipoDeRegistro}`} md={8} required={false}>
                                 <FormControl variant="outlined" fullWidth className={classes.textField}>
@@ -165,7 +232,7 @@ const NuevoCapacitacionEvento = () => {
                                 </FormControl>
                             </FormField>
                             <FormField label="Tema Principal">
-                                {renderSelect('TemaPrincipalId', 'Seleccione un tema', [{ value: 1, label: 'Contabilidad' }, { value: 2, label: 'Marketing' }])}
+                                {renderSelect('TemaPrincipalId', 'Seleccione un tema', temas)}
                             </FormField>
 
                             <FormField label="Descripción" md={12} required={false}><TextField name="Descripcion" multiline rows={4} fullWidth variant="outlined" className={classes.textField} value={formState.Descripcion} onChange={handleChange} /></FormField>
@@ -234,7 +301,7 @@ const NuevoCapacitacionEvento = () => {
                     </Paper>
 
                     <Grid container spacing={2} justify="flex-end" className={classes.buttonContainer}>
-                        <Grid item><Button type="submit" variant="contained" className={classes.buttonGuardar}>Guardar</Button></Grid>
+                        <Grid item><Button type="submit" variant="contained" className={classes.buttonGuardar} disabled={saving}>Guardar</Button></Grid>
                         <Grid item><Button variant="contained" className={classes.buttonCancelar} onClick={handleCancel}>Cancelar</Button></Grid>
                     </Grid>
                 </form>

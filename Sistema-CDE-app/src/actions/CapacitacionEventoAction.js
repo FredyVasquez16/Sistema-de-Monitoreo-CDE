@@ -23,3 +23,33 @@ export const eliminarCapacitacion = async (id) => {
     const response = await HttpCliente.delete(`/Capacitacion/${id}`);
     return response;
 }
+
+export const obtenerTemasCapacitacion = async () => {
+    try {
+        const response = await HttpCliente.get('/Capacitacion/Temas');
+        return response.data.data;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
+
+export const obtenerTiposCapacitacion = async () => {
+    try {
+        const response = await HttpCliente.get('/Capacitacion/Tipos');
+        return response.data.data;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
+
+export const obtenerFormatosPrograma = async () => {
+    try {
+        const response = await HttpCliente.get('/Capacitacion/FormatosPrograma');
+        return response.data.data;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
