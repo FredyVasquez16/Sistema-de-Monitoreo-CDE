@@ -54,6 +54,14 @@
 - **F7**: el formulario de nueva capacitación era simulación (console.log + alert, sin API, redirect a ruta inexistente) + catálogos hardcodeados. Se cableó: 3 endpoints de catálogo (Temas/Tipos/FormatosPrograma) mirroring AsesoriaController, formulario con catálogos reales + POST real + redirect correcto + payload Ciudad→Municipio + HoraProgramada HH:mm:ss + dos columnas NOT NULL legacy (codigo_unico TEMP + unidad). Verificado: POST 201 desde la UI + lista + detalle.
 - **F2**: durante el barrido se descubrió otra AppBar propia que se eliminó (VerCapacitacionEvento/NuevoSesion).
 
+## GAPS post-E2E — cerrados (2026-10-13)
+- **G1 — Ruta de edición de capacitación**: `EditarCapacitacionEvento.js` (nuevo, prefill completo, PUT real) + ruta `/capacitacion_evento/editar/:id` en App.js + botón "Editar" en la vista detalle. Verificado: prefill muestra titulo/hora, Actualizar PUT → lista muestra el título editado. Commits: `128cb16`.
+- **G2 — IDs crus (temaPrincipalId) → nombres**: los catálogos temas/tipos/formatos usados para mostrar descripciones en lista y detalle (ej. "Administración de Empresas"). Verificado: `/capacitacion_evento` muestra el nombre, no el 1.
+- **Bug encontrado**: `ubicaciones[formState.Departamento].map(...)` sin defensivo — *la tilda matter!* si el departamento tenía "Copan" sin tilde, el mapa no lo encontraba y la página aparecía en blanco. Tapado: `(ubicaciones[x] || []).map`.
+
+### RDD G1+G2 — estado: STALLED por relay del modelo
+- Lineage `review-f7db8a6d0c44e97f` (START ok, 5 archivos / 448 líneas). El slot `review-reliability` falló por timeout de relay (15.7min > 15.5min) → declaread inalcanzable (gentle-ai review stop). Per el contrato, pending. FIX sugerido: subir `GENTLE_PI_REVIEW_RELAY_PI_TIMEOUT_MS` (>7200000) y reintentar el slot, o dejarlo. El código funciona y se entregó on ordinary repo policy.
+
 ## Tareas originales
 
 ### T0. Rescate: commit del WIP del módulo Asesorías — **done (2026-10-01)**
