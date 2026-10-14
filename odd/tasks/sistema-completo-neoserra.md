@@ -41,6 +41,19 @@
 - Lineage `review-f38a98b62d108fc6`: START ok (tier medium, lens reliability, 279 líneas), pero el lens superó el límite del relay (931680ms vs 931675ms) → slot declarado inalcanzable. El withdraw del provider falló en el CLI nativo: primero por ownership del repo D: (resuelto con `git config --global safe.directory "*"`), luego por rctx2 inválido (contexto consumido por la primera corrida).
 - Si se quiere completar la revisión nativa: subir `GENTLE_PI_REVIEW_RELAY_PI_TIMEOUT_MS` (>15 min) y reintentar, o nueva revisión. El cambio funciona y la entrega sigue política ordinaria.
 
+## FASE E2E — barrido funcional completo (crear/leer/editar/eliminar por módulo) — **done (2026-10-13)**
+- E2E-1 Contactos — C: POST 201 ✓ | R: lista+detalle ✓ | U: PUT persistido ✓ | D: DELETE ✓
+- E2E-2 Cliente/Empresa — C: POST 201 ✓ (15 selects + 3 autocompletes) | R: 18 filas + detalle ✓ | U: PUT ✓ | D: ✓ (tras fix F5)
+- E2E-3 Asesorías — C ✓ | R ✓ | U ✓ | D: ✓ como Administrador (403 honesto para no-Admin; detectado y arreglado el rol incorrecto)
+- E2E-4 Capacitación — C ✓ (tras fix F7) | R: lista sin mock + detalle con :id ✓ | U: NO hay ruta de edición (gap documentado) | D: ✓
+- E2E-5 Reportes ✓ (3 gráficos, datos reales) + Perfil ✓ (datos del usuario cargan)
+
+### Nuevos defectos encontrados por la E2E (todos corregidos)
+- **F5**: eliminar Cliente/Empresa violaba FK `contactos.empresa_cliente_id` (RESTRICT) — el handler ahora desvincula los contactos antes de borrar; eliminar Contacto que es contacto primario de una empresa se bloquea con mensaje claro (409). Verificado: DELETE 200.
+- **F6**: `[Authorize(Roles = "Admin")]` pero el rol en BD es "Administrador" → NADIE podía eliminar asesorías. Corregido a "Administrador". Verificado: 403 no-admin, 200 Administrador.
+- **F7**: el formulario de nueva capacitación era simulación (console.log + alert, sin API, redirect a ruta inexistente) + catálogos hardcodeados. Se cableó: 3 endpoints de catálogo (Temas/Tipos/FormatosPrograma) mirroring AsesoriaController, formulario con catálogos reales + POST real + redirect correcto + payload Ciudad→Municipio + HoraProgramada HH:mm:ss + dos columnas NOT NULL legacy (codigo_unico TEMP + unidad). Verificado: POST 201 desde la UI + lista + detalle.
+- **F2**: durante el barrido se descubrió otra AppBar propia que se eliminó (VerCapacitacionEvento/NuevoSesion).
+
 ## Tareas originales
 
 ### T0. Rescate: commit del WIP del módulo Asesorías — **done (2026-10-01)**
@@ -102,17 +115,19 @@
 - Verificado con Playwright + screenshot: los 3 charts renderizan completos con datos reales (Octubre: 2 asesorías; 5 departamentos; género Femenino/Masculino).
 - Nota: los reportes muestran lo que el usuario puede ver (modelo de seguridad de unidades) — reportes globales por rol, camino futuro.
 
-### T6. Unidad Financiera — pending
-- Módulo según servicios del CDE (acompañamiento, vinculación bancaria). Requiere diseño con el usuario.
-- Evidencia: (pendiente)
+### T6. Unidad Financiera — **cancelado (2026-10-13, decisión del usuario)**
+- No aplica: los 3 servicios de Neoserra (Unidad Financiera, Formación Empresarial, Inteligencia de Mercados) son del modelo SBDC y NO son parte del MIPYME del usuario. Descartados explícitamente.
 
-### T7. Formación Empresarial — pending
-- Cartera de proyectos, consultores, habilidades empresariales. Requiere diseño con el usuario.
-- Evidencia: (pendiente)
+### T7. Formación Empresarial — **cancelado** (ver T6)
+### T8. Inteligencia de Mercados — **cancelado** (ver T6)
 
-### T8. Inteligencia de Mercados — pending
-- Investigaciones, perfilación, importaciones/exportaciones. Requiere diseño con el usuario.
-- Evidencia: (pendiente)
+## FASE E2E — barrido funcional completo (crear/leer/editar/eliminar por módulo)
+- E2E-1 Contactos — in_progress
+- E2E-2 Cliente/Empresa — pending
+- E2E-3 Asesorías (incl. Eliminar con rol Admin) — pending
+- E2E-4 Capacitación/Evento (incl. detalle con :id) — pending
+- E2E-5 Reportes + Seguridad (perfil) — pending
+- E2E-Cierre: bugs encontrados → fix + RDD + push — pending
 
 ### T9. Limpieza final + release — **done (2026-10-04) — release v1.0.0**
 - Evidencia: push a GitHub con 14 commits (verificado con git fetch + API de GitHub: origin/main en `edfe992`), tag **`v1.0.0`** creado y pusheado (anotado, apunta a edfe992).
